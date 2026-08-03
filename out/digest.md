@@ -1,289 +1,293 @@
-# 新岗位摘要 · 2026-08-03 02:27 UTC
+# 新岗位摘要 · 2026-08-03 17:46 UTC
 
-抓取公司 2306 家 · 在招岗位 215735 个 · 本次新入库 163 个 · 下架 167 个
-过去 24 小时发布 118878 个，其中美国 49129 个，命中岗位家族 **8069** 个
+抓取公司 2306 家 · 在招岗位 178187 个 · 本次新入库 10247 个 · 下架 57441 个
+过去 24 小时发布 33180 个，其中美国 12947 个，命中岗位家族 **2001** 个
 共享索引模式 —— 个人偏好（家族 / 级别 / 州）由应用层在读取时过滤
 
 ## 命中岗位家族（优先看这些）
 
-- **Head, Product Marketing, Financial Services** · Grab · ID · `product_marketing`  
-  https://jobs.smartrecruiters.com/Grab/744000141167689
-- **Senior Electrical Engineer - Long Range** · flyzipline · CA · `hardware_engineer`  
-  https://www.zipline.com/open-roles?gh_jid=7805087003
-- **Senior Lifecycle Marketing Manager** · Chime · CA · `growth_marketing`  
-  https://boards.greenhouse.io/chime/jobs/8609485002?gh_jid=8609485002
-- **Data Engineer - Platform Innovation and Engineering** · Humana · KY · `data_engineer`  
-  https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Louisville-KY/Data-Engineer---Platform-Innovation-and-Engineering_R-423155
-- **Senior Manufacturing Systems Engineer: Automation - DeltaV** · Amgen · NC · `devops_sre`  
-  https://amgen.wd1.myworkdayjobs.com/careers/job/US---North-Carolina---Holly-Springs/Senior-Manufacturing-Systems-Engineer--Automation_R-235073
-- **Account Executive - Isovalent (Cloud Native Security)** · Cisco · CA · `account_executive`  
-  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Francisco-California-US/Account-Executive---Isovalent--Cloud-Native-Security-_2015900
-- **Logistics Teardown Technician-2nd Shift** · gevernova · Charleroi USA · `supply_chain`  
-  https://gevernova.wd5.myworkdayjobs.com/Vernova_ExternalSite/job/Charleroi-USA/Logistics-Teardown-Technician-2nd-Shift_R5049020-2
-- **Strategic Account Manager - Vaccines - Baltimore** · sanofi · MD · `customer_success`  
-  https://sanofi.wd3.myworkdayjobs.com/SanofiCareers/job/Baltimore-MD/Strategic-Account-Manager---Vaccine---Baltimore_R2861238
-- **Senior Clinical Research Associate (CRA)** · novartis · Field Non-Sales (USA) · `clinical_bio`  
-  https://novartis.wd3.myworkdayjobs.com/Novartis_Careers/job/Field-Non-Sales-USA/Senior-Clinical-Research-Associate--CRA-_REQ-10078310-1
-- **Regional Sales Engineer (Remote, MYS)** · crowdstrike · Remote · `solutions_engineer`  
-  https://crowdstrike.wd5.myworkdayjobs.com/crowdstrikecareers/job/Malaysia---Remote/Regional-Sales-Engineer--Remote--MYS-_R26685
-- **Power Systems Engineer I – Electric Power** · cat · GA · `devops_sre`  
-  https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Georgia/Power-Systems-Engineer-I---Electric-Power_R0000378137
-- **SkillBridge – Power Systems Engineer I** · cat · GA · `devops_sre`  
-  https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Georgia/SkillBridge---Power-Systems-Engineer-I_R0000378136-1
-- **Power Systems Engineer I – Electric Power** · cat · DC/WA · `devops_sre`  
-  https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Washington/Power-Systems-Engineer-I---Electric-Power_R0000378132
-- **Power Systems Engineer I – Electric Power** · cat · WI · `devops_sre`  
-  https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Wisconsin/Power-Systems-Engineer-I---Electric-Power_R0000378131
-- **Power Systems Engineer I – Electric Power** · cat · TX · `devops_sre`  
-  https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Texas/Power-Systems-Engineer-I---Electric-Power_R0000378123
-- **Senior Agentic AI Engineer** · adobe · CA · `ml_engineer`  
-  https://adobe.wd5.myworkdayjobs.com/external_experienced/job/San-Jose/Senior-Agentic-AI-Engineer_R170895
-- **Sr. Product Manager II - Supply Chain** · justfab · CA · `product_manager,supply_chain`  
-  https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Sr-Product-Manager-II---Supply-Chain_R8395-1
-- **Retail Assistant Store Manager, Fabletics (Christiana Mall - Newark, DE)** · justfab · DE · `recruiting_hr`  
-  https://justfab.wd1.myworkdayjobs.com/fabletics/job/Newark-DE/Retail-Assistant-Store-Manager--Fabletics--Christiana-Mall---Newark--DE-_R8383
-- **VP, Global Logistics** · justfab · CA · `supply_chain`  
-  https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/VP--Global-Logistics_R8377
-- **Sr. Data Engineer** · justfab · CA · `data_engineer`  
-  https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Sr-Data-Engineer_R8346
-- **Logistics Coordinator - Retail Activations, Fabletics (Louisville, KY)** · justfab · KY · `supply_chain`  
-  https://justfab.wd1.myworkdayjobs.com/fabletics/job/Louisville-KY/Logistics-Coordinator---Retail-Activations--Fabletics--Louisville--KY-_R7610
-- **Lead Software Engineer - Java, Python** · pnc · TX · `software_engineer`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/TX---Farmers-Branch/Lead-Software-Engineer_R209250-1
-- **Operations Analyst Senior - PNC Wealth Management** · pnc · PA · `data_analyst`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Operations-Analyst-Senior---PNC-Wealth-Management_R229935-1
-- **Operations Analyst Senior - PNC Wealth Management** · pnc · OH · `data_analyst`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/OH---Cleveland-44114/Operations-Analyst-Senior---PNC-Wealth-Management_R228241-1
-- **Software Developer Sr** · pnc · TX · `software_engineer`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/TX---Farmers-Branch/Software-Developer-Sr_R225862-1
-- **Scrum Master Senior** · pnc · PA · `technical_program_manager`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Scrum-Master-Senior_R217448-1
-- **Product Manager Lead - API Governance Program** · pnc · AZ · `product_manager`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/AZ---Phoenix-85016/Product-Manager-Lead---API-Governance-Program_R229896-1
-- **Software Engineer Lead (Java Lead/Microservices/SpringBoot)** · pnc · PA · `software_engineer`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Software-Engineer-Lead--Java-Lead-Microservices-SpringBoot-_R228704-2
-- **Software Engineer Lead (JAVA Lead/ Angular)/** · pnc · PA · `software_engineer`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Software-Engineer-Lead_R214416-1
-- **Operations Analyst Senior - Wealth Management** · pnc · PA · `data_analyst`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Operations-Analyst-Senior---Wealth-Management_R224771-1
-- **Finance Analyst Senior** · pnc · PA · `financial_analyst`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Finance-Analyst-Senior_R229365-1
-- **Account Manager II – Treasury Management Specialty Services** · pnc · PA · `customer_success`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/Home-Location-PA-PAH01/Account-Manager-II---Treasury-Management-Specialty-Services_R229024-1
-- **Quality Assurance Lead** · pnc · PA · `qa_engineer`  
-  https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh/Quality-Assurance-Lead_R229864
-- **Postdoctoral Research Associate - Infectious Diseases** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Postdoctoral-Research-Associate---Infectious-Diseases_JR95927
-- **Clinical Research Coordinator II (Regulatory/Hybrid) - Radiology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-II--Regulatory-Hybrid----Radiology_JR95943
-- **Chief of Staff - School of Law** · wustl · DC/WA · `business_operations`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Danforth-Campus/Chief-of-Staff---School-of-Law_JR95786-1
-- **Postdoctoral Research Associate - Pathology & Immunology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Postdoctoral-Research-Associate---Pathology---Immunology_JR95898
-- **Clinical Research Study Assistant II - Radiology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Study-Assistant-II---Radiology_JR95911
-- **Manager Clinical Trials - Cardiology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Manager-Clinical-Trials---Cardiology_JR95883
-- **Senior Statistical Data Analyst (Hybrid) - Siteman Cancer Center** · wustl · DC/WA · `data_analyst`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Senior-Statistical-Data-Analyst--Hybrid----Siteman-Cancer-Center_JR95909
-- **Accountant II (Hybrid) - Controller's Office, Student Accounting** · wustl · MO · `accounting`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-West-Campus-Clayton-Missouri/Accountant-II--Hybrid----Controller-s-Office--Student-Accounting_JR95695-1
-- **Bioinformatics Research Analyst (Hybrid) - Neurology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Bioinformatics-Research-Analyst--Hybrid----Neurology_JR95794-1
-- **Clinical Research Coordinator I - Emergency Medicine** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-I---Emergency-Medicine_JR95814
-- **Clinical Research Coordinator I - Surgery** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-I---Surgery_JR95514
-- **Clinical Research Coordinator II - Emergency Medicine** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-II---Emergency-Medicine_JR95818
-- **Clinical Research Coordinator II - Neurosurgery** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-II---Neurosurgery_JR95771
-- **Clinical Research Coordinator II - Surgery** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-II---Surgery_JR95516-1
-- **Clinical Research Coordinator II (Hybrid) - Neurology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Coordinator-II--Hybrid----Neurology_JR95547
-- **Clinical Research Study Assistant II - Emergency Medicine** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Study-Assistant-II---Emergency-Medicine_JR95819-1
-- **Clinical Research Supervisor - Medical Oncology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinical-Research-Supervisor---Medical-Oncology_JR95638-1
-- **Postdoctoral Research Associate - Chemistry** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Danforth-Campus/Postdoctoral-Research-Associate---Chemistry_JR95537
-- **Postdoctoral Research Associate - McDonnell Genome Institute** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Postdoctoral-Research-Associate---McDonnell-Genome-Institute_JR95527
-- **Postdoctoral Research Associate - Oncology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Postdoctoral-Research-Associate---Oncology_JR95721
-- **Postdoctoral Research Associate - Pediatrics Rheumatology & Immunology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Postdoctoral-Research-Associate---Pediatrics-Rheumatology---Immunology_JR95599
-- **Postdoctoral Research Associate - Radiation Oncology** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Postdoctoral-Research-Associate---Radiation-Oncology_JR95805
-- **Senior Lead Compliance Auditor (Hybrid) - Internal Audit** · wustl · DC/WA · `accounting`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Senior-Lead-Compliance-Auditor--Hybrid----Internal-Audit_JR95595
-- **Senior Technical Project Manager (Hybrid) - Radiology** · wustl · DC/WA · `technical_program_manager`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Senior-Technical-Project-Manager--Hybrid----Radiology_JR95556
-- **Assistant Genetic Counseling - Pediatrics Genetics** · wustl · DC/WA · `legal_compliance`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Assistant-Genetic-Counseling---Pediatrics-Genetics_JR95364
-- **Bioinformatics Research Assistant - Pediatrics Newborn Medicine** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Bioinformatics-Research-Assistant---Pediatrics-Newborn-Medicine_JR95321
-- **Clinic Coordinator - Pediatric Clinical Research Unit** · wustl · DC/WA · `clinical_bio`  
-  https://wustl.wd1.myworkdayjobs.com/External/job/Washington-University-Medical-Campus/Clinic-Coordinator---Pediatric-Clinical-Research-Unit_JR95373
+- **Lead Product Manager, AI** · Humana · Remote · `product_manager`  
+  https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Remote-New-York/Lead-Product-Manager--AI_R-422537
+- **Senior Product Manager, AI** · Humana · NY · `product_manager`  
+  https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/NY-Corp-Broadway/Senior-AI-Product-Management_R-404815
+- **Lead Operations Analyst** · Analog Devices · MA · `data_analyst`  
+  https://analogdevices.wd1.myworkdayjobs.com/External/job/US-MA-Wilmington/Lead-Operations-Analyst_R264471
+- **Senior Engineer, Product Marketing** · Analog Devices · CA · `product_marketing`  
+  https://analogdevices.wd1.myworkdayjobs.com/External/job/US-CA-Milpitas-Tasman/Senior-Engineer--Product-Marketing_R264358
+- **Senior Counsel (Fully Remote Corpus Christi, Texas)** · Travelers · TX · `recruiting_hr,legal_compliance`  
+  https://travelers.wd5.myworkdayjobs.com/External/job/TX---Corpus-Christi/Senior-Counsel--Fully-Remote-Corpus-Christi--Texas-_R-51674
+- **Senior Mechanical Engineer – Utilities & Environmental Systems** · Pfizer · MA · `hardware_engineer`  
+  https://pfizer.wd1.myworkdayjobs.com/PfizerCareers/job/United-States---Massachusetts---Andover/Senior-Mechanical-Engineer---Utilities---Environmental-Systems_4960410-2
+- **Senior Software SDET Test Development Engineer** · NVIDIA · CA · `qa_engineer`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-SDET-Test-Development-Engineer_JR2013796
+- **Senior Site Reliability Engineer - Cloud** · NVIDIA · CA · `devops_sre`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Site-Reliability-Engineer---Cloud_JR2022489
+- **Senior RMA Customer Experience Manager** · NVIDIA · CA · `customer_success`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-RMA-Customer-Experience-Manager_JR2019970-1
+- **Senior Manager, Software Engineering - JAX** · NVIDIA · CA · `software_engineer`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Manager--Software-Engineering---JAX_JR2015536
+- **Senior DFT Methodology - Data Analytics and Applied AI Engineer** · NVIDIA · CA · `ml_engineer,data_analyst`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-DFT-Methodology---Data-Analytics-and-Applied-AI-Engineer_JR2020850
+- **Senior ASIC Verification Engineer** · NVIDIA · NC · `hardware_engineer`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-NC-Durham/Senior-ASIC-Verification-Engineer_JR2022623-1
+- **Senior Software Engineer, Agentic Robotics Infrastructure** · NVIDIA · CA · `software_engineer`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer--Agentic-Robotics-Infrastructure_JR2022617
+- **Senior Software Engineer, Embedded Platform Middleware — Automotive and Robotics** · NVIDIA · CA · `software_engineer`  
+  https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-Software-Engineer--Embedded-Platform-Middleware---Automotive-and-Robotics_JR2022103
+- **Automation Engineer Lead Analyst (Electrical Mechanical Technician) - Express Scripts** · Cigna · IN · `qa_engineer`  
+  https://cigna.wd5.myworkdayjobs.com/CignaCareers/job/Whitestown-IN/Electro-Mechanical-Technician_26009488
+- **Full Stack Application Engineer (Analytics & Data Platforms) - Forsyth - Remote** · Cigna · United States Work at Home · `fullstack_engineer`  
+  https://cigna.wd5.myworkdayjobs.com/CignaCareers/job/United-States-Work-at-Home/Full-Stack-Application-Engineer--Analytics---Data-Platforms----Forsyth---Remote_26007566
+- **Home Infusion Nurse, Per Diem - Accredo - Roswell, NM** · Cigna · NM · `software_engineer`  
+  https://cigna.wd5.myworkdayjobs.com/CignaCareers/job/New-Mexico-Work-at-Home/Home-Infusion-Nurse--Per-Diem---Accredo---Roswell--NM_26009500
+- **Sr Product Manager, Slack Powered Service** · Salesforce · CA · `product_manager`  
+  https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/California---San-Francisco/Sr-Product-Manager--Slack-Powered-Service_JR344140
+- **Product Marketing Director** · Salesforce · WA · `product_marketing`  
+  https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/Washington---Seattle/Product-Marketing-Director_JR353296
+- **Software Engineer– Full Stack** · Cisco · CA · `software_engineer,fullstack_engineer`  
+  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Software-Engineer--Full-Stack_2019274
+- **Account Executive - Splunk Commercial (Tampa)** · Cisco · FL · `account_executive`  
+  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Tampa-Florida-US/Account-Executive---Splunk-Commercial--Tampa-_2021881
+- **Engineering Product Manager** · Cisco · CA · `product_manager`  
+  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Engineering-Product-Manager_2019009-1
+- **Senior Software Engineer** · Cisco · CA · `software_engineer`  
+  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Milpitas-California-US/Senior-Software-Engineer_2015006-1
+- **Account Executive - Splunk PBST Defense (Remote)** · Cisco · Remote · `account_executive`  
+  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/Remote---Virginia-USA/Account-Executive---Splunk-PBST-Defense--Remote-_2020428-1
+- **Senior Software Engineer (Hybrid)** · Cisco · NC · `software_engineer`  
+  https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/RTP-North-Carolina-US/Senior-Software-Engineer--Hybrid-_2019339
+- **Operations Manager- CA** · CVS Health · CA · `business_operations`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---Palo-Alto/Operations-Manager--CA_R0998162
+- **Distinguished Engineer, Enterprise Solutions Engineering** · CVS Health · Remote · `solutions_engineer`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CT---Work-from-home/Distinguished-Engineer--Cloud-Solutions-Engineering_R0928082
+- **Operations Manager** · CVS Health · IL · `business_operations`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IL---Rantoul/Operations-Manager_R0995659
+- **Operations Manager** · CVS Health · MA · `business_operations`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Granby/Operations-Manager_R0997315
+- **Operations Manager** · CVS Health · TX · `business_operations`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---San-Antonio/Operations-Manager_R0997575
+- **AI/LLM Engineer** · CVS Health · CT · `ml_engineer`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CT---Hartford/AI-LLM-Engineer_R0976638
+- **Operations Manager** · CVS Health · FL · `business_operations`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/FL---Altamonte-Springs/Operations-Manager_R0997804
+- **Operations Manager** · CVS Health · OH · `business_operations`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/OH---Berea/Operations-Manager_R0997335
+- **Senior Analyst, FP&A** · CVS Health · IL · `financial_analyst`  
+  https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IL---Northbrook/Senior-Analyst--FP-A_R0983744-1
+- **GTM Manager** · Workday · NY · `product_marketing`  
+  https://workday.wd5.myworkdayjobs.com/Workday/job/USA-NY-New-York-City/GTM-Manager_JR-0109087
+- **Inside Sales Rep.** · ur · LA · `account_executive`  
+  https://ur.wd1.myworkdayjobs.com/URcareers/job/Leesville-LA-USA/Inside-Sales-Rep_99208
+- **Inside Sales Rep** · ur · AZ · `account_executive`  
+  https://ur.wd1.myworkdayjobs.com/URcareers/job/Phoenix-AZ-USA/Inside-Sales-Rep_99287
+- **Inside Sales Rep** · ur · TN · `account_executive`  
+  https://ur.wd1.myworkdayjobs.com/URcareers/job/Memphis-TN-USA/Inside-Sales-Rep_99278
+- **Sales Specialist  - Inside Sales** · gevernova · NC · `account_executive`  
+  https://gevernova.wd5.myworkdayjobs.com/Vernova_ExternalSite/job/Charlotte/Sales-Specialist----Inside-Sales_R5048424-2
+- **Associate Account Executive  ( Salt Lake City, UT )- Johnson & Johnson MedTech - Surgery** · jj · UT · `account_executive`  
+  https://jj.wd5.myworkdayjobs.com/JJ/job/Salt-Lake-City-Utah-United-States-of-America/Associate-Account-Executive----Salt-Lake-City--UT----Johnson---Johnson-MedTech---Surgery_R-078968-2
+- **Lead Data Product Owner** · jj · NJ · `product_manager`  
+  https://jj.wd5.myworkdayjobs.com/JJ/job/Titusville-New-Jersey-United-States-of-America/Lead-Data-Product-Owner_R-091659
+- **Staff Mechanical Engineer, R&D** · jj · CA · `hardware_engineer`  
+  https://jj.wd5.myworkdayjobs.com/JJ/job/Irvine-California-United-States-of-America/Staff-Mechanical-Engineer--R-D_R-076537-1
+- **Regional Sales Representative** · global · NY · `account_executive`  
+  https://global.wd1.myworkdayjobs.com/globalpartnerscareers/job/Field-NY/Regional-Sales-Representative_R0030315
+- **Senior Project Manager** · novartis · NC · `technical_program_manager`  
+  https://novartis.wd3.myworkdayjobs.com/Novartis_Careers/job/Durham/Senior-Project-Manager_REQ-10084981-1
+- **HP PC Sales Representative** · 2020companies · CA · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Oxnard-CA/HP-PC-Sales-Representative_REQ_109802
+- **HP Retail Sales Representative** · 2020companies · MN · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Rochester-MN/HP-Retail-Sales-Representative_REQ_109795
+- **HP Retail Sales Representative** · 2020companies · VA · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Glen-Allen-VA/HP-Retail-Sales-Representative_REQ_109793
+- **HP Retail Sales Representative** · 2020companies · FL · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Stuart-FL/HP-Retail-Sales-Representative_REQ_109792
+- **HP Retail Sales Representative** · 2020companies · SC · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Myrtle-Beach-SC/HP-Retail-Sales-Representative_REQ_109790
+- **Dell Territory Sales Representative** · 2020companies · MN · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Excelsior-MN/Dell-Territory-Sales-Representative_REQ_109727
+- **Bilingual Sales Representative** · 2020companies · TX · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Mission-TX/Bilingual-Sales-Representative_REQ_105844
+- **Dell Territory Sales Representative** · 2020companies · GA · `account_executive`  
+  https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Savannah-GA/Dell-Territory-Sales-Representative_REQ_107442
+- **Clinical Research Associate I** · abbott · CA · `clinical_bio`  
+  https://abbott.wd5.myworkdayjobs.com/abbottcareers/job/United-States---California---Alameda/Clinical-Research-Associate-I_31157732
+- **Equipment/Automation Engineer I** · abbott · WI · `qa_engineer`  
+  https://abbott.wd5.myworkdayjobs.com/abbottcareers/job/United-States---Wisconsin---Madison/Equipment-Automation-Engineer-I_35000245-1
+- **Account Executive, INR - New York City** · abbott · NY · `account_executive`  
+  https://abbott.wd5.myworkdayjobs.com/abbottcareers/job/United-States---New-York---New-York/Account-Executive--INR---New-York-City_31158081-1
+- **Inside Account Executive, INR** · abbott · FL · `account_executive`  
+  https://abbott.wd5.myworkdayjobs.com/abbottcareers/job/United-States---Florida---Lake-Mary/Inside-Account-Executive--INR_31158080-1
+- **Digital Health Solutions, Project Manager (Lab Informatics)** · abbott · Remote · `technical_program_manager`  
+  https://abbott.wd5.myworkdayjobs.com/abbottcareers/job/United-States-of-America--Remote/Digital-Health-Solutions-Project-Manager--Lab-Informatics-_31156518-1
+- **Senior Auditor, Global Finance Audit** · abbott · IL · `accounting`  
+  https://abbott.wd5.myworkdayjobs.com/abbottcareers/job/United-States---Illinois---Chicago/Senior-Auditor--Global-Finance-Audit_31157709-2
+- **UAS Engineering Project Manager** · ag · WA · `technical_program_manager`  
+  https://ag.wd3.myworkdayjobs.com/Airbus/job/Bingen-WA/UAS-Engineering-Project-Manager_JR10413263
+- **Senior Sales Solutions Engineer** · ag · WA · `solutions_engineer`  
+  https://ag.wd3.myworkdayjobs.com/Airbus/job/Bingen-WA/Senior-Sales-Solutions-Engineer_JR10425503
 
-<details><summary>其余 41060 个美国新岗位</summary>
+<details><summary>其余 10946 个美国新岗位</summary>
 
-- Rental Sales Agent ( Salt Lake City International Airport) · SIXT · UT — https://jobs.smartrecruiters.com/SIXT/744000141167749
-- Sr. Laboratory Testing Clerk - Referrals · labcorp · MA — https://labcorp.wd1.myworkdayjobs.com/External/job/Holyoke-MA/Sr-Laboratory-Testing-Clerk---Referrals_2625153
-- Sr. Lab Testing Clerk - Referrals · labcorp · MA — https://labcorp.wd1.myworkdayjobs.com/External/job/Holyoke-MA/Sr-Lab-Testing-Clerk---Referrals_2625154
-- Laboratory Specimen Processor · labcorp · CT — https://labcorp.wd1.myworkdayjobs.com/External/job/Shelton-CT/Laboratory-Specimen-Processor_2626027
-- Dairy Frozen Stocker, 4am Start · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Dairy-Frozen-Stocker--4am-Start_R000689272
-- Grocery Clerk, 4am Start · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Grocery-Clerk--4am-Start_R000689270
-- Electro-Mechanical Tech 3 · kiongroup · FL — https://kiongroup.wd3.myworkdayjobs.com/KIONGroup/job/Ocala-Florida/Electro-Mechanical-Tech-3_JR-0092972-1
-- CT Technologist - Atrium Health Cabarrus FT Weekend Days · aah · NC — https://aah.wd5.myworkdayjobs.com/External/job/Atrium-Health-Cabarrus---920-Church-St-N-Concord-NC/CT-Technologist---Atrium-Health-Cabarrus-FT-Weekend-Days_R257728-1
-- Ancillary Staff- Allianz Amphitheater · livenation · VA — https://livenation.wd503.myworkdayjobs.com/LNExternalSite/job/Richmond-VA-USA/Ancillary-Staff--Allianz-Amphitheater_JR-87660-1
-- Parking Staff- Allianz Amphitheater · livenation · VA — https://livenation.wd503.myworkdayjobs.com/LNExternalSite/job/Richmond-VA-USA/Parking-Staff--Allianz-Amphitheater_JR-87659
-- Technical SETA SME – Artificial Intelligence · guidehouse · MD — https://guidehouse.wd1.myworkdayjobs.com/External/job/US---MD-Bethesda/Technical-SETA-SME---Artificial-Intelligence_39718
-- Domino's Hourly Delivery Driver Omak, Washington  · Dominos · WA — https://jobs.smartrecruiters.com/Dominos/744000141167089
-- Domino's Hourly Shift Lead: Kalispell - 201 18th st E  · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141167049
-- Domino's Hourly Shift Lead: Columbia Falls - 734 9th St #6  · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141166919
-- Delivery Driver: Columbia Falls - 734 9th St W #6 · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141166869
-- Customer Service Rep: Kalispell - 201 18th st  · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141166759
-- Delivery Driver: 150 Hutton Ranch Rd #103 · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141166699
-- Customer Service Rep: 150 Hutton Ranch Rd #103 · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141166315
-- Delivery Driver: Kalispell: 201 18th St E  · Dominos · MT — https://jobs.smartrecruiters.com/Dominos/744000141166549
-- Motion Graphic Artist · Nagarro1 · Remote — https://jobs.smartrecruiters.com/Nagarro1/744000141166069
-- Emergency Veterinarian - AEC Midland · GreencrossPetWellnessCompany · WA — https://jobs.smartrecruiters.com/GreencrossPetWellnessCompany/744000141165989
-- Up to $15 an hour Pizza maker  & Shift Runner & Manager Needed Domino’s Pizza westview ,Pa  · Dominos · PA — https://jobs.smartrecruiters.com/Dominos/744000141165449
-- Assets Protection Team Leader - Fairview Heights, IL · Target · IL — https://target.wd5.myworkdayjobs.com/TargetCareers/job/4701-N-Illinois-St-Fairview-Heights-IL-62208-3416/Assets-Protection-Team-Leader---Fairview-Heights--IL_R0000442408
-- Service & Engagement Team Leader - Alton, IL · Target · IL — https://target.wd5.myworkdayjobs.com/TargetCareers/job/300-Homer-M-Adams-Pkwy-AltonIL-62002-5928/Service---Engagement-Team-Leader---Alton--IL_R0000447804
-- Medical Assistant/Phlebotomist · CVS Health · VA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Richmond/Medical-Assistant-Phlebotomist_R0995172
-- Director, Platform Operations, Medicaid Proposals · CVS Health · Remote — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Work-from-home/Director--Platform-Operations--Medicaid-Proposals_R0993330
-- Director, Knowledge Enablement, Medicaid Proposal Content · CVS Health · Remote — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Work-from-home/Director--Knowledge-Enablement--Medicaid-Proposal-Content_R0993347
-- cashier · CVS Health · VA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Roanoke/cashier_R0997854
-- District Support Pharmacist - Full Time · CVS Health · VA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Waynesboro/District-Support-Pharmacist---Full-Time_R0997775-1
-- Mechanical Technician · gevernova · Charleroi USA — https://gevernova.wd5.myworkdayjobs.com/Vernova_ExternalSite/job/Charleroi-USA/Mechanical-Technician_R5049056-2
-- Head, Health System Strategy, Rare Diseases · sanofi · MA — https://sanofi.wd3.myworkdayjobs.com/SanofiCareers/job/Cambridge-MA/Head--Health-System-Strategy--Rare-Diseases_R2860541
-- Starlink Sales Specialist · 2020companies · NC — https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Aberdeen-NC/Starlink-Sales-Specialist_REQ_109651-1
-- Full Time Retail Display Installer- Technology · 2020companies · FL — https://2020companies.wd1.myworkdayjobs.com/External_Careers/job/Miami-FL/Full-Time-Retail-Display-Installer--Technology_REQ_107759
-- Vehicle Condition Assessor · carmax · FL — https://carmax.wd1.myworkdayjobs.com/External/job/FL---South-Florida---Davie---Ft-Lauderdale/Vehicle-Condition-Assessor_JR-165855
-- IS Infrastructure Specialist · cat · TN — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Nashville-Tennessee/IS-Infrastructure-Specialist_R0000377031
-- Welder - 2nd and 3rd Shifts · cat · IL — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Pontiac-Illinois/Welder---2nd-and-3rd-Shifts_R0000376822
-- Shop Technician I (2nd Shift) · cat · ND — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/West-Fargo-North-Dakota/Shop-Technician-I--2nd-Shift-_R0000376334
-- Shop Technician I (1st Shift) · cat · ND — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/West-Fargo-North-Dakota/Shop-Technician-I--1st-Shift-_R0000376331
-- Production Associate- 2nd or 3rd Shift- Mapleton Cast Metal Org.(CMO) · cat · IL — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Mapleton-Illinois/Production-Associate--2nd-or-3rd-Shift--Mapleton-Cast-Metal-Org-CMO-_R0000376275
-- Heavy Foundry Operator- 2nd or 3rd Shift- Mapleton Cast Metal Org. (CMO) · cat · IL — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Mapleton-Illinois/Heavy-Foundry-Operator--2nd-or-3rd-Shift--Mapleton-Cast-Metal-Org--CMO-_R0000376281
-- Senior Performance/ Simulation/ Application Engineer · cat · IL — https://cat.wd5.myworkdayjobs.com/CaterpillarCareers/job/Mossville-Illinois/Senior-Performance--Simulation--Application-Engineer_R0000375984
-- Café Ambassador - New York City · capitalone · NY — https://capitalone.wd12.myworkdayjobs.com/Capital_One/job/New-York-NY/Caf-Ambassador---New-York-City_R237421-1
-- Director, AI Products and Strategy · cardinalhealth · US-Nationwide-FIELD — https://cardinalhealth.wd1.myworkdayjobs.com/EXT/job/US-Nationwide-FIELD/Director--AI-Products-and-Strategy_20182465-1
-- Technical Writer · fiserv · DE — https://fiserv.wd5.myworkdayjobs.com/EXT/job/Wilmington-Delaware/Technical-Writer_R-10399588
-- Cleaner - East Waterfront · cw · DC/WA — https://cw.wd1.myworkdayjobs.com/External/job/Client-Site---USA---DC---Washington---1100-4th-St-SW/Cleaner---East-Waterfront_R330531
-- Cleaner - East Waterfront · cw · DC — https://cw.wd1.myworkdayjobs.com/External/job/Washington-District-of-Columbia-USA/Cleaner---East-Waterfront_R330525
-- On Call Cleaner · cw · MA — https://cw.wd1.myworkdayjobs.com/External/job/Client-Site---USA---MA---Boston---145-Harrison-Ave/On-Call-Cleaner_R329588
-- Material Control Worker/Warehouse · labcorp · NC — https://labcorp.wd1.myworkdayjobs.com/External/job/Raleigh-NC/Material-Control-Worker-Warehouse_2625412
-- Phlebotomist · labcorp · DC/WA/NC — https://labcorp.wd1.myworkdayjobs.com/External/job/Washington-NC/Phlebotomist_2626047
-- Site Coordinator · labcorp · NC — https://labcorp.wd1.myworkdayjobs.com/External/job/Raleigh-NC/Site-Coordinator_2617866
-- Phlebotomist · labcorp · VA — https://labcorp.wd1.myworkdayjobs.com/External/job/Chesapeake-VA/Phlebotomist_2625572
-- PRN Phlebotomist · labcorp · SC — https://labcorp.wd1.myworkdayjobs.com/External/job/Florence-SC/PRN-Phlebotomist_2625420
-- Medical Technologist l · labcorp · IN — https://labcorp.wd1.myworkdayjobs.com/External/job/Indianapolis-IN/Medical-Technologist-l_2624052
-- Sr. Director, Strategic Insights and Planning · comcast · PA — https://comcast.wd5.myworkdayjobs.com/Comcast_Careers/job/PA---Philadelphia-1701-John-F-Kennedy-Blvd/Sr-Director--Strategic-Insights-and-Planning_R441817
-- Overnight Stocker · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Overnight-Stocker_R000689279
-- Overnight Team Leader · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Overnight-Team-Leader_R000689281
-- Standale Gas Station, All Shifts Needed · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Standale-Gas-Station--All-Shifts-Needed_R000689280
-- Cart Pusher · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Cart-Pusher_R000689278
-- Store Detective · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Store-Detective_R000689282
-- Cashier · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Cashier_R000689275-1
-- Digital Shopper · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Digital-Shopper_R000689277
-- General Merchandise Clerk, Afternoons and Weekends · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/General-Merchandise-Clerk--Afternoons-and-Weekends_R000689274
-- General Merchandise Clerk, 4am Start · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/General-Merchandise-Clerk--4am-Start_R000689273
-- Grocery Clerk, Afternoons and Weekends · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Grocery-Clerk--Afternoons-and-Weekends_R000689271-1
-- Bakery Clerk, 3am Start · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Bakery-Clerk--3am-Start_R000689269
-- Deli Stocking, Afternoons and Weekends · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Deli-Stocking--Afternoons-and-Weekends_R000689268-1
-- Deli Stocking, 1st Shift · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Deli-Stocking--1st-Shift_R000689267
-- Overnight Produce Stocking · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Overnight-Produce-Stocking_R000689266-1
-- Produce Stocking, 2nd Shift and Weekends · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Produce-Stocking--2nd-Shift-and-Weekends_R000689265
-- Produce Stocking, 4am Start · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Produce-Stocking--4am-Start_R000689264
-- Meat Department Stocking, 3am Start · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Meat-Department-Stocking--3am-Start_R000689263
-- Meat Cutter, Full Time · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Standale-MI/Meat-Cutter--Full-Time_R000689262
-- Grocery Team Member | Part Time | 11a - 7p · meijer · IN — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Bremen-Road---Mishawaka-IN/Grocery-Team-Member---Part-Time---11a---7p_R000682398
-- Produce Food Clerk | Part Time | 10a - 10p Avail · meijer · IN — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Bremen-Road---Mishawaka-IN/Produce-Food-Clerk---Part-Time---10a---10p-Avail_R000682401
-- Cart Attendant-Cashier | Part Time · meijer · IN — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Bremen-Road---Mishawaka-IN/Cart-Attendant-Cashier---Part-Time_R000681263
-- Grocery Inventory Coordinator | PT | 5a Avail · meijer · IN — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Bremen-Road---Mishawaka-IN/Grocery-Inventory-Coordinator---PT---5a-Avail_R000678910
-- Meat Department Team Member | Part Time · meijer · IN — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Bremen-Road---Mishawaka-IN/Meat-Department-Team-Member---Part-Time_R000678906
-- Overnight Stocking Clerk · meijer · IL — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Rolling-Meadows-IL/Overnight-Stocking-Clerk_R000689241
-- Cashier Part Time · meijer · MI — https://meijer.wd5.myworkdayjobs.com/Meijer_Stores_Hourly/job/Gratiot-Road---Saginaw-MI/Cashier-Part-Time_R000689237
-- Sr Manager, Strategic Sourcing - Technology · disney · CA — https://disney.wd5.myworkdayjobs.com/disneycareer/job/Burbank-CA-USA/Sr-Manager--Strategic-Sourcing---Technology_10154657
-- Senior Project Analyst, Enterprise Consumer Payment · disney · CA — https://disney.wd5.myworkdayjobs.com/disneycareer/job/Burbank-CA-USA/Senior-Project-Analyst--Enterprise-Consumer-Payment_10155834
-- Client Relationship Consultant 2 (Banker) Springboro OH Office · usbank · OH — https://usbank.wd1.myworkdayjobs.com/US_Bank_Careers/job/Springboro-OH/Client-Relationship-Consultant-2--Banker--Springboro-OH-Office_2026-0023039
-- Human Resources Generalist · atriumhospitality · TN — https://atriumhospitality.wd5.myworkdayjobs.com/AtriumHospitality/job/Franklin-TN/Human-Resources-Generalist_R49464
-- Front Desk Supervisor · atriumhospitality · TN — https://atriumhospitality.wd5.myworkdayjobs.com/AtriumHospitality/job/Nashville-TN/Front-Desk-Supervisor_R49469
-- Restaurant Server · atriumhospitality · CO — https://atriumhospitality.wd5.myworkdayjobs.com/AtriumHospitality/job/Fort-Collins-CO/Restaurant-Server_R49468-1
-- Banquet Server · atriumhospitality · CO — https://atriumhospitality.wd5.myworkdayjobs.com/AtriumHospitality/job/Fort-Collins-CO/Banquet-Server_R49467
-- Banquet Captain · atriumhospitality · CO — https://atriumhospitality.wd5.myworkdayjobs.com/AtriumHospitality/job/Fort-Collins-CO/Banquet-Captain_R49466
-- Retail Banker I -Scarborough · td · ME — https://td.wd3.myworkdayjobs.com/TD_Bank_Careers/job/Scarborough-Maine/Retail-Banker-I--Scarborough_R_1491497
-- Store Supervisor - Lafayette Rd · td · NH — https://td.wd3.myworkdayjobs.com/TD_Bank_Careers/job/Portsmouth-New-Hampshire/Store-Supervisor---Lafayette-Rd_R_1467577
-- Retail Bike Technician · dickssportinggoods · MI — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1265-Sterling-Heights-MI/Retail-Bike-Technician_202629052
-- Teammate- Golf · dickssportinggoods · WA — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1263-Tacoma-WA/Teammate--Golf_202620926-1
-- Retail Master Club Fitter · dickssportinggoods · FL — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store3139-Port-St-Lucie-FL/Retail-Master-Club-Fitter_202629059
-- Advisor Endzone & Loyalty · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Advisor-Endzone---Loyalty_202624095-1
-- Teammate - On Field Operations · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate---On-Field-Operations_202624173-1
-- Teammate Golf · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Golf_202623204-1
-- Teammate Off Field Operations · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Off-Field-Operations_202624097-1
-- Teammate Apparel · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Apparel_202623555-1
-- Teammate Sport & Outdoor · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Sport---Outdoor_202624163-1
-- Teammate Footwear Operations · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Footwear-Operations_202624181-1
-- Teammate Footwear · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Footwear_202624178-1
-- Teammate Endzone & Loyalty · dickssportinggoods · NC — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store1112-South-Asheville-NC/Teammate-Endzone---Loyalty_202617306
-- Teammate Endzone & Loyalty (Front End) · dickssportinggoods · TN — https://dickssportinggoods.wd1.myworkdayjobs.com/DSG/job/Store0321-Murfreesboro-TN/Teammate-Endzone---Loyalty--Front-End-_202628238-1
-- Salesperson · advanceauto · KS/MO — https://advanceauto.wd5.myworkdayjobs.com/AdvanceExternalCareers/job/4401-E-Truman-Rd-Kansas-City-MO-64127/Salesperson_R-0600035
-- Inventory Specialist · advanceauto · MN — https://advanceauto.wd5.myworkdayjobs.com/AdvanceExternalCareers/job/9301-Winnetka-Ave-N-Ste-200-Minneapolis-MN-55445/Inventory-Specialist_R-0601255
-- Retail Part-Time Sales Lead - Fabletics (Tanger Outlets Phoenix - Glendale, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Glendale-AZ/Retail-Part-Time-Sales-Lead---Fabletics--Tanger-Outlets-Phoenix---Glendale--AZ-_R8277
-- Retail Store Associate - Fabletics (Tanger Outlets Phoenix - Glendale, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Glendale-AZ/Retail-Store-Associate---Fabletics--Tanger-Outlets-Phoenix---Glendale--AZ-_R8280
-- Retail Assistant Store Manager - Fabletics (Tanger Outlets - Glendale, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Glendale-AZ/Retail-Assistant-Store-Manager---Fabletics--Tanger-Outlets---Glendale--AZ-_R8392
-- Retail Full-Time Sales Lead - Fabletics (Tanger Outlets Phoenix - Glendale, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Glendale-AZ/Retail-Full-Time-Sales-Lead---Fabletics--Tanger-Outlets-Phoenix---Glendale--AZ-_R8275
-- Retail Store Manager - Fabletics (Fashion Outlets of Chicago - Rosemont, IL) · justfab · IL — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Rosemont-IL/Retail-Store-Manager---Fabletics--Fashion-Outlets-of-Chicago---Rosemont--IL-_R8407
-- Retail Assistant Store Manager, Fabletics (Glendale Galleria - Glendale, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Glendale-CA/Retail-Assistant-Store-Manager--Fabletics--Glendale-Galleria---Glendale--CA-_R8406
-- Designer · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Designer_R8397
-- Associate Stylist · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Associate-Stylist_R8391
-- Sr. Manager, Material Development · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Sr-Manager--Material-Development_R8380
-- Assistant Store Manager, Fabletics (Bellevue Square - Bellevue, WA) · justfab · WA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Bellevue-WA/Assistant-Store-Manager--Fabletics--Bellevue-Square---Bellevue--WA-_R8373
-- Assistant Store Manager, Fabletics (Dadeland Mall - Miami, FL) · justfab · FL — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Miami-FL/Assistant-Store-Manager--Fabletics--Dadeland-Mall---Miami--FL-_R8355
-- Retail Assistant Store Manager - Fabletics (San Francisco Premium Outlets - Livermore, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Livermore-CA/Retail-Assistant-Store-Manager---Fabletics--San-Francisco-Premium-Outlets---Livermore--CA-_R8272
-- Retail Assistant Store Manager, Fabletics (Fashion Place - Murray, UT) · justfab · UT — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Murray-UT/Retail-Assistant-Store-Manager--Fabletics--Fashion-Place---Murray--UT-_R8330
-- Assistant Store Manager, Fabletics (Scottsdale Fashion Square - Scottsdale, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Scottsdale-AZ/Assistant-Store-Manager--Fabletics--Scottsdale-Fashion-Square---Scottsdale--AZ-_R8191
-- Site Marketing Manager · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Site-Marketing-Manager_R8254
-- Retail Full-Time Sales Lead - Fabletics (Ontario Mills - Ontario, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Ontario-CA/Retail-Full-Time-Sales-Lead---Fabletics--Ontario-Mills---Ontario--CA-_R8051
-- Retail Full-Time Sales Lead - Fabletics (Arden Fair - Sacramento, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Sacramento-CA/Retail-Full-Time-Sales-Lead---Fabletics--Arden-Fair---Sacramento--CA-_R8034
-- Retail Store Manager, Fabletics (Valley Fair - Santa Clara, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Santa-Clara-CA/Retail-Store-Manager--Fabletics--Valley-Fair---Santa-Clara--CA-_R8246
-- Sr. Director, Design · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Sr-Director--Design_R8244-1
-- Retail Assistant Store Manager, Fabletics (Fashion Valley - San Diego, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/San-Diego-CA/Retail-Assistant-Store-Manager--Fabletics--Fashion-Valley---San-Diego--CA-_R8232
-- Assistant Store Manager, Fabletics (Scottsdale Quarter - Scottsdale, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Scottsdale-AZ/Assistant-Store-Manager--Fabletics--Scottsdale-Quarter---Scottsdale--AZ-_R7956
-- Senior QA Manager – Apparel Construction · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Senior-QA-Manager---Apparel-Construction_R8187
-- Director, Strategic Partnerships · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/El-Segundo-CA/Director--Strategic-Partnerships_R7977
-- Retail Assistant Store Manager, Fabletics (Broadway Plaza - Walnut Creek, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Walnut-Creek-CA/Retail-Assistant-Store-Manager--Fabletics--Broadway-Plaza---Walnut-Creek--CA-_R8195
-- Retail Assistant Store Manager - Fabletics (Ontario Mills - Ontario, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Ontario-CA/Retail-Assistant-Store-Manager---Fabletics--Ontario-Mills---Ontario--CA-_R8181-1
-- Retail Assistant Store Manager, Fabletics (Chandler Fashion Center - Chandler, AZ) · justfab · AZ — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Chandler-AZ/Retail-Assistant-Store-Manager--Fabletics--Chandler-Fashion-Center---Chandler--AZ-_R7856
-- Retail Part-Time Store Associate, Fabletics (Brea Mall - Brea, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Brea-CA/Retail-Part-Time-Store-Associate--Fabletics--Brea-Mall---Brea--CA-_R2231-2
-- Part-Time Retail Store Associate - Fabletics (Citadel Outlets - Commerce, CA) · justfab · CA — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Commerce-CA/Part-Time-Retail-Store-Associate---Fabletics--Citadel-Outlets---Commerce--CA-_R7889
-- Part Time Seasonal Retail Activations Team Lead, Fabletics (Traveling) · justfab · Remote — https://justfab.wd1.myworkdayjobs.com/fabletics/job/United-States-Remote/Part-Time-Seasonal-Retail-Activations-Team-Lead--Fabletics--Traveling-_R5452
-- Seasonal Retail Activation Expert (Traveling), Fabletics · justfab · Remote — https://justfab.wd1.myworkdayjobs.com/fabletics/job/United-States-Remote/Seasonal-Retail-Activations-Associate--Traveling---Fabletics_R2147
-- Assistant Store Manager, Fabletics (Cherry Creek - Denver, CO) · justfab · CO — https://justfab.wd1.myworkdayjobs.com/fabletics/job/Denver-CO/Assistant-Store-Manager--Fabletics--Cherry-Creek---Denver--CO-_R7389
-- Sales Assistant - PNC Wealth Management · pnc · PA — https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Sales-Assistant---PNC-Wealth-Management_R230623-1
-- Branch Banker · pnc · CO — https://pnc.wd5.myworkdayjobs.com/External/job/CO---Longmont-80501/Branch-Banker_R229304
-- Business Analytics Consultant Senior - Data, Modeling & Analytics · pnc · PA — https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Business-Analytics-Consultant-Senior---Data--Modeling---Analytics_R229422-1
-- Relationship Banker Business Specialist · pnc · FL — https://pnc.wd5.myworkdayjobs.com/External/job/FL---Florida-City-33034/Business-Banking-Specialist_R219754-2
-- Software Engineering Manager · pnc · PA — https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Software-Engineering-Manager_R230166-1
-- Regional Banker/Teller · pnc · KY — https://pnc.wd5.myworkdayjobs.com/External/job/KY---Corbin/Regional-Banker-Teller_R230423
-- Quality Analyst · pnc · NJ — https://pnc.wd5.myworkdayjobs.com/External/job/NJ---East-Brunswick/Quality-Analyst_R230477-1
-- Teller Part Time · pnc · NJ — https://pnc.wd5.myworkdayjobs.com/External/job/NJ---Fort-Lee/Teller-Part-Time_R225617-1
-- Part Time Teller · pnc · NC — https://pnc.wd5.myworkdayjobs.com/External/job/NC---Fuquay-Varina/Part-Time-Teller_R230038-1
-- Relationship Business Banking Specialist · pnc · NJ — https://pnc.wd5.myworkdayjobs.com/External/job/NJ---Jersey-City-07306/Business-Banking-Specialist_R220683-1
-- Portfolio Analytics and Strategy Expert Credit Portfolio · pnc · PA — https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Portfolio-Analytics-and-Strategy-Expert--Credit-Portfolio_R230036-1
-- Relationship Banker Business Specialist - Arapahoe and Yosemite · pnc · CO — https://pnc.wd5.myworkdayjobs.com/External/job/CO---Centennial-80112/Relationship-Banker-Business-Specialist---Arapahoe-and-Yosemite_R230017-1
-- Head of Originations, Southern California · pnc · CA — https://pnc.wd5.myworkdayjobs.com/External/job/CA---Los-Angeles-90067/Sales-Leader-III---C-IB-BC-BD_R219988-1
-- Business Experience Plan & Administration Specialist Senior · pnc · PA — https://pnc.wd5.myworkdayjobs.com/External/job/PA---Pittsburgh-15222/Business-Experience-Plan---Administration-Specialist-Senior_R213510-1
-- Bilingual Spanish Regional Banker/Teller · pnc · NJ — https://pnc.wd5.myworkdayjobs.com/External/job/NJ---Wayne/Regional-Banker-Teller_R228739-1
+- Driver · SeniorLifestyle1 · IL — https://jobs.smartrecruiters.com/SeniorLifestyle1/744000141321579
+- Customer Service Rep(01624) 1655 South Highway 141 · Dominos · MO — https://jobs.smartrecruiters.com/Dominos/744000141321559
+- Delivery Driver(01624) 1655 South Old Highway 141 · Dominos · MO — https://jobs.smartrecruiters.com/Dominos/744000141321519
+- Representative, Collections (L04) · Synchrony Financial · IN — https://synchronyfinancial.wd5.myworkdayjobs.com/careers/job/Hyderabad-IN/Representative--Collections--L04-_2602205
+- Principal CAD Engineer/Manager · Micron Technology · CA — https://micron.wd1.myworkdayjobs.com/External/job/San-Jose-CA/Principal-CAD-Engineer-Manager_JR103797-1
+- Equipment Technician (AMHS-Automated Material Handling System) (Manassas) · Micron Technology · VA — https://micron.wd1.myworkdayjobs.com/External/job/Manassas-VA----Fab-6/Equipment-Technician--AMHS-Automated-Material-Handling-System---Manassas-_JR107324
+- Senior Photolithography Process Engineer · Micron Technology · ID — https://micron.wd1.myworkdayjobs.com/External/job/Boise-ID---ID1/Senior-Photolithography-Process-Engineer_JR101262-1
+- Semiconductor Equipment Maintenance Technician · Micron Technology · VA — https://micron.wd1.myworkdayjobs.com/External/job/Manassas-VA----Fab-6/Semiconductor-Equipment-Maintenance-Technician_JR89925
+- Facilities Operations Coordinator · Micron Technology · VA — https://micron.wd1.myworkdayjobs.com/External/job/Manassas-VA----Fab-6/Facilities-Operations-Coordinator_JR105335
+- Data Center Capacity Planner · Micron Technology · ID — https://micron.wd1.myworkdayjobs.com/External/job/Boise-ID---Main-Site/Data-Center-Capacity-Planner_JR106629
+- Medical Account Specialists - Hematology - PHILADELPHIA, PA · Regeneron · PA — https://regeneron.wd1.myworkdayjobs.com/careers/job/Philadelphia-PA/Medical-Account-Specialists----Hematology_R49692-1
+- Manager, Utilization Management Nursing · Humana · Remote — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Remote-Illinois/Manager--Utilization-Management-Nursing_R-424730
+- Senior Process Improvement Professional · Humana · Remote — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Remote-Nationwide/Senior-Process-Improvement-Professional_R-424358
+- Director, State Affairs - Texas · Humana · TX — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Austin-TX/Director--State-Affairs---Texas_R-418820
+- Senior Decision Intelligence Engineer (NBA) · Humana · Remote — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Remote-Kentucky/Senior-Decision-Intelligence-Engineer--NBA-_R-422476
+- Accounting Lead - PCO · Humana · KY — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Louisville-KY/Accounting-Lead---PCO_R-420764
+- Program Coordinator · Humana · KY — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Louisville-KY/Program-Coordinator_R-420566
+- Bilingual Claims Review Representative 3 · Humana · Remote — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Remote-Puerto-Rico/Bilingual-Claims-Review-Representative-3_R-421729
+- Senior Contract Management Professional · Humana · Remote — https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site/job/Remote-Nationwide/Senior-Contract-Management-Professional_R-422754
+- Principal Chip Lead · Analog Devices · CA — https://analogdevices.wd1.myworkdayjobs.com/External/job/US-CA-Milpitas-Tasman/Principal-Chip-Lead_R264205
+- Underwriting Professional Development Program, Commercial Accounts - October 2026 · Travelers · KS — https://travelers.wd5.myworkdayjobs.com/External/job/KS---Overland-Park/Underwriting-Professional-Development-Program--Commercial-Accounts---October-2026_R-51439-1
+- Underwriting Professional Development Program, Commercial Accounts - October 2026 · Travelers · MD — https://travelers.wd5.myworkdayjobs.com/External/job/MD---Hunt-Valley/Underwriting-Professional-Development-Program--Commercial-Accounts---October-2026_R-51726-1
+- Associate Director, Information Systems · Amgen · Remote — https://amgen.wd1.myworkdayjobs.com/careers/job/United-States---Remote/Associate-Director--Information-Systems_R-251392
+- Medical Value Access Liaison - New York Territory · Amgen · NY — https://amgen.wd1.myworkdayjobs.com/careers/job/US---New-York---New-York/Medical-Value-Access-Liaison---New-York-Territory_R-251734
+- Comparative Medicine Technical Associate, Animal Care · Pfizer · MA — https://pfizer.wd1.myworkdayjobs.com/PfizerCareers/job/United-States---Massachusetts---Cambridge/Comparative-Medicine-Technical-Associate--Animal-Care_4961421-1
+- Electrical Engineer Manager- Utilities Operations Lead · Pfizer · CT — https://pfizer.wd1.myworkdayjobs.com/PfizerCareers/job/United-States---Connecticut---Groton/Manager--PX--GWE--Utilities-Operations-Lead-Electrical-Engineer_4959935
+- Neuroscience Specialist, Health and Science Professional - Terre Haute, IN · Pfizer · Remote — https://pfizer.wd1.myworkdayjobs.com/PfizerCareers/job/United-States---Indiana---Remote/Neuroscience-Specialist--Health-and-Science-Professional---Terre-Haute--IN_4960608-1
+- Vaccines Specialist, Health and Science Professional -  Cleveland Central · Pfizer · Remote — https://pfizer.wd1.myworkdayjobs.com/PfizerCareers/job/United-States---Ohio---Remote/Vaccines-Specialist--Health-and-Science-Professional----Cleveland-Central_4961263-2
+- Module Development Engineering Manager · Intel · OR — https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/Module-Development-Engineering-Manager_JR0285968-1
+- TEM Technician · Intel · OR — https://intel.wd1.myworkdayjobs.com/External/job/US-Oregon-Hillsboro/TEM-Technician_JR0286139
+- Advanced Packaging Senior Yield Analysis · Intel · NM — https://intel.wd1.myworkdayjobs.com/External/job/US-New-Mexico-Albuquerque/Advanced-Packaging-Senior-Yield-Analysis_JR0285901
+- Packaging Module Engineer · Intel · AZ — https://intel.wd1.myworkdayjobs.com/External/job/US-Arizona-Phoenix/Packaging-Module-Engineer_JR0284787
+- Image Processing Engineer (C++/Linux) · Intel · CA — https://intel.wd1.myworkdayjobs.com/External/job/US-California-Santa-Clara/Image-Processing-Engineer--C---Linux-_JR0285764
+- Tool Install Area Coordinator · Intel · AZ — https://intel.wd1.myworkdayjobs.com/External/job/US-Arizona-Phoenix/Tool-Install-Area-Coordinator_JR0285949
+- Data Center Manager · Intel · CA — https://intel.wd1.myworkdayjobs.com/External/job/US-California-Folsom/Data-Center-Manager_JR0284697-1
+- Marketing Campaign Manager – Open Models · NVIDIA · CA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Marketing-Campaign-Manager---Open-Models_JR2022507
+- Senior PR Manager, AI Software · NVIDIA · CA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Senior-PR-Manager--AI-Software_JR2021294
+- PR Specialist, AI Optimism and Industries · NVIDIA · CA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/PR-Specialist--AI-Optimism-and-Industries_JR2022339
+- Liquid-Cooling Specialist - Datacenter · NVIDIA · CA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Liquid-Cooling-Specialist---Datacenter_JR2021987
+- Manager, Financial Systems · NVIDIA · CA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Manager--Financial-Systems_JR2021762
+- Senior State and Local Government Business Development Manager · NVIDIA · Remote — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Remote/Senior-State-and-Local-Government-Business-Development-Manager_JR2022357
+- Principal Software Architect, Networking AI · NVIDIA · CA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-CA-Santa-Clara/Principal-Software-Architect--Networking-AI_JR2022411
+- Senior Architect, NVLink · NVIDIA · MA — https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/US-MA-Westford/Senior-Architect--NVLink_JR2022626
+- Product Strategy Lead Analyst - Cigna Healthcare  - Hybrid · Cigna · CT — https://cigna.wd5.myworkdayjobs.com/CignaCareers/job/Bloomfield-CT/Product-Management-Lead-Analyst---Cigna-Healthcare----Hybrid_26009477-1
+- Sr. New Business Manager; U500 (Austin, TX) - Hybrid · Cigna · TX — https://cigna.wd5.myworkdayjobs.com/CignaCareers/job/Austin-TX/Sr-New-Business-Manager--U500--Austin--TX----Hybrid_26009593
+- Home Infusion Nurse - Accredo - Des Moines, IA · Cigna · IA — https://cigna.wd5.myworkdayjobs.com/CignaCareers/job/Des-Moines-IA/Home-Infusion-Nurse---Accredo---Des-Moines--IA_26009501
+- Executive Recruiting, Tech & Product · Salesforce · CA — https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/California---San-Francisco/Executive-Recruiting--Tech---Product_JR328296
+- Senior Manager, Insurance · Salesforce · GA — https://salesforce.wd12.myworkdayjobs.com/External_Career_Site/job/Georgia---Atlanta/Senior-Manager--Insurance_JR354095
+- Sourcing Commodity Manager (hybrid) - 2019059 · Cisco · CA — https://cisco.wd5.myworkdayjobs.com/Cisco_Careers/job/San-Jose-California-US/Sourcing-Commodity-Manager--hybrid----2019059_2019059
+- Staff Pharmacist - Full-time · CVS Health · WI — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/WI---Manitowoc/Staff-Pharmacist---Full-time_R0998940
+- Pharmacy Technician · CVS Health · VA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Roanoke/Pharmacy-Technician_R0998146
+- Store Associate · CVS Health · NC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NC---Charlotte/Store-Associate_R0998081
+- Bilingual Case Management Analyst - Field in Miami-Dade County FL - New Hire Bonus Available · CVS Health · FL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/FL---Miami/Bilingual-Case-Management-Analyst---Field-in-Miami-Dade-County-FL---New-Hire-Bonus-Available_R0949222
+- Operations Supervisor · CVS Health · FL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/FL---Miami/Operations-Supervisor_R0995602
+- Staff Pharmacist - FT · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Fort-Worth/Staff-Pharmacist---FT_R0997949
+- Shift Supervisor · CVS Health · IL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IL---Rantoul/Shift-Supervisor_R0997770
+- Store Associate · CVS Health · CA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---Palo-Alto/Store-Associate_R0998160
+- Claim Benefit Specialist · CVS Health · Remote — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Work-from-home/Claim-Benefit-Specialist_R0967369
+- Shift Supervisor · CVS Health · NY — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NY---Forest-Hills/Shift-Supervisor_R0998102
+- Shift Supervisor · CVS Health · NC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NC---Charlotte/Shift-Supervisor_R0998082-1
+- Pharmacy Technician · CVS Health · NY — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NY---Forest-Hills/Pharmacy-Technician_R0998131
+- Shift Supervisor · CVS Health · LA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/LA---Metairie/Shift-Supervisor_R0997489
+- MPPS Policy Customization Lead Director · CVS Health · Remote — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MO---Work-from-home/MPPS-Policy-Customization-Lead-Director_R0992363-1
+- Pharmacy Technician · CVS Health · CA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---Riverside/Pharmacy-Technician_R0998126
+- Case Management Supervisor  - Behavioral Health – Arizona Mercy Care · CVS Health · Remote — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/AZ---Work-from-home/Case-Management-Supervisor----Behavioral-Health---Arizona-Mercy-Care_R0933013
+- Store Associate · CVS Health · NY — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NY---North-Baldwin/Store-Associate_R0997836-1
+- Shift Supervisor · CVS Health · CA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---Palo-Alto/Shift-Supervisor_R0998161
+- Pharmacy Technician · CVS Health · NJ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NJ---Princeton/Pharmacy-Technician_R0998076
+- District Support Pharmacist Full Time · CVS Health · OH — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/OH---Bucyrus/District-Support-Pharmacist-Full-Time_R0998072-1
+- Nurse Practitioner · CVS Health · GA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/GA---Riverdale/Nurse-Practitioner_R0995528
+- Pharmacy Technician · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Austin/Pharmacy-Technician_R0998074
+- Fulfillment Packaging Assistant · CVS Health · MD — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MD---Columbia/Fulfillment-Packaging-Assistant_R0940761
+- Lead Delivery Driver · CVS Health · GA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/GA---Conyers/Lead-Delivery-Driver_R0988322
+- Store Associate · CVS Health · HI — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/HI---Kapolei/Store-Associate_R0998156
+- District Support Pharmacist, Part-time · CVS Health · WA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/WA---Bellevue/District-Support-Pharmacist--Part-time_R0957093
+- Store Associate · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Katy/Store-Associate_R0997877-1
+- Pharmacy Technician · CVS Health · TN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/05668---Tennessee-CVS-Pharmacy-LLC/Pharmacy-Technician_R0997834
+- Shift Supervisor · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---San-Antonio/Shift-Supervisor_R0998059
+- District Support Pharmacist Full Time · CVS Health · SC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/SC---Clinton/District-Support-Pharmacist-Full-Time_R0995677
+- Nurse Practitioner, Advanced Practice Provider · CVS Health · OK — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/OK---Oklahoma-City/Nurse-Practitioner--Advanced-Practice-Provider_R0815467
+- Pharmacy Technician · CVS Health · CT — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/01213---Connecticut-CVS-Pharmacy-LLC/Pharmacy-Technician_R0997216
+- Seasonal Order Selecting- 1st Shift · CVS Health · VA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Fredericksburg/Seasonal-Order-Selecting--1st-Shift_R0998836
+- Store Associate · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Southwick/Store-Associate_R0997272
+- Store Associate · CVS Health · IL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IL---Oak-Park/Store-Associate_R0997306
+- Store Manager in Training · CVS Health · GA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/GA---Saint-Simons-Island/Store-Manager-in-Training_R0995371
+- Shift Supervisor · CVS Health · IN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IN---Anderson/Shift-Supervisor_R0997904
+- Equipment Operator - 1st Shift - Starting Rate: $21/hour · CVS Health · KS/MO — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MO---Kansas-City/Equipment-Operator_R0995547
+- Mgr,Clinical Support · CVS Health · Remote — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/OK---Work-from-home/Mgr-Clinical-Support_R0984897
+- Inventory Specialist · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Dracut/Inventory-Specialist_R0995613-1
+- Store Associate · CVS Health · IN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IN---Rushville/Store-Associate_R0997707
+- Receiver - 1st Shift · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Conroe/Receiver_R0968806
+- Seasonal Stocking- 1st Shift · CVS Health · VA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/VA---Fredericksburg/Seasonal-Stocking--1st-Shift_R0998600
+- Specialty Pharmacy Technician · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX-Fort-Worth/Specialty-Pharmacy-Technician_R0953009
+- Staff Pharmacist Full Time · CVS Health · SC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/SC---Florence/Staff-Pharmacist-Full-Time_R0995210-1
+- Operations Supervisor · CVS Health · ME — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/ME---Biddeford/Operations-Supervisor_R0997548
+- Medical Scribe · CVS Health · NC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NC---Raleigh/Medical-Scribe_R0993909
+- Operations Supervisor · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---East-Wareham/Operations-Supervisor_R0995744
+- Pharmacy Technician · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Wrentham/Pharmacy-Technician_R0997922
+- District Support Pharmacist - Part Time · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Pittsburg/District-Support-Pharmacist---Part-Time_R0998827
+- Shift Supervisor · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Framingham/Shift-Supervisor_R0997720
+- Store Associate · CVS Health · WV — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/WV---Saint-Albans/Store-Associate_R0998817
+- Licensed Practical Nurse (LPN) · CVS Health · AZ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/AZ---Tucson/Licensed-Practical-Nurse--LPN-_R0998672
+- Store Associate · CVS Health · NH — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NH---Rochester/Store-Associate_R0997903-1
+- Staff Pharmacist - Full-time · CVS Health · MN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MN---Minneapolis/Pharmacist_R0948979
+- Pharmacy Technician · CVS Health · MN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MN---Otsego/Pharmacy-Technician_R0997546
+- Licensed Practical Nurse (LPN) · CVS Health · NV — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NV---Henderson/Licensed-Practical-Nurse--LPN-_R0998636
+- Shift Supervisor · CVS Health · WV — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/WV---Saint-Albans/Shift-Supervisor_R0998801
+- Pharmacy Technician · CVS Health · IN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IN---New-Castle/Pharmacy-Technician_R0997925-1
+- Shift Supervisor Overnight · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Greenfield/Shift-Supervisor-Overnight_R0997547
+- Store Associate · CVS Health · SC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/SC---Sumter/Store-Associate_R0998040
+- District Support Pharmacist - PT · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Spring/District-Support-Pharmacist---PT_R0994742
+- Shift Supervisor · CVS Health · MD — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MD---Chester/Shift-Supervisor_R0997407
+- Staff Pharmacist Part Time · CVS Health · SC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/SC---Columbia/Staff-Pharmacist-Part-Time_R0995214
+- Pharmacy Technician · CVS Health · LA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/LA---Kenner/Pharmacy-Technician_R0997691
+- Pharmacy Technician · CVS Health · SC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/SC---Port-Royal/Pharmacy-Technician_R0997713
+- Shift Supervisor · CVS Health · HI — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/HI---Pukalani/Shift-Supervisor_R0998006
+- Pharmacy Technician · CVS Health · FL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/FL---Boynton-Beach/Pharmacy-Technician_R0994846
+- Advanced Practice Provider - NP/PA · CVS Health · GA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/GA---Woodstock/Advanced-Practice-Provider---NP-PA_R0938962
+- Shift Supervisor · CVS Health · NJ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/00837---New-Jersey-CVS-Pharmacy-LLC/Shift-Supervisor_R0997348
+- Warehouse Distribution Representative · CVS Health · CA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---San-Diego/Warehouse-Distribution-Representative_R0988215
+- Pharmacy Technician · CVS Health · RI — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/00733---Rhode-Island-CVS-Pharmacy-LLC/Pharmacy-Technician_R0998129
+- Shift Supervisor - Overnight · CVS Health · NC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NC---Mooresville/Shift-Supervisor---Overnight_R0997338
+- Maintenance Coordinator - Medication Carts · CVS Health · SC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/SC---Spartanburg/Maintenance-Coordinator---Medication-Carts_R0986957-1
+- Store Associate · CVS Health · FL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/FL---Altamonte-Springs/Store-Associate_R0997309
+- Beauty Sales Consultant · CVS Health · NH — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NH---Stratham/Beauty-Sales-Consultant_R0997161-1
+- Pharmacy Technician · CVS Health · DC/WA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/11680---Washington-CVS-Pharmacy-LLC/Pharmacy-Technician_R0997586
+- OTCHS Picker · CVS Health · KS/MO — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MO---Kansas-City/OTCHS-Picker_R0995260
+- Store Associate · CVS Health · MD — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MD---Chester/Store-Associate_R0997446
+- Pharmacy Technician · CVS Health · IL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IL---Niles/Pharmacy-Technician_R0998101
+- Store Associate · CVS Health · NJ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NJ---Marmora/Store-Associate_R0998120
+- District Support Pharmacist - FT · CVS Health · TX — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/TX---Fort-Worth/District-Support-Pharmacist---FT_R0997940
+- Staff Pharmacist Part Time · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Whitman/Staff-Pharmacist-Part-Time_R0998444
+- Sales Associate · CVS Health · MA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MA---Methuen/Sales-Associate_R0997366
+- Territory Sales Executive - Central Michigan area of Great Lakes Region · CVS Health · MI — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/Field-Michigan/Territory-Sales-Executive---Central-Michigan-area-of-Great-Lakes-Region_R0994182
+- Beauty Sales Consultant · CVS Health · MD — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MD---New-Market/Beauty-Sales-Consultant_R0997777-1
+- Store Associate · CVS Health · ME — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/ME---Bath/Store-Associate_R0997320-1
+- Pharmacy Technician · CVS Health · PA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/PA---Paoli/Pharmacy-Technician_R0995905
+- Pharmacy Technician · CVS Health · HI — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/HI---Kaneohe/Pharmacy-Technician_R0997764
+- PBM Underwriting - Senior Analyst · CVS Health · AZ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/AZ---Scottsdale/PBM-Underwriting---Senior-Analyst_R0833582
+- Staff Pharmacist Full Time · CVS Health · OH — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/OH---Columbus/Staff-Pharmacist-Full-Time_R0998526
+- Store Manager in Training · CVS Health · KS — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/KS---Overland-Park/Store-Manager-in-Training_R0992530
+- Pharmacy Technician · CVS Health · CO — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CO---Edgewater/Pharmacy-Technician_R0997673
+- Pharmacy Technician · CVS Health · VA/NJ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NJ---North-Arlington/Pharmacy-Technician_R0997656
+- Medical Scribe · CVS Health · NJ — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NJ---Newark/Medical-Scribe_R0995098
+- Operation Manager-CA · CVS Health · CA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---Santa-Monica/Operation-Manager-CA_R0995992
+- 350020 - Pharmacy Technician · CVS Health · IL — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/IL---Flossmoor/XMLNAME-350020---Pharmacy-Technician_R0997647
+- Medical Scribe · CVS Health · NY — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NY---Freeport/Medical-Scribe_R0995161
+- Pharmacy Lead Technician · CVS Health · MN — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/MN---Woodbury/Pharmacy-Lead-Technician_R0992894-1
+- Beauty Sales Consultant · CVS Health · CA — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/CA---Santa-Barbara/Beauty-Sales-Consultant_R0997149-1
+- Pharmacy Technician · CVS Health · NC — https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers/job/NC---Charlotte/Pharmacy-Technician_R0997926
 
 </details>
 
-> 疑似幽灵岗位（挂满 60 天未撤）：39378 个，已在 jobs.json 中标记 `isGhostSuspect`
+> 疑似幽灵岗位（挂满 60 天未撤）：39264 个，已在 jobs.json 中标记 `isGhostSuspect`
 
 ## ⚠️ 抓取异常
 
+- workday:target|TargetCareers|wd5: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
+- greenhouse:aurorainnovation: token 无效（404），请到该公司 careers 页确认
 - greenhouse:amenitiz: token 无效（404），请到该公司 careers 页确认
+- workable:inventyou-ab: 上次 5 个岗位，这次 0 个 —— 疑似接口变更
+- workday:target|targetcareers|wd5: Unexpected token '<', "<!DOCTYPE "... is not valid JSON
