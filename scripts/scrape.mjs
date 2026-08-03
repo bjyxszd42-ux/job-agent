@@ -36,7 +36,17 @@ const P = {
 // 的并发只有几分之一，所以 10 并发对任何一家接口都不算猛。
 const CONCURRENCY = parseInt(process.env.CONCURRENCY || '10', 10);
 const DELAY_MS = parseInt(process.env.DELAY_MS || '150', 10);
-const GHOST_DAYS = 60;      // 挂超过这么久还没撤的，标为疑似幽灵岗位
+// 挂超过这么久还没撤的判为疑似幽灵岗位，【直接从索引里剔除】，不进 jobs.json。
+// 这不是让用户勾选的选项 —— 用户打开就该看到干净的列表。
+//
+// 但要意识到这是【永久丢弃】，所以阈值定得保守（90 天而不是 60）：
+// 小公司的资深岗、小众技能岗挂三个月很正常，宁可放过也别误杀。
+// 想看被丢掉的：node scripts/scrape.mjs --keep-ghosts
+//
+// 注意当前的检测只对 Greenhouse / Lever / Ashby 有效 —— Workday 没有可靠的
+// 发布时间，只能用我们自己的首见时间兜底，历史攒够之前不会有 Workday 岗位被判。
+const GHOST_DAYS = parseInt(process.env.GHOST_DAYS || '90', 10);
+const KEEP_GHOSTS = process.argv.includes('--keep-ghosts');
 const VERIFY_ONLY = process.argv.includes('--verify');
 const PRUNE = process.argv.includes('--prune');   // 验证后自动把失效的置为 enabled=false
 const FULL  = process.argv.includes('--full');    // 保留所有岗位（默认只留命中岗位家族的）
@@ -301,11 +311,15 @@ async function main() {
 
   // ── jobs.json 瘦身：只留命中家族的美国岗位，且不存完整 JD ──
   // 共享索引的粗筛：命中任意家族 + 在美国。localPrefs 存在时再叠加个人细筛（仅调试用）
-  const kept = FULL
+  const eligible = FULL
     ? enriched
     : enriched
         .filter((j) => j.families.length > 0 && j.location.isUS)
         .filter((j) => !localPrefs || matchesUserPrefs(j, localPrefs));
+
+  // 幽灵岗位在后台剔除，不暴露给界面
+  const kept = KEEP_GHOSTS ? eligible : eligible.filter((j) => !j.isGhostSuspect);
+  const ghostsDropped = eligible.length - kept.length;
 
   const slim = kept.map((j) => ({
     id: j.id, ats: j.ats, company: j.company, title: j.title,
@@ -322,6 +336,8 @@ async function main() {
     generatedAt: now, total: enriched.length, count: slim.length,
     // 这是【共享索引】：命中任意岗位家族的美国岗位。个人偏好在应用层过滤。
     scope: FULL ? 'all' : (localPrefs ? 'local-prefs' : 'shared-index'),
+    ghostsDropped,
+    ghostDays: GHOST_DAYS,
     localPrefs: localPrefs || undefined,
     jobs: slim,
   }, null, 0));
@@ -335,6 +351,7 @@ async function main() {
   const fresh = enriched.filter((j) => Date.parse(j.postedAt) >= dayAgo);
   const usFresh = fresh.filter((j) => j.location.isUS);
   const matched = usFresh.filter((j) => j.families.length > 0
+    && (KEEP_GHOSTS || !j.isGhostSuspect)
     && (!localPrefs || matchesUserPrefs(j, localPrefs)));
 
   const lines = [
@@ -367,8 +384,10 @@ async function main() {
     lines.push('', '</details>', '');
   }
 
-  const ghosts = enriched.filter((j) => j.isGhostSuspect).length;
-  if (ghosts) lines.push(`> 疑似幽灵岗位（挂满 ${GHOST_DAYS} 天未撤）：${ghosts} 个，已在 jobs.json 中标记 \`isGhostSuspect\``, '');
+  if (ghostsDropped) {
+    lines.push(`> 已剔除疑似幽灵岗位 ${ghostsDropped} 个（挂满 ${GHOST_DAYS} 天未撤，不进索引）。`
+      + `想检视被剔除的：\`node scripts/scrape.mjs --keep-ghosts\``, '');
+  }
   if (health.errors.length) {
     lines.push('## ⚠️ 抓取异常', '');
     health.errors.forEach((e) => lines.push(`- ${e}`));
@@ -376,7 +395,9 @@ async function main() {
 
   await fs.writeFile(P.digest, lines.join('\n'));
 
-  console.log(`\n完成：抓到 ${enriched.length} 个岗位 · 入库 ${slim.length} 个 · 新增 ${newCount} · 下架 ${closedCount} · 24h 内命中 ${matched.length}`);
+  console.log(`\n完成：抓到 ${enriched.length} 个岗位 · 入库 ${slim.length} 个`
+    + (ghostsDropped ? `（剔除幽灵 ${ghostsDropped} 个）` : '')
+    + ` · 新增 ${newCount} · 下架 ${closedCount} · 24h 内命中 ${matched.length}`);
   console.log(`文件：jobs.json ${mb(jobsSize)}MB · state.json ${mb(stateSize)}MB${purged ? `（清理了 ${purged} 条超期记录）` : ''}`);
   if (jobsSize > 45 * 1048576 || stateSize > 45 * 1048576) {
     console.log(`\n⚠️  文件接近 GitHub 的 50MB 警告线（100MB 硬上限）。`);

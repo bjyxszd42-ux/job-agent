@@ -13,3 +13,6 @@ applications.db
 
 # 个人偏好是用户数据，不进仓库（data/prefs.example.json 是模板）
 data/prefs.json
+
+# 岗位标记是用户数据
+data/marks.json

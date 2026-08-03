@@ -10,217 +10,703 @@
     "3. include 是同义标题词，exclude 是同名不同事的坑（Sales Analyst 不是数据岗）。",
     "4. group 用于 UI 分组展示。",
     "",
-    "扩展方式：直接往 families 里加。加完不用改代码。"
+    "扩展方式：直接往 families 里加。加完不用改代码。",
+    "",
+    "注意：label 和 groups 是【界面上直接显示给用户的文案】，产品面向美国求职者，所以用英文。",
+    "这里的中文注释是给维护者看的，不会出现在界面上。"
   ],
   "groups": {
-    "engineering": "工程",
-    "data": "数据",
-    "product": "产品",
-    "design": "设计",
-    "marketing": "市场",
-    "sales": "销售与客户",
-    "finance": "财务",
-    "operations": "运营与战略",
-    "people": "人力",
-    "legal": "法务合规",
-    "quant": "量化金融",
-    "science": "科研与医疗"
+    "engineering": "Engineering",
+    "data": "Data",
+    "product": "Product",
+    "design": "Design",
+    "marketing": "Marketing",
+    "sales": "Sales & Customer",
+    "finance": "Finance",
+    "operations": "Operations & Strategy",
+    "people": "People",
+    "legal": "Legal & Compliance",
+    "quant": "Quant Finance",
+    "science": "Science & Healthcare"
   },
   "families": [
     {
-      "key": "software_engineer", "label": "软件工程（通用）", "group": "engineering",
-      "include_titles": ["software engineer", "software developer", "swe", "programmer", "application developer", "member of technical staff"],
-      "exclude_titles": ["sales engineer", "solutions engineer", "support engineer", "field engineer", "customer engineer", "engineering manager", "sales", "recruiter"]
+      "key": "software_engineer",
+      "label": "Software Engineering",
+      "group": "engineering",
+      "include_titles": [
+        "software engineer",
+        "software developer",
+        "swe",
+        "programmer",
+        "application developer",
+        "member of technical staff"
+      ],
+      "exclude_titles": [
+        "sales engineer",
+        "solutions engineer",
+        "support engineer",
+        "field engineer",
+        "customer engineer",
+        "engineering manager",
+        "sales",
+        "recruiter"
+      ]
     },
     {
-      "key": "backend_engineer", "label": "后端工程", "group": "engineering",
-      "include_titles": ["backend engineer", "back-end engineer", "back end engineer", "server engineer", "api engineer", "distributed systems engineer"],
-      "exclude_titles": ["manager", "director"]
+      "key": "backend_engineer",
+      "label": "Backend",
+      "group": "engineering",
+      "include_titles": [
+        "backend engineer",
+        "back-end engineer",
+        "back end engineer",
+        "server engineer",
+        "api engineer",
+        "distributed systems engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director"
+      ]
     },
     {
-      "key": "frontend_engineer", "label": "前端工程", "group": "engineering",
-      "include_titles": ["frontend engineer", "front-end engineer", "front end engineer", "web engineer", "ui engineer", "javascript engineer", "react engineer"],
-      "exclude_titles": ["manager", "director", "designer"]
+      "key": "frontend_engineer",
+      "label": "Frontend",
+      "group": "engineering",
+      "include_titles": [
+        "frontend engineer",
+        "front-end engineer",
+        "front end engineer",
+        "web engineer",
+        "ui engineer",
+        "javascript engineer",
+        "react engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "designer"
+      ]
     },
     {
-      "key": "fullstack_engineer", "label": "全栈工程", "group": "engineering",
-      "include_titles": ["full stack", "fullstack", "full-stack"],
-      "exclude_titles": ["manager", "director"]
+      "key": "fullstack_engineer",
+      "label": "Full Stack",
+      "group": "engineering",
+      "include_titles": [
+        "full stack",
+        "fullstack",
+        "full-stack"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director"
+      ]
     },
     {
-      "key": "mobile_engineer", "label": "移动端工程", "group": "engineering",
-      "include_titles": ["mobile engineer", "ios engineer", "android engineer", "ios developer", "android developer", "react native", "flutter"],
-      "exclude_titles": ["manager", "director"]
+      "key": "mobile_engineer",
+      "label": "Mobile",
+      "group": "engineering",
+      "include_titles": [
+        "mobile engineer",
+        "ios engineer",
+        "android engineer",
+        "ios developer",
+        "android developer",
+        "react native",
+        "flutter"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director"
+      ]
     },
     {
-      "key": "data_engineer", "label": "数据工程", "group": "engineering",
-      "include_titles": ["data engineer", "data infrastructure engineer", "data platform engineer", "etl engineer", "big data engineer", "streaming engineer"],
-      "exclude_titles": ["manager", "director", "sales"]
+      "key": "data_engineer",
+      "label": "Data Engineering",
+      "group": "engineering",
+      "include_titles": [
+        "data engineer",
+        "data infrastructure engineer",
+        "data platform engineer",
+        "etl engineer",
+        "big data engineer",
+        "streaming engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "sales"
+      ]
     },
     {
-      "key": "ml_engineer", "label": "机器学习工程", "group": "engineering",
-      "include_titles": ["machine learning engineer", "ml engineer", "mlops", "ai engineer", "deep learning engineer", "nlp engineer", "computer vision engineer", "llm engineer"],
-      "exclude_titles": ["manager", "director", "sales", "recruiter"]
+      "key": "ml_engineer",
+      "label": "ML / AI Engineering",
+      "group": "engineering",
+      "include_titles": [
+        "machine learning engineer",
+        "ml engineer",
+        "mlops",
+        "ai engineer",
+        "deep learning engineer",
+        "nlp engineer",
+        "computer vision engineer",
+        "llm engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "sales",
+        "recruiter"
+      ]
     },
     {
-      "key": "devops_sre", "label": "DevOps / SRE", "group": "engineering",
-      "include_titles": ["devops", "site reliability", "sre", "platform engineer", "infrastructure engineer", "cloud engineer", "systems engineer", "release engineer"],
-      "exclude_titles": ["manager", "director", "sales engineer"]
+      "key": "devops_sre",
+      "label": "DevOps / SRE",
+      "group": "engineering",
+      "include_titles": [
+        "devops",
+        "site reliability",
+        "sre",
+        "platform engineer",
+        "infrastructure engineer",
+        "cloud engineer",
+        "systems engineer",
+        "release engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "sales engineer"
+      ]
     },
     {
-      "key": "security_engineer", "label": "安全工程", "group": "engineering",
-      "include_titles": ["security engineer", "application security", "appsec", "infrastructure security", "product security", "detection engineer", "offensive security", "penetration tester", "security researcher"],
-      "exclude_titles": ["manager", "director", "physical security", "guard", "sales"]
+      "key": "security_engineer",
+      "label": "Security Engineering",
+      "group": "engineering",
+      "include_titles": [
+        "security engineer",
+        "application security",
+        "appsec",
+        "infrastructure security",
+        "product security",
+        "detection engineer",
+        "offensive security",
+        "penetration tester",
+        "security researcher"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "physical security",
+        "guard",
+        "sales"
+      ]
     },
     {
-      "key": "qa_engineer", "label": "测试与质量", "group": "engineering",
-      "include_titles": ["qa engineer", "quality assurance", "test engineer", "sdet", "automation engineer", "quality engineer"],
-      "exclude_titles": ["manager", "director", "manufacturing", "supplier"]
+      "key": "qa_engineer",
+      "label": "QA / Test",
+      "group": "engineering",
+      "include_titles": [
+        "qa engineer",
+        "quality assurance",
+        "test engineer",
+        "sdet",
+        "automation engineer",
+        "quality engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "manufacturing",
+        "supplier"
+      ]
     },
     {
-      "key": "hardware_engineer", "label": "硬件与嵌入式", "group": "engineering",
-      "include_titles": ["hardware engineer", "firmware engineer", "embedded engineer", "electrical engineer", "asic", "fpga", "silicon engineer", "mechanical engineer"],
-      "exclude_titles": ["manager", "director", "sales"]
-    },
-
-    {
-      "key": "data_analyst", "label": "数据分析 / BI", "group": "data",
-      "include_titles": ["data analyst", "business analyst", "analytics engineer", "product analyst", "insights analyst", "bi analyst", "business intelligence", "reporting analyst", "marketing analyst", "operations analyst", "growth analyst", "data analytics", "decision support analyst"],
-      "exclude_titles": ["sales analyst", "credit analyst", "analyst relations", "risk analyst", "compliance analyst", "security analyst", "policy analyst", "investment analyst", "actuarial", "lab analyst", "chemical analyst"]
-    },
-    {
-      "key": "data_scientist", "label": "数据科学", "group": "data",
-      "include_titles": ["data scientist", "applied scientist", "research scientist", "decision scientist", "experimentation scientist", "causal inference", "statistician", "biostatistician"],
-      "exclude_titles": ["materials scientist", "food scientist", "soil scientist", "sales"]
-    },
-    {
-      "key": "research_scientist_ai", "label": "AI 研究", "group": "data",
-      "include_titles": ["research scientist", "research engineer", "member of technical staff", "ai researcher", "machine learning researcher", "llm research"],
-      "exclude_titles": ["clinical research", "market research", "user research", "materials"]
-    },
-
-    {
-      "key": "product_manager", "label": "产品经理", "group": "product",
-      "include_titles": ["product manager", "product owner", "group product manager", "associate product manager", "apm"],
-      "exclude_titles": ["product marketing", "product designer", "product analyst", "product support", "product specialist"]
+      "key": "hardware_engineer",
+      "label": "Hardware / Embedded",
+      "group": "engineering",
+      "include_titles": [
+        "hardware engineer",
+        "firmware engineer",
+        "embedded engineer",
+        "electrical engineer",
+        "asic",
+        "fpga",
+        "silicon engineer",
+        "mechanical engineer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "sales"
+      ]
     },
     {
-      "key": "technical_program_manager", "label": "技术项目管理", "group": "product",
-      "include_titles": ["technical program manager", "tpm", "program manager", "project manager", "delivery manager", "scrum master"],
-      "exclude_titles": ["marketing program", "construction", "clinical program"]
+      "key": "data_analyst",
+      "label": "Data & Business Analytics",
+      "group": "data",
+      "include_titles": [
+        "data analyst",
+        "business analyst",
+        "analytics engineer",
+        "product analyst",
+        "insights analyst",
+        "bi analyst",
+        "business intelligence",
+        "reporting analyst",
+        "marketing analyst",
+        "operations analyst",
+        "growth analyst",
+        "data analytics",
+        "decision support analyst"
+      ],
+      "exclude_titles": [
+        "sales analyst",
+        "credit analyst",
+        "analyst relations",
+        "risk analyst",
+        "compliance analyst",
+        "security analyst",
+        "policy analyst",
+        "investment analyst",
+        "actuarial",
+        "lab analyst",
+        "chemical analyst"
+      ]
     },
-
     {
-      "key": "product_designer", "label": "产品设计 / UX", "group": "design",
-      "include_titles": ["product designer", "ux designer", "ui designer", "interaction designer", "visual designer", "design systems", "experience designer"],
-      "exclude_titles": ["manager", "director", "graphic designer intern", "industrial designer"]
+      "key": "data_scientist",
+      "label": "Data Science",
+      "group": "data",
+      "include_titles": [
+        "data scientist",
+        "applied scientist",
+        "research scientist",
+        "decision scientist",
+        "experimentation scientist",
+        "causal inference",
+        "statistician",
+        "biostatistician"
+      ],
+      "exclude_titles": [
+        "materials scientist",
+        "food scientist",
+        "soil scientist",
+        "sales"
+      ]
     },
     {
-      "key": "ux_researcher", "label": "用户研究", "group": "design",
-      "include_titles": ["ux researcher", "user researcher", "design researcher", "user experience research"],
-      "exclude_titles": ["market research", "clinical research"]
+      "key": "research_scientist_ai",
+      "label": "AI Research",
+      "group": "data",
+      "include_titles": [
+        "research scientist",
+        "research engineer",
+        "member of technical staff",
+        "ai researcher",
+        "machine learning researcher",
+        "llm research"
+      ],
+      "exclude_titles": [
+        "clinical research",
+        "market research",
+        "user research",
+        "materials"
+      ]
     },
-
     {
-      "key": "growth_marketing", "label": "增长 / 效果营销", "group": "marketing",
-      "include_titles": ["growth marketing", "performance marketing", "demand generation", "lifecycle marketing", "acquisition marketing", "paid media", "sem manager", "growth manager"],
-      "exclude_titles": ["sales"]
+      "key": "product_manager",
+      "label": "Product Management",
+      "group": "product",
+      "include_titles": [
+        "product manager",
+        "product owner",
+        "group product manager",
+        "associate product manager",
+        "apm"
+      ],
+      "exclude_titles": [
+        "product marketing",
+        "product designer",
+        "product analyst",
+        "product support",
+        "product specialist"
+      ]
     },
     {
-      "key": "product_marketing", "label": "产品市场", "group": "marketing",
-      "include_titles": ["product marketing", "pmm", "go-to-market manager", "gtm manager"],
+      "key": "technical_program_manager",
+      "label": "TPM / Program Mgmt",
+      "group": "product",
+      "include_titles": [
+        "technical program manager",
+        "tpm",
+        "program manager",
+        "project manager",
+        "delivery manager",
+        "scrum master"
+      ],
+      "exclude_titles": [
+        "marketing program",
+        "construction",
+        "clinical program"
+      ]
+    },
+    {
+      "key": "product_designer",
+      "label": "Product Design / UX",
+      "group": "design",
+      "include_titles": [
+        "product designer",
+        "ux designer",
+        "ui designer",
+        "interaction designer",
+        "visual designer",
+        "design systems",
+        "experience designer"
+      ],
+      "exclude_titles": [
+        "manager",
+        "director",
+        "graphic designer intern",
+        "industrial designer"
+      ]
+    },
+    {
+      "key": "ux_researcher",
+      "label": "UX Research",
+      "group": "design",
+      "include_titles": [
+        "ux researcher",
+        "user researcher",
+        "design researcher",
+        "user experience research"
+      ],
+      "exclude_titles": [
+        "market research",
+        "clinical research"
+      ]
+    },
+    {
+      "key": "growth_marketing",
+      "label": "Growth / Performance",
+      "group": "marketing",
+      "include_titles": [
+        "growth marketing",
+        "performance marketing",
+        "demand generation",
+        "lifecycle marketing",
+        "acquisition marketing",
+        "paid media",
+        "sem manager",
+        "growth manager"
+      ],
+      "exclude_titles": [
+        "sales"
+      ]
+    },
+    {
+      "key": "product_marketing",
+      "label": "Product Marketing",
+      "group": "marketing",
+      "include_titles": [
+        "product marketing",
+        "pmm",
+        "go-to-market manager",
+        "gtm manager"
+      ],
       "exclude_titles": []
     },
     {
-      "key": "content_marketing", "label": "内容 / 品牌", "group": "marketing",
-      "include_titles": ["content marketing", "content strategist", "brand marketing", "communications manager", "social media manager", "seo", "copywriter", "editor"],
-      "exclude_titles": ["video editor", "photo editor"]
+      "key": "content_marketing",
+      "label": "Content / Brand",
+      "group": "marketing",
+      "include_titles": [
+        "content marketing",
+        "content strategist",
+        "brand marketing",
+        "communications manager",
+        "social media manager",
+        "seo",
+        "copywriter",
+        "editor"
+      ],
+      "exclude_titles": [
+        "video editor",
+        "photo editor"
+      ]
     },
-
     {
-      "key": "account_executive", "label": "销售 AE / SDR", "group": "sales",
-      "include_titles": ["account executive", "sales development representative", "sdr", "bdr", "business development representative", "enterprise sales", "inside sales", "sales representative"],
-      "exclude_titles": ["sales operations", "sales engineer", "sales analyst"]
+      "key": "account_executive",
+      "label": "Sales (AE / SDR)",
+      "group": "sales",
+      "include_titles": [
+        "account executive",
+        "sales development representative",
+        "sdr",
+        "bdr",
+        "business development representative",
+        "enterprise sales",
+        "inside sales",
+        "sales representative"
+      ],
+      "exclude_titles": [
+        "sales operations",
+        "sales engineer",
+        "sales analyst"
+      ]
     },
     {
-      "key": "solutions_engineer", "label": "售前 / 解决方案工程", "group": "sales",
-      "include_titles": ["solutions engineer", "sales engineer", "solutions architect", "solutions consultant", "presales", "forward deployed engineer", "field engineer"],
+      "key": "solutions_engineer",
+      "label": "Solutions Engineering",
+      "group": "sales",
+      "include_titles": [
+        "solutions engineer",
+        "sales engineer",
+        "solutions architect",
+        "solutions consultant",
+        "presales",
+        "forward deployed engineer",
+        "field engineer"
+      ],
       "exclude_titles": []
     },
     {
-      "key": "customer_success", "label": "客户成功 / 支持", "group": "sales",
-      "include_titles": ["customer success", "account manager", "customer experience manager", "technical account manager", "implementation manager", "onboarding specialist", "support engineer"],
-      "exclude_titles": ["sales development"]
+      "key": "customer_success",
+      "label": "Customer Success",
+      "group": "sales",
+      "include_titles": [
+        "customer success",
+        "account manager",
+        "customer experience manager",
+        "technical account manager",
+        "implementation manager",
+        "onboarding specialist",
+        "support engineer"
+      ],
+      "exclude_titles": [
+        "sales development"
+      ]
     },
     {
-      "key": "sales_ops", "label": "销售运营 / RevOps", "group": "sales",
-      "include_titles": ["sales operations", "revenue operations", "revops", "gtm operations", "deal desk", "sales analyst", "sales strategy"],
-      "exclude_titles": []
-    },
-
-    {
-      "key": "financial_analyst", "label": "财务分析 / FP&A", "group": "finance",
-      "include_titles": ["financial analyst", "fp&a", "finance analyst", "financial planning", "corporate finance", "treasury analyst", "revenue analyst", "pricing analyst"],
-      "exclude_titles": ["data analyst"]
-    },
-    {
-      "key": "accounting", "label": "会计 / 审计", "group": "finance",
-      "include_titles": ["accountant", "accounting manager", "controller", "auditor", "audit associate", "tax associate", "accounts payable", "accounts receivable", "bookkeeper"],
-      "exclude_titles": []
-    },
-    {
-      "key": "investment", "label": "投资 / 战略融资", "group": "finance",
-      "include_titles": ["investment analyst", "investment associate", "corporate development", "private equity", "venture capital", "equity research", "investment banking"],
-      "exclude_titles": []
-    },
-
-    {
-      "key": "business_operations", "label": "商业运营 / 战略", "group": "operations",
-      "include_titles": ["business operations", "bizops", "strategy and operations", "strategic finance", "chief of staff", "corporate strategy", "strategy associate", "operations manager", "business strategy"],
-      "exclude_titles": ["warehouse", "restaurant", "retail store", "manufacturing"]
-    },
-    {
-      "key": "supply_chain", "label": "供应链 / 物流", "group": "operations",
-      "include_titles": ["supply chain", "logistics", "procurement", "sourcing manager", "inventory planner", "demand planning", "fulfillment manager", "warehouse manager"],
-      "exclude_titles": []
-    },
-
-    {
-      "key": "recruiting_hr", "label": "招聘 / HR", "group": "people",
-      "include_titles": ["recruiter", "talent acquisition", "sourcer", "people operations", "hr business partner", "hrbp", "people partner", "compensation analyst", "hris"],
-      "exclude_titles": []
-    },
-
-    {
-      "key": "legal_compliance", "label": "法务 / 合规 / 风控", "group": "legal",
-      "include_titles": ["counsel", "attorney", "paralegal", "compliance analyst", "compliance manager", "risk analyst", "aml analyst", "kyc analyst", "fraud analyst", "privacy", "trust and safety", "policy manager"],
-      "exclude_titles": []
-    },
-
-    {
-      "key": "quant_research", "label": "量化研究 / 交易", "group": "quant",
-      "include_titles": ["quantitative researcher", "quantitative analyst", "quant researcher", "quant analyst", "quantitative trader", "systematic trading", "algorithmic trading", "quantitative strategist"],
-      "exclude_titles": ["sales"]
-    },
-    {
-      "key": "quant_developer", "label": "量化开发", "group": "quant",
-      "include_titles": ["quantitative developer", "quant developer", "trading systems engineer", "low latency engineer", "execution engineer"],
+      "key": "sales_ops",
+      "label": "Sales Ops / RevOps",
+      "group": "sales",
+      "include_titles": [
+        "sales operations",
+        "revenue operations",
+        "revops",
+        "gtm operations",
+        "deal desk",
+        "sales analyst",
+        "sales strategy"
+      ],
       "exclude_titles": []
     },
     {
-      "key": "risk_modeling", "label": "风险建模 / 精算", "group": "quant",
-      "include_titles": ["risk modeling", "credit risk", "model risk", "market risk", "actuarial analyst", "actuary", "credit analyst", "underwriting analyst"],
+      "key": "financial_analyst",
+      "label": "Financial Analysis / FP&A",
+      "group": "finance",
+      "include_titles": [
+        "financial analyst",
+        "fp&a",
+        "finance analyst",
+        "financial planning",
+        "corporate finance",
+        "treasury analyst",
+        "revenue analyst",
+        "pricing analyst"
+      ],
+      "exclude_titles": [
+        "data analyst"
+      ]
+    },
+    {
+      "key": "accounting",
+      "label": "Accounting / Audit",
+      "group": "finance",
+      "include_titles": [
+        "accountant",
+        "accounting manager",
+        "controller",
+        "auditor",
+        "audit associate",
+        "tax associate",
+        "accounts payable",
+        "accounts receivable",
+        "bookkeeper"
+      ],
       "exclude_titles": []
     },
-
     {
-      "key": "clinical_bio", "label": "生物 / 临床研究", "group": "science",
-      "include_titles": ["clinical research", "clinical data", "bioinformatics", "computational biology", "research associate", "scientist i", "scientist ii", "lab technician", "clinical trial"],
-      "exclude_titles": ["sales"]
+      "key": "investment",
+      "label": "Investment / Corp Dev",
+      "group": "finance",
+      "include_titles": [
+        "investment analyst",
+        "investment associate",
+        "corporate development",
+        "private equity",
+        "venture capital",
+        "equity research",
+        "investment banking"
+      ],
+      "exclude_titles": []
     },
     {
-      "key": "healthcare_ops", "label": "医疗运营 / 数据", "group": "science",
-      "include_titles": ["healthcare analyst", "clinical analyst", "health data", "population health", "revenue cycle analyst", "healthcare economics", "hedis"],
+      "key": "business_operations",
+      "label": "BizOps / Strategy",
+      "group": "operations",
+      "include_titles": [
+        "business operations",
+        "bizops",
+        "strategy and operations",
+        "strategic finance",
+        "chief of staff",
+        "corporate strategy",
+        "strategy associate",
+        "operations manager",
+        "business strategy"
+      ],
+      "exclude_titles": [
+        "warehouse",
+        "restaurant",
+        "retail store",
+        "manufacturing"
+      ]
+    },
+    {
+      "key": "supply_chain",
+      "label": "Supply Chain / Logistics",
+      "group": "operations",
+      "include_titles": [
+        "supply chain",
+        "logistics",
+        "procurement",
+        "sourcing manager",
+        "inventory planner",
+        "demand planning",
+        "fulfillment manager",
+        "warehouse manager"
+      ],
+      "exclude_titles": []
+    },
+    {
+      "key": "recruiting_hr",
+      "label": "Recruiting / HR",
+      "group": "people",
+      "include_titles": [
+        "recruiter",
+        "talent acquisition",
+        "sourcer",
+        "people operations",
+        "hr business partner",
+        "hrbp",
+        "people partner",
+        "compensation analyst",
+        "hris"
+      ],
+      "exclude_titles": []
+    },
+    {
+      "key": "legal_compliance",
+      "label": "Legal / Compliance / Risk",
+      "group": "legal",
+      "include_titles": [
+        "counsel",
+        "attorney",
+        "paralegal",
+        "compliance analyst",
+        "compliance manager",
+        "risk analyst",
+        "aml analyst",
+        "kyc analyst",
+        "fraud analyst",
+        "privacy",
+        "trust and safety",
+        "policy manager"
+      ],
+      "exclude_titles": []
+    },
+    {
+      "key": "quant_research",
+      "label": "Quant Research / Trading",
+      "group": "quant",
+      "include_titles": [
+        "quantitative researcher",
+        "quantitative analyst",
+        "quant researcher",
+        "quant analyst",
+        "quantitative trader",
+        "systematic trading",
+        "algorithmic trading",
+        "quantitative strategist"
+      ],
+      "exclude_titles": [
+        "sales"
+      ]
+    },
+    {
+      "key": "quant_developer",
+      "label": "Quant Development",
+      "group": "quant",
+      "include_titles": [
+        "quantitative developer",
+        "quant developer",
+        "trading systems engineer",
+        "low latency engineer",
+        "execution engineer"
+      ],
+      "exclude_titles": []
+    },
+    {
+      "key": "risk_modeling",
+      "label": "Risk / Actuarial",
+      "group": "quant",
+      "include_titles": [
+        "risk modeling",
+        "credit risk",
+        "model risk",
+        "market risk",
+        "actuarial analyst",
+        "actuary",
+        "credit analyst",
+        "underwriting analyst"
+      ],
+      "exclude_titles": []
+    },
+    {
+      "key": "clinical_bio",
+      "label": "Clinical / Biotech",
+      "group": "science",
+      "include_titles": [
+        "clinical research",
+        "clinical data",
+        "bioinformatics",
+        "computational biology",
+        "research associate",
+        "scientist i",
+        "scientist ii",
+        "lab technician",
+        "clinical trial"
+      ],
+      "exclude_titles": [
+        "sales"
+      ]
+    },
+    {
+      "key": "healthcare_ops",
+      "label": "Healthcare Analytics",
+      "group": "science",
+      "include_titles": [
+        "healthcare analyst",
+        "clinical analyst",
+        "health data",
+        "population health",
+        "revenue cycle analyst",
+        "healthcare economics",
+        "hedis"
+      ],
       "exclude_titles": []
     }
   ]
