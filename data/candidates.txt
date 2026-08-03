@@ -1,0 +1,390 @@
+# 待探测的公司名单 —— 一行一个
+#
+#   node scripts/discover.mjs            探测（不改主表）
+#   node scripts/discover.mjs --merge    探测完直接并入 companies.csv
+#
+# 已经在 companies.csv 里的会自动跳过，所以可以反复跑。
+# 如果自动猜不出来，可以手工指定 slug：  Capital One | capitalone
+#
+# 说明：用 Workday 的大厂（Amazon、Apple、Salesforce、各大银行、多数财富 500）
+# 探测不到是正常的 —— Workday 的接口是另一套机制，放在 Phase 6 做。
+# 这份名单偏向 Greenhouse / Lever / Ashby 生态，也就是科技公司和成长期公司。
+
+# ── 之前 token 猜错的，重新自动发现 ──
+DoorDash
+Plaid
+Rippling
+Brex
+Attentive
+Benchling
+
+# ── 数据 / AI 基础设施 ──
+Snowflake
+dbt Labs
+Fivetran
+Airbyte
+Confluent
+Datadog
+Grafana Labs
+Elastic
+MongoDB
+Cockroach Labs
+Neon
+Supabase
+PlanetScale
+Redis
+Astronomer
+Prefect
+Dagster Labs
+Sigma Computing
+Hex Technologies
+Mode Analytics
+Amplitude
+Mixpanel
+Heap
+Census
+Hightouch
+Monte Carlo Data
+Great Expectations
+Starburst
+Dremio
+Imply
+Materialize
+Weights and Biases
+Scale AI
+LangChain
+Pinecone
+Weaviate
+Chroma
+Modal Labs
+Replicate
+Together AI
+Hugging Face
+Cohere
+Perplexity AI
+Mistral AI
+Runway
+ElevenLabs
+Character AI
+Adept AI
+Sierra AI
+Glean
+Harvey AI
+Abridge
+
+# ── 金融科技 ──
+Chime
+Stash
+Betterment
+Wealthfront
+Marqeta
+Modern Treasury
+Unit
+Lithic
+Mercury
+Column
+Increase
+Alloy
+Persona
+Sardine
+Ramp
+Navan
+Bill com
+Melio
+Tipalti
+Airwallex
+Wise
+Remitly
+Nubank
+Toast
+Block
+Gusto
+Justworks
+Deel | deel
+Oyster HR
+Carta
+AngelList
+Addepar
+Pave
+Vanta
+Drata
+Ethena
+Public com
+eToro
+Kalshi
+Polymarket
+Anchorage Digital
+Fireblocks
+Circle
+Gemini Trust
+Kraken Digital
+Alchemy Insights
+
+# ── 企业 SaaS ──
+Airtable
+Notion
+Linear
+Height
+ClickUp
+Monday com
+Miro
+Loom
+Calendly
+Zapier
+Retool
+Webflow
+Framer
+Contentful
+Sanity
+Segment
+Braze
+Klaviyo
+Iterable
+Customer io
+Intercom
+Front App
+Zendesk
+Gladly
+Ada Support
+Forethought
+Writer
+Jasper
+Copy ai
+Grammarly
+Otter ai
+Fireflies ai
+Gong
+Chorus ai
+Clari
+Outreach
+Salesloft
+Apollo io
+ZoomInfo
+Lusha
+Clay
+LaunchDarkly
+Split Software
+Statsig
+Optimizely
+Sentry
+Rollbar
+Honeycomb
+Chronosphere
+Lightstep
+Incident io
+PagerDuty
+Opsgenie
+Postman
+Speakeasy
+Stainless
+Kong
+Tyk
+Temporal Technologies
+Render
+Railway
+Fly io
+Netlify
+Vercel | vercel
+Pulumi
+Spacelift
+Env0
+
+# ── 消费互联网 / 市场平台 ──
+Pinterest
+Snap
+Nextdoor
+Strava
+Duolingo
+Calm
+Headspace
+Noom
+Whoop
+Oura
+Peloton
+ClassPass
+Mindbody
+Eventbrite
+Vimeo
+Patreon
+Substack
+Ghost
+Medium
+Bandcamp
+SoundCloud
+Spotify
+Tidal
+Etsy
+Poshmark
+ThredUp
+StockX
+GOAT Group
+Faire
+Shopify
+BigCommerce
+Squarespace
+Wix
+Shipbob
+Flexport
+Convoy
+Samsara
+Motive
+KeepTruckin
+Turo
+Getaround
+Lime
+Bird Global
+Via Transportation
+Zipline
+Wing Aviation
+Joby Aviation
+Archer Aviation
+
+# ── 医疗健康 ──
+Oscar Health
+Devoted Health
+Clover Health
+Alto Pharmacy
+Ro Health
+Hims and Hers
+Talkspace
+BetterHelp
+Lyra Health
+Spring Health
+Headway
+Alma
+Grow Therapy
+Included Health
+Carbon Health
+Forward Health
+One Medical
+Zocdoc
+Doximity
+Komodo Health
+Truveta
+Verily
+Tempus Labs
+Flatiron Health
+Color Health
+Invitae
+23andMe
+Recursion Pharmaceuticals
+Insitro
+Genesis Therapeutics
+Isomorphic Labs
+
+# ── 安全 ──
+CrowdStrike
+SentinelOne
+Wiz
+Orca Security
+Snyk
+Semgrep
+Socket
+Chainguard
+Tailscale
+Teleport
+1Password
+Dashlane
+Auth0
+Stytch
+WorkOS
+Clerk
+Descope
+Abnormal Security
+Material Security
+Nightfall AI
+Cyera
+Netskope
+Zscaler
+
+# ── 开发者工具 / 开源商业化 ──
+GitHub
+GitLab
+JetBrains
+Replit
+Sourcegraph
+CircleCI
+Buildkite
+Harness
+Codecov
+Cypress
+Chromatic
+
+# ── 游戏 / 媒体 / 娱乐 ──
+Roblox
+Unity Technologies
+Epic Games
+Riot Games
+Discord
+Twitch
+Rec Room
+Niantic
+Scopely
+Zynga
+Skillz
+FanDuel
+DraftKings
+Underdog Fantasy
+PrizePicks
+Sleeper
+The Athletic
+Axios Media
+Vox Media
+BuzzFeed
+Condé Nast
+
+# ── 电商零售 / 消费品 ──
+Instacart
+Gopuff
+Misfits Market
+Imperfect Foods
+Thrive Market
+HelloFresh
+Blue Apron
+Sweetgreen
+Cava Group
+Wonder
+Chewy
+Warby Parker
+Allbirds
+Glossier
+Away Travel
+Casper Sleep
+Purple Innovation
+
+# ── 房产 / 保险 / 法律 ──
+Compass
+Opendoor
+Zillow
+Redfin
+Divvy Homes
+Roofstock
+Pacaso
+Lemonade
+Root Insurance
+Hippo Insurance
+Next Insurance
+Newfront
+Coalition Insurance
+Ethos Life
+Atticus
+Ironclad
+Everlaw
+Clio
+
+# ── 教育 / 招聘 / HR ──
+Coursera
+Udemy
+Codecademy
+Khan Academy
+Guild Education
+Handshake
+Greenhouse Software
+Lever
+Ashby
+SmartRecruiters
+Checkr
+HiBob
+Lattice
+Culture Amp
+15Five

@@ -1,0 +1,29 @@
+{
+  "_comment": [
+    "这是【模板】，不是必需文件。抓取默认产出所有用户共享的岗位索引，",
+    "个人偏好将来由应用层（模块一的勾选界面）在读取时过滤。",
+    "",
+    "只有一种情况需要复制成 data/prefs.json：你想在本地把索引缩小一点方便调试。",
+    "复制后它在 .gitignore 里，不会进仓库。",
+    "",
+    "  cp data/prefs.example.json data/prefs.json",
+    "",
+    "── 字段说明 ──",
+    "families   岗位家族 key，见 taxonomy.json。留空 = 全部 37 个家族",
+    "seniority  级别，会自动放宽到相邻一档避免漏投：",
+    "             intern → 只收实习",
+    "             entry  → 收 entry / mid（很多岗位标题不带级别修饰，默认算 mid）",
+    "             mid    → 收 entry / mid / senior",
+    "             senior → 收 mid / senior / staff",
+    "           留空或删掉这个字段 = 不按级别过滤",
+    "states     州代码数组如 [\"NY\",\"CA\",\"MA\"]。留空 = 全美",
+    "remoteOk   true 时远程岗位不受 states 限制",
+    "usOnly     只要美国岗位（共享索引本来就只存美国岗位，这里保留是为了将来扩展）"
+  ],
+
+  "families": ["data_analyst", "data_scientist"],
+  "seniority": "entry",
+  "states": [],
+  "remoteOk": true,
+  "usOnly": true
+}

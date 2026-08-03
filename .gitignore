@@ -1,0 +1,15 @@
+node_modules/
+.env
+.env.local
+
+# ⚠️ 本地私密数据绝不进仓库：
+# 简历原文、个人信息、EEO 自我识别、投递记录、question_bank 全部留在本机。
+# 仓库设为 private 也不例外 —— GitHub Actions 的日志和缓存都可能泄漏。
+profile/
+private/
+*.resume.json
+question-bank.json
+applications.db
+
+# 个人偏好是用户数据，不进仓库（data/prefs.example.json 是模板）
+data/prefs.json

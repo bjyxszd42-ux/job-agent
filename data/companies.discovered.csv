@@ -1,0 +1,6 @@
+company,ats,token,enabled,notes
+Salesforce,workday,salesforce|External_Career_Site|wd12,true,自动发现 1478 个岗位
+Cisco,workday,cisco|Cisco_Careers|wd5,true,自动发现 1020 个岗位
+CVS Health,workday,cvshealth|CVS_Health_Careers|wd1,true,自动发现 3000 个岗位
+Workday,workday,workday|Workday|wd5,true,自动发现 337 个岗位
+Capital One,workday,capitalone|Capital_One|wd1,false,接口通但 0 岗位 请人工确认

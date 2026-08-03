@@ -1,0 +1,25 @@
+{
+  "name": "job-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "半自动化英文求职 agent —— 云端抓取 + 本地投递的混合架构",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "scrape": "node scripts/scrape.mjs",
+    "verify": "node scripts/scrape.mjs --verify",
+    "today": "node -e \"const d=require('fs').readFileSync('out/digest.md','utf8');console.log(d)\"",
+    "discover": "node scripts/discover.mjs",
+    "discover:merge": "node scripts/discover.mjs --merge",
+    "discover:workday": "node scripts/discover.mjs --workday",
+    "discover:workday:merge": "node scripts/discover.mjs --workday --merge",
+    "wd:probe": "node scripts/discover.mjs --probe",
+    "discover:workday:guess": "node scripts/discover.mjs --workday --guess --merge",
+    "harvest": "node scripts/harvest.mjs",
+    "harvest:status": "node scripts/harvest.mjs --status",
+    "harvest:merge": "node scripts/harvest.mjs --merge-only --top 400",
+    "harvest:reset": "node scripts/harvest.mjs --reset"
+  }
+}

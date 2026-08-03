@@ -1,0 +1,237 @@
+# Workday 租户名单 —— node scripts/discover.mjs --workday
+#
+# ★★ 实测结论：Workday 的 tenant 和 site 都【猜不出来】。真实值长这样：
+#      Autodesk        → autodesk.wd1 / Ext
+#      Morgan Stanley  → ms.wd5 / External              ← 租户名是 "ms"
+#      Nike            → nike.wd1 / nke
+#      Elevance Health → elevancehealth.wd1 / ANT
+#      BlackRock       → blackrock.wd1 / BlackRock_Professional
+#      General Motors  → generalmotors.wd5 / Careers_GM
+#    没有任何规律。所以脚本【默认不猜】，只处理写了完整 URL 的行，
+#    其余的会写进 data/workday-todo.txt 让你按需补。
+#
+# 补一家 20 秒：
+#    Google 搜   site:myworkdayjobs.com "公司名"
+#    把结果里那串 https://xxx.wdN.myworkdayjobs.com/YYY 整个贴到 | 后面。
+#
+# 补之前想确认对不对，可以单条验证：
+#    npm run wd:probe -- "https://nike.wd1.myworkdayjobs.com/nke"
+#
+# ★ 不用全补。只补你真正会投的那些 —— 20 家精准的远胜 200 家不相干的。
+
+# ═══════════ 已核实可用（直接跑就行）═══════════
+Salesforce | https://salesforce.wd12.myworkdayjobs.com/External_Career_Site
+Cisco | https://cisco.wd5.myworkdayjobs.com/Cisco_Careers
+Workday | https://workday.wd5.myworkdayjobs.com/Workday
+CVS Health | https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers
+Target | https://target.wd5.myworkdayjobs.com/targetcareers
+Autodesk | https://autodesk.wd1.myworkdayjobs.com/Ext
+Qualcomm | https://qualcomm.wd5.myworkdayjobs.com/External
+Dell Technologies | https://dell.wd1.myworkdayjobs.com/External
+General Motors | https://generalmotors.wd5.myworkdayjobs.com/Careers_GM
+Morgan Stanley | https://ms.wd5.myworkdayjobs.com/External
+BlackRock | https://blackrock.wd1.myworkdayjobs.com/BlackRock_Professional
+Nike | https://nike.wd1.myworkdayjobs.com/nke
+Pfizer | https://pfizer.wd1.myworkdayjobs.com/PfizerCareers
+Amgen | https://amgen.wd1.myworkdayjobs.com/Careers
+Cigna | https://cigna.wd5.myworkdayjobs.com/cignacareers
+Elevance Health | https://elevancehealth.wd1.myworkdayjobs.com/ANT
+Humana | https://humana.wd5.myworkdayjobs.com/Humana_External_Career_Site
+
+# Capital One 上次用 wd1 返回 0 个岗位，换 wd12 试试（搜索结果里两个都有）
+Capital One | https://capitalone.wd12.myworkdayjobs.com/Capital_One
+
+# ═══════════ 待补 URL（跑一次会生成 workday-todo.txt）═══════════
+# 下面这些只写了公司名，脚本不会去猜。挑你想投的补上 URL 即可。
+# ── 科技 ──
+NVIDIA
+Adobe
+Intuit
+VMware
+HP
+AMD
+Intel
+Micron Technology
+Texas Instruments
+Analog Devices
+Applied Materials
+Lam Research
+Broadcom
+ServiceNow
+Splunk
+Zoom
+DocuSign
+eBay
+PayPal
+Expedia Group
+Booking Holdings
+Snowflake
+Palo Alto Networks
+Fortinet
+Akamai
+NetApp
+Nutanix
+Pure Storage
+SAP
+Oracle
+IBM
+Siemens
+Philips
+
+# ── 金融 / 保险 ──
+American Express
+Charles Schwab
+Mastercard
+Fidelity Investments
+State Street
+Northern Trust
+Ally Financial
+Discover Financial
+Synchrony Financial
+Visa
+Prudential Financial
+MetLife
+Travelers
+Progressive
+Allstate
+Nationwide
+USAA
+Chubb
+Goldman Sachs
+Wells Fargo
+Truist
+PNC Financial
+Fifth Third Bank
+KeyBank
+Regions Bank
+Citizens Bank
+Equifax
+TransUnion
+Experian
+FICO
+S and P Global
+Nasdaq
+Intercontinental Exchange
+
+# ── 医疗健康 ──
+Centene
+HCA Healthcare
+Kaiser Permanente
+Mayo Clinic
+Cleveland Clinic
+Johnson and Johnson
+Merck
+Eli Lilly
+Gilead Sciences
+Moderna
+Regeneron
+Vertex Pharmaceuticals
+Bristol Myers Squibb
+AbbVie
+Novartis
+AstraZeneca
+GSK
+Takeda
+Biogen
+Baxter
+Becton Dickinson
+Stryker
+Medtronic
+Boston Scientific
+Abbott
+Thermo Fisher Scientific
+Danaher
+IQVIA
+Labcorp
+Quest Diagnostics
+
+# ── 零售 / 消费 ──
+Starbucks
+Chipotle
+McDonalds
+Yum Brands
+Kroger
+Albertsons
+Best Buy
+Lowes
+Home Depot
+TJX Companies
+Gap
+Levi Strauss
+Procter and Gamble
+Unilever
+PepsiCo
+Coca-Cola
+General Mills
+Kellanova
+Mondelez
+Kraft Heinz
+Colgate-Palmolive
+Estee Lauder
+Tyson Foods
+Conagra Brands
+Hershey
+Clorox
+Kimberly-Clark
+
+# ── 工业 / 能源 / 交通 ──
+Boeing
+Lockheed Martin
+Northrop Grumman
+RTX
+General Dynamics
+Honeywell
+GE Aerospace
+Caterpillar
+Deere and Company
+Ford Motor Company
+Tesla Motors
+Rivian
+Lucid Motors
+Delta Air Lines
+United Airlines
+Southwest Airlines
+FedEx
+UPS
+Union Pacific
+Emerson Electric
+Eaton
+Parker Hannifin
+Rockwell Automation
+3M
+Dow
+DuPont
+Corteva
+Chevron
+ExxonMobil
+ConocoPhillips
+Baker Hughes
+NextEra Energy
+Duke Energy
+Southern Company
+
+# ── 咨询 / 专业服务 / 媒体 ──
+Deloitte
+KPMG
+EY
+PwC
+McKinsey and Company
+Bain and Company
+Boston Consulting Group
+Slalom
+Booz Allen Hamilton
+Cognizant
+Infosys
+Wipro
+Capgemini
+Gartner
+Forrester
+Nielsen
+Comcast
+Charter Communications
+Warner Bros Discovery
+Paramount Global
+Live Nation
+Marriott International
+Hilton
+Hyatt

@@ -1,0 +1,63 @@
+name: 抓取岗位
+
+on:
+  schedule:
+    # ┌─ 每天美东下午 4 点抓取
+    # │  GitHub Actions 只认 UTC，且不处理夏令时：
+    # │    20:17 UTC = 夏令时(EDT, 3月中~11月初) 下午 4:17
+    # │              = 冬令时(EST) 下午 3:17
+    # │  一小时的季节漂移对每日抓取没有影响；若要严格 4 点，冬天把 20 改成 21。
+    # │
+    # └─ 用 :17 而不是 :00 —— 整点是 GitHub 的拥堵高峰，
+    #    定时任务可能延迟 10 分钟以上甚至被直接跳过。
+    - cron: '17 20 * * *'
+  workflow_dispatch:      # 支持在 Actions 页面手动触发
+
+# 需要写权限才能把抓取结果 commit 回仓库
+permissions:
+  contents: write
+
+concurrency:
+  group: scrape
+  cancel-in-progress: false   # 抓取跑一半被打断会污染快照，不要取消
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 抓取
+        run: node scripts/scrape.mjs
+
+      - name: 把摘要显示在 Actions 页面上
+        if: always()
+        run: cat out/digest.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - name: 提交结果
+        run: |
+          git config user.name  "job-agent-bot"
+          git config user.email "actions@github.com"
+          git add data/state.json data/jobs.json out/
+          if git diff --staged --quiet; then
+            echo "没有变化，跳过提交"
+          else
+            git commit -m "chore: 抓取 $(date -u +'%Y-%m-%d %H:%M') UTC"
+            # 并发或手动触发可能导致远端已更新，rebase 后再推
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            git push
+          fi
+
+      - name: 抓取异常时让这次运行标红
+        if: always()
+        run: |
+          count=$(node -e "console.log((require('./out/health.json').errors||[]).length)" 2>/dev/null || echo 0)
+          if [ "$count" -gt 0 ]; then
+            echo "::warning::有 $count 家公司抓取异常，详见 out/health.json"
+          fi
