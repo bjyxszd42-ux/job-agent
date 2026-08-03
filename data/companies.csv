@@ -401,7 +401,7 @@ Humana,workday,humana|Humana_External_Career_Site|wd5,true,自动发现 324 个�
 Pfizer,workday,pfizer|PfizerCareers|wd1,true,自动发现 526 个岗位
 Amgen,workday,amgen|careers|wd1,true,自动发现 1200 个岗位
 Regeneron,workday,regeneron|careers|wd1,true,自动发现 599 个岗位
-Target,workday,target|TargetCareers|wd5,true,自动发现 1200 个岗位
+Target,workday,target|TargetCareers|wd5,false,自动发现 1200 个岗位
 Chipotle,workday,chipotle|ChipotleCareers|wd5,true,自动发现 188 个岗位
 Accenture,workday,accenture|AccentureCareers|wd103,true,自动发现 1200 个岗位
 Salesforce,workday,salesforce|External_Career_Site|wd12,true,自动发现 1478 个岗位
@@ -2342,7 +2342,7 @@ wellsterhealthtechgroup,recruitee,wellsterhealthtechgroup,true,CommonCrawl 收�
 wordbank,recruitee,wordbank,true,CommonCrawl 收割 命中4次
 xite,recruitee,xite,true,CommonCrawl 收割 命中4次
 288group,recruitee,288group,true,CommonCrawl 收割 命中3次
-target,workday,target|targetcareers|wd5,true,CommonCrawl 收割 命中2571次
+target,workday,target|targetcareers|wd5,false,CommonCrawl 收割 命中2571次
 gevernova,workday,gevernova|Vernova_ExternalSite|wd5,true,CommonCrawl 收割 命中1492次
 jj,workday,jj|JJ|wd5,true,CommonCrawl 收割 命中900次
 sanofi,workday,sanofi|SanofiCareers|wd3,true,CommonCrawl 收割 命中899次
