@@ -24,7 +24,9 @@ concurrency:
 jobs:
   scrape:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Actions 机器只有 2 核，比本机慢。提速靠下面的并发参数，超时只是保险丝。
+    # 免费额度每月 2000 分钟，每天跑一次要控制在 30 分钟内才有余量。
+    timeout-minutes: 45
 
     steps:
       - uses: actions/checkout@v4
@@ -35,16 +37,39 @@ jobs:
 
       - name: 抓取
         run: node scripts/scrape.mjs
+        env:
+          # 2300 家公司在 Actions 上必须提高并发，否则跑不完。
+          # 这是跨所有 ATS 的总并发，落到单个域名上只有几分之一，不算猛。
+          CONCURRENCY: '12'
+          DELAY_MS: '120'
+          # Workday 大租户单家能有 3000 个岗位。20 页 = 400 个岗位，
+          # 日常够用；大租户拿不全无所谓，没人会投一家公司的全部岗位。
+          WD_MAX_PAGES: '20'
+          WD_PAGE_DELAY: '300'
 
+      # 只在抓取真的成功时才渲染摘要。
+      # 用 always() 的话，抓取超时被杀掉后会把【仓库里上次提交的旧 digest】
+      # 渲染出来，看着像成功了，极具误导性 —— 踩过一次。
       - name: 把摘要显示在 Actions 页面上
-        if: always()
-        run: cat out/digest.md >> "$GITHUB_STEP_SUMMARY" || true
+        if: success()
+        run: cat out/digest.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: 抓取失败时说明原因
+        if: failure()
+        run: |
+          {
+            echo "## ❌ 抓取未完成"
+            echo ""
+            echo "本次运行没有产出新数据，上面看到的任何岗位摘要都不属于这次运行。"
+            echo "常见原因：超过 ${{ job.status }} 超时限制，或网络异常。"
+            echo "可调 workflow 里的 CONCURRENCY / WD_MAX_PAGES，或减少 companies.csv 中 enabled=true 的公司。"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: 提交结果
         run: |
           git config user.name  "job-agent-bot"
           git config user.email "actions@github.com"
-          git add data/state.json data/jobs.json out/
+          git add data/state.json data/jobs.json data/companies.csv out/
           if git diff --staged --quiet; then
             echo "没有变化，跳过提交"
           else

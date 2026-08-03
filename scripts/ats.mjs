@@ -252,7 +252,7 @@ const WD_PAGE = 20;          // Workday 单页上限就是 20
 // 超大租户拿不全也无所谓 —— 你不会去投一家公司的全部 3000 个岗位。
 // 需要全量时用环境变量覆盖：WD_MAX_PAGES=150 npm run scrape
 const WD_MAX_PAGES = parseInt(process.env.WD_MAX_PAGES || '40', 10);
-const WD_PAGE_DELAY = 700;   // 翻页间隔，避免触发 Akamai
+const WD_PAGE_DELAY = parseInt(process.env.WD_PAGE_DELAY || '400', 10);   // 翻页间隔，避免触发 Akamai
 
 export async function workday(token, company, opts = {}) {
   const [tenant, site, host = 'wd1'] = String(token).split('|').map((s) => s.trim());

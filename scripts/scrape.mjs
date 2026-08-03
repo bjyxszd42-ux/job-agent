@@ -29,8 +29,13 @@ const P = {
   health: path.join(ROOT, 'out/health.json'),
 };
 
-const CONCURRENCY = 4;      // Greenhouse 官方态度：合理轮询没问题，猛打就封
-const DELAY_MS = 400;       // 每个请求之间的间隔
+// 并发和间隔可用环境变量覆盖。
+// 本地跑不赶时间可以保守些；GitHub Actions 的机器只有 2 核、网络也慢，
+// 2300 家公司用 4 并发 + 400ms 间隔会超 25 分钟，必须调高。
+// 注意这里的并发是【跨所有 ATS 的总并发】—— 实际落到 Greenhouse 单个域名上
+// 的并发只有几分之一，所以 10 并发对任何一家接口都不算猛。
+const CONCURRENCY = parseInt(process.env.CONCURRENCY || '10', 10);
+const DELAY_MS = parseInt(process.env.DELAY_MS || '150', 10);
 const GHOST_DAYS = 60;      // 挂超过这么久还没撤的，标为疑似幽灵岗位
 const VERIFY_ONLY = process.argv.includes('--verify');
 const PRUNE = process.argv.includes('--prune');   // 验证后自动把失效的置为 enabled=false
