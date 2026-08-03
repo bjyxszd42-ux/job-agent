@@ -49,18 +49,46 @@ export async function fetchJSON(url, { retries = 2, timeoutMs = 20000 } = {}) {
 
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
-const stripHtml = (s = '') =>
-  String(s)
+/**
+ * HTML 实体解码。
+ * & 必须【最后】解 —— 否则 "&amp;lt;" 会先变成 "&lt;" 再变成 "<"，
+ * 把本该显示为文本的东西错误地当成标签。
+ */
+const decodeEntities = (s) => String(s)
+  .replace(/&nbsp;/gi, ' ')
+  .replace(/&lt;/gi, '<')
+  .replace(/&gt;/gi, '>')
+  .replace(/&quot;/gi, '"')
+  .replace(/&(?:apos|#0*39);/gi, "'")
+  .replace(/&#x([0-9a-f]+);/gi, (_, h) => { try { return String.fromCodePoint(parseInt(h, 16)); } catch { return ' '; } })
+  .replace(/&#(\d+);/g, (_, d) => { try { return String.fromCodePoint(+d); } catch { return ' '; } })
+  .replace(/&amp;/gi, '&');
+
+/**
+ * HTML → 纯文本。
+ *
+ * 顺序很关键：【先解码实体，再剥标签】。
+ * Greenhouse 的 content 字段返回的是实体编码过的 HTML（&lt;div&gt; 而不是 <div>），
+ * 如果先剥标签，正则匹配不到任何东西；等解完码，标签就变成可见文本混进正文了。
+ * 这个 bug 会让摘要显示成 <div class="content-intro"><p><span style=...
+ *
+ * 块级标签转成换行而不是空格，这样正文的段落结构还在，
+ * 后面 makeSnippet 才能靠「What you'll do」这类小标题定位到真正的岗位描述。
+ */
+const stripHtml = (s = '') => {
+  let t = decodeEntities(String(s));
+  t = t
     .replace(/<script[\s\S]*?<\/script>/gi, ' ')
     .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&#\d+;/g, ' ')
-    .replace(/\s+/g, ' ')
+    .replace(/<\/?(?:p|div|br|li|ul|ol|tr|h[1-6]|section|header)\b[^>]*>/gi, '\n')
+    .replace(/<[^>]+>/g, ' ');
+  t = decodeEntities(t);                 // 正文里残留的实体（如 R&amp;D）再解一次
+  return t
+    .replace(/[ \t\u00a0]+/g, ' ')
+    .replace(/ ?\n ?/g, '\n')        // 去掉换行两侧的空格
+    .replace(/\n{3,}/g, '\n\n')      // 连续空行压成一个
     .trim();
+};
 
 // ─────────────────────────────────────────────────────────────
 // Greenhouse

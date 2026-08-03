@@ -145,6 +145,37 @@ async function pool(items, limit, worker) {
 
 const hash = (s) => crypto.createHash('sha1').update(String(s)).digest('hex').slice(0, 12);
 
+// ── 摘要提取 ────────────────────────────────────────────────────
+// 直接取 JD 前 400 字的问题：绝大多数 JD 开头是「Who we are / About us /
+// Samsara is the pioneer of...」这类公司介绍套话，真正的岗位内容在后面。
+// 这不只是观感问题 —— 将来做匹配打分时喂给模型的也是这段废话。
+//
+// 策略：先找「What you'll do」这类小标题，从它后面开始取；
+// 找不到就跳过开头的公司介绍段；再找不到才从头取。
+const ROLE_HEAD = /^(what you['’]?(ll| will)? ?(do|be doing)|the role|about (the|this) role|role overview|position (summary|overview)|job summary|(key |core )?responsibilities|your impact|the opportunity|what you['’]?ll bring|in this role|role summary|the job|about the (job|position)|responsibilities and duties)\b[:\s]*$/i;
+const INTRO_HEAD = /^(who we are|about us|about the (company|team)|our (mission|story|company|values|team)|company (overview|description)|why (join|work)|the company)\b/i;
+
+function makeSnippet(text, len) {
+  if (!text) return '';
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+  if (!lines.length) return '';
+
+  // 小标题通常很短，用长度过滤掉正文里偶然以这些词开头的句子
+  const roleIdx = lines.findIndex((l) => l.length < 70 && ROLE_HEAD.test(l));
+  let start = 0;
+  if (roleIdx >= 0 && roleIdx < lines.length - 1) {
+    start = roleIdx + 1;
+  } else if (lines.length > 2 && INTRO_HEAD.test(lines[0])) {
+    // 开头是公司介绍：跳到下一个小标题，没有就跳过前两段
+    // 判断一行是不是小标题：首字母大写、短、且【不以句末标点结尾】。
+    // 少了最后这条，"We are a great company with a mission." 也会被当成标题。
+    const isHeading = (l) => l.length < 60 && /^[A-Z]/.test(l) && !/[.!?,;:]$/.test(l);
+    const next = lines.findIndex((l, i) => i > 0 && isHeading(l) && !INTRO_HEAD.test(l));
+    start = next > 0 ? next : Math.min(2, lines.length - 1);
+  }
+  return lines.slice(start).join(' ').slice(0, len).trim();
+}
+
 async function main() {
   const now = new Date().toISOString();
   const companies = await loadCompanies();
@@ -329,7 +360,7 @@ async function main() {
     postedAt: j.postedAt, firstSeenAt: j.firstSeenAt, openDays: j.openDays,
     isGhostSuspect: j.isGhostSuspect, contentChangedAt: j.contentChangedAt,
     // 完整 JD 不入库 —— 打分用摘要足够，要全文点 url
-    snippet: (j.descriptionText || '').slice(0, SNIPPET_LEN),
+    snippet: makeSnippet(j.descriptionText, SNIPPET_LEN),
   }));
 
   await fs.writeFile(P.jobs, JSON.stringify({
