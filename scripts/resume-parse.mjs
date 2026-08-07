@@ -40,9 +40,15 @@ const SECTION_WORDS = {
   skills: ['skills', 'skill', 'technical', 'core', 'key', 'competencies', 'proficiencies', 'technologies', 'technology', 'tools', 'expertise', 'summary'],
   projects: ['projects', 'project', 'selected', 'personal', 'academic', 'side', 'portfolio'],
   summary: ['summary', 'profile', 'objective', 'about', 'me', 'professional'],
+  // leadership 必须排在 awards 前面，而且不能共用词表。
+  // 之前 'leadership' 挂在 awards 里，结果 LEADERSHIP 这一节被归成「奖项」——
+  // 奖项是不带 bullet 的一行文字，而领导经历的结构和工作经历完全一样
+  // （组织 / 角色 / 日期 / bullet），归错了整节就只剩几行散文
+  leadership: ['leadership', 'activities', 'involvement', 'extracurricular', 'volunteer',
+               'volunteering', 'community', 'service', 'organizations'],
   awards: ['awards', 'award', 'honors', 'honours', 'achievements', 'certifications', 'certification',
-           'certificates', 'licenses', 'licences', 'publications', 'leadership', 'activities',
-           'volunteer', 'volunteering', 'interests', 'references', 'languages', 'affiliations', 'coursework'],
+           'certificates', 'licenses', 'licences', 'publications',
+           'interests', 'references', 'languages', 'affiliations', 'coursework'],
 };
 // 组合词里允许出现的连接词，本身不构成标题
 const JOINERS = new Set(['and', '&', 'of', '/', ',', '-', '–', '—', '|']);
@@ -100,6 +106,42 @@ const RE = {
   gpa: /\bGPA[:\s]*(?:of\s*)?([0-4](?:\.\d{1,2})?)(?:\s*\/\s*([0-5](?:\.\d{1,2})?))?/i,
 };
 
+/* ────────────────────────────────────────────────────────────────
+   地点
+   ──────────────────────────────────────────────────────────────── */
+
+// 海外实习在美国留学生的简历上是常态。只认 "City, ST" 的话，
+// "Shenzhen, China" 和 "Remote" 都会掉到公司名或职位名里去 ——
+// 不是留空那么简单，是把地点当成了公司
+const COUNTRIES = ['China', 'Canada', 'Mexico', 'Brazil', 'Argentina', 'Chile', 'Colombia',
+  'United Kingdom', 'UK', 'England', 'Scotland', 'Ireland', 'France', 'Germany', 'Spain', 'Portugal',
+  'Italy', 'Netherlands', 'Belgium', 'Switzerland', 'Austria', 'Sweden', 'Norway', 'Denmark',
+  'Finland', 'Poland', 'Czechia', 'Czech Republic', 'Greece', 'Turkey', 'Russia', 'Ukraine',
+  'India', 'Pakistan', 'Bangladesh', 'Japan', 'South Korea', 'Korea', 'Taiwan', 'Hong Kong',
+  'Singapore', 'Malaysia', 'Indonesia', 'Thailand', 'Vietnam', 'Philippines', 'Australia',
+  'New Zealand', 'Israel', 'UAE', 'United Arab Emirates', 'Saudi Arabia', 'Qatar', 'Egypt',
+  'South Africa', 'Nigeria', 'Kenya', 'Ghana'];
+const COUNTRY_RE = new RegExp(
+  `(?:^|[\\n|·•–—]|\\s{2,})\\s*([A-Z][A-Za-z.'\\- ]{1,24}?),\\s*(${COUNTRIES.join('|')})\\b`,
+);
+// "Remote" / "Hybrid" 必须是独立的一段（行首、行尾或被分隔符夹住），
+// 不能是 bullet 正文里的 "remote teams"
+const REMOTE_RE = /(?:^|\s{2,}|[|·•])\s*(Remote|Hybrid|On-?site)\s*(?=$|\s{2,}|[|·•\n])/;
+
+/**
+ * 从一行里抠出地点。返回 { label, matched } 或 null。
+ * 顺序：美国 City, ST → City, Country → Remote/Hybrid。
+ */
+function parseLocation(text) {
+  const us = text.match(RE.cityState);
+  if (us && STATE_CODES.has(us[2])) return { label: `${us[1]}, ${us[2]}`, zip: us[3] || '', matched: us[0] };
+  const intl = text.match(COUNTRY_RE);
+  if (intl) return { label: `${intl[1].trim()}, ${intl[2]}`, zip: '', matched: intl[0] };
+  const rem = text.match(REMOTE_RE);
+  if (rem) return { label: rem[1].replace(/^on-?site$/i, 'On-site'), zip: '', matched: rem[0] };
+  return null;
+}
+
 const MONTHS = {
   jan: 1, january: 1, feb: 2, february: 2, mar: 3, march: 3, apr: 4, april: 4,
   may: 5, jun: 6, june: 6, jul: 7, july: 7, aug: 8, august: 8,
@@ -149,14 +191,23 @@ const NOT_NAME = /\b(resume|curriculum|vitae|cv|profile|summary|objective|phone|
  */
 function guessName(headerLines) {
   for (const raw of headerLines.slice(0, 6)) {
-    const t = raw.replace(/^[\s•\-–—*|]+|[\s•\-–—*|]+$/g, '').trim();
+    let t = raw.replace(/^[\s•\-–—*|]+|[\s•\-–—*|]+$/g, '').trim();
     if (!t || t.length > 46 || /[\d@]/.test(t) || NOT_NAME.test(t)) continue;
+
+    // 括号里的英文名先摘出来。"Fei (Freya) Long" 是中国学生简历上最常见的写法，
+    // 之前 (Freya) 过不了「每个词都是纯字母」这一关，整行被跳过 ——
+    // 于是姓名字段直接空着，而这是简历上最不该解析失败的一个字段。
+    // 摘出来的那个词也不能丢：它就是 preferredName，投递表格里「Preferred name」要用
+    let preferred = '';
+    const nick = t.match(/\s*[("'“](\s*[A-Za-z][A-Za-z.'\-]{0,20})\s*[)"'”]\s*/);
+    if (nick) { preferred = nick[1].trim(); t = t.replace(nick[0], ' ').trim(); }
+
     const words = t.split(/\s+/).filter(Boolean);
     if (words.length < 2 || words.length > 4) continue;
     if (!words.every((w) => /^[A-Za-z][A-Za-z.'\-]*$/.test(w))) continue;
-    const cased = words.map((w) => (w === w.toUpperCase() && w.length > 1
-      ? w[0] + w.slice(1).toLowerCase() : w));
-    return { first: cased[0], last: cased[cased.length - 1] };
+    const fix = (w) => (w === w.toUpperCase() && w.length > 1 ? w[0] + w.slice(1).toLowerCase() : w);
+    const cased = words.map(fix);
+    return { first: cased[0], last: cased[cased.length - 1], preferred: fix(preferred), full: cased.join(' ') };
   }
   return null;
 }
@@ -187,24 +238,48 @@ const DEGREE_PATTERNS = [
 const DEGREE_FILLER = /^(?:science|arts|engineering|business\s+administration|philosophy|technology|commerce|applied\s+science)\s+in\s+/i;
 const FIELD_RE = /\b(?:in|of)\s+([A-Z][A-Za-z&\-\s]{2,48}?)(?=\s{2,}|\s*[,|·•]|\s+\d|\s*$)/;
 
+/**
+ * 大学【下属院系】不是另一所学校。
+ *
+ *     Columbia University              New York, NY
+ *     School of Professional Studies   Expected December 2026
+ *     M.S. in Applied Analytics        GPA: 4.0
+ *
+ * 第二行同时命中 SCHOOL_RE 里的 "school of"，之前直接开了一条新学历 ——
+ * 于是一段学历被拆成两条：一条只有学校名，一条只有学位，
+ * 而毕业时间挂在了错的那条上。
+ *
+ * 判据是「XX School/College/Department of YY」这种从属写法 + 当前这条还没拿到学位。
+ * 残留风险：London School of Economics 紧跟在另一所没写学位的学校后面会被误判 ——
+ * 但真实简历里两所学校中间一定隔着学位行，所以这个组合基本不会出现。
+ */
+const DIVISION_RE = /^(?:the\s+)?(?:[A-Z][\w'&.\-]*\s+){0,3}(?:school|college|department|faculty|division)\s+of\s+/i;
+// "Expected December 2026" / "December 2024" —— 单个毕业时间，不是区间
+const LONE_DATE_RE = new RegExp(`(?:(expected|anticipated|graduating|graduation)\\s*[:\\s]\\s*)?(${DATE_TOKEN})`, 'i');
+
 function parseEducation(lines) {
   const out = [];
   let cur = null;
   const push = () => { if (cur && (cur.school || cur.degree)) out.push(cur); cur = null; };
+  const blank = () => ({
+    school: '', division: '', degree: '', field: '', gpa: '', showGpa: false,
+    startDate: '', endDate: '', expected: false, location: '', honors: [], notes: '',
+  });
 
   for (const raw of lines) {
     const line = raw.trim();
     if (!line) continue;
 
-    if (SCHOOL_RE.test(line)) {
+    const isDivision = cur && cur.school && !cur.degree && DIVISION_RE.test(line);
+
+    if (SCHOOL_RE.test(line) && !isDivision) {
       push();
-      cur = { school: '', degree: '', field: '', gpa: '', showGpa: false,
-              startDate: '', endDate: '', location: '', notes: '' };
-      const dr = dateRange(line);
+      cur = blank();
       let rest = line;
-      if (dr) { cur.startDate = dr.startDate; cur.endDate = dr.endDate; rest = rest.replace(dr.matched, ''); }
-      const loc = rest.match(RE.cityState);
-      if (loc) { cur.location = `${loc[1]}, ${loc[2]}`; rest = rest.replace(loc[0], ''); }
+      const dr = dateRange(line);
+      if (dr) { cur.startDate = dr.startDate; cur.endDate = dr.endDate; rest = rest.replace(dr.matched, '  '); }
+      const loc = parseLocation(rest);
+      if (loc) { cur.location = loc.label; rest = rest.replace(loc.matched, '  '); }
       // 学校名有时和学位挤在同一行，用分隔符切开后挑含学校关键词的那段
       const seg = rest.split(SEG_SPLIT).map((x) => x.trim()).filter(Boolean);
       cur.school = (seg.find((x) => SCHOOL_RE.test(x)) || seg[0] || '').replace(/[,\s]+$/, '');
@@ -214,18 +289,43 @@ function parseEducation(lines) {
 
     if (!cur) continue;
     let rest = line;
+
     const dr2 = dateRange(rest);
     if (dr2) {
       if (!cur.startDate) { cur.startDate = dr2.startDate; cur.endDate = dr2.endDate; }
       rest = rest.replace(dr2.matched, '  ');       // 摘掉日期再找专业，否则会把日期读成专业名
     }
     if (!cur.location) {
-      const loc = rest.match(RE.cityState);
-      if (loc && STATE_CODES.has(loc[2])) { cur.location = `${loc[1]}, ${loc[2]}`; rest = rest.replace(loc[0], '  '); }
+      const loc = parseLocation(rest);
+      if (loc) { cur.location = loc.label; rest = rest.replace(loc.matched, '  '); }
     }
+    const g = rest.match(RE.gpa);
+    if (g && !cur.gpa) {
+      cur.gpa = g[2] ? `${g[1]}/${g[2]}` : g[1];
+      cur.showGpa = true;                            // 简历上印着，说明本来就打算展示
+      rest = rest.replace(g[0], '  ');
+    }
+    // 单个毕业时间：学历这一节里 "December 2024" 从来不是正文，就是毕业时间
+    if (!dr2 && !cur.endDate) {
+      const one = rest.match(LONE_DATE_RE);
+      if (one) {
+        cur.endDate = oneDate(one[2]);
+        cur.expected = !!one[1];
+        rest = rest.replace(one[0], '  ');
+      }
+    }
+
+    if (isDivision) { cur.division = rest.trim().replace(/[,\s]+$/, ''); continue; }
+
+    const before = cur.degree;
     applyDegree(cur, rest);
-    const g = line.match(RE.gpa);
-    if (g && !cur.gpa) cur.gpa = g[2] ? `${g[1]}/${g[2]}` : g[1];
+    if (before || !cur.degree) {
+      // 学位已经有了，这行是荣誉/辅修那类补充：
+      // "Minor: MIS      Dean's List: 4/7 Semesters" 是两列，别拼成一句
+      for (const part of rest.split(/\s{2,}|\s*[|·•]\s*/).map((x) => x.trim()).filter(Boolean)) {
+        if (part.length >= 3 && cur.honors.length < 4) cur.honors.push(part.replace(/[,\s]+$/, ''));
+      }
+    }
   }
   push();
   return out;
@@ -263,14 +363,21 @@ function applyDegree(entry, text) {
    工作经历
    ──────────────────────────────────────────────────────────────── */
 
-// 一行里「公司 / 职位 / 地点 / 日期」的分隔符。注意破折号在 parseResume 里
-// 已经统一成了 '-'，所以要匹配的是【两边带空格的】连字符，
-// 不能是 "Human-Computer" 这种词内连字符
-const SEG_SPLIT = /\s*[|·•]\s*|\s+-\s+|\s{2,}|,\s(?=[A-Z])/;
+// 一行里「公司 / 职位 / 地点 / 日期」的分隔符。
+// 连字符必须【两边带空格】才算分隔符，否则 "Human-Computer Interaction"
+// 会被从中间切开。三种横线都要认（正文里的 – 和 — 不再被归一化成 -）
+const SEG_SPLIT = /\s*[|·•]\s*|\s+[-–—]\s+|\s{2,}|,\s(?=[A-Z])/;
 
 const BULLET_RE = /^\s*[•·▪●‣◦○*+\-–—]\s+/;
 const TITLE_WORDS = /\b(engineer|developer|analyst|scientist|manager|designer|consultant|director|specialist|coordinator|associate|assistant|intern(?:ship)?|lead|architect|administrator|officer|president|founder|researcher|strategist|marketer|recruiter|accountant|auditor|controller|advisor|representative|executive|supervisor|technician|writer|editor|producer|planner|buyer|trader|actuary|paralegal|attorney|nurse|therapist|teacher|instructor|professor|fellow|apprentice)\b/i;
 const ORG_SUFFIX = /\b(inc|llc|ltd|corp(?:oration)?|co|company|group|labs?|technologies|technology|solutions|systems|partners|capital|ventures|bank|university|hospital|foundation|institute|associates|consulting|holdings|gmbh|s\.?a\.?)\b\.?/i;
+// 跟在职位后面的用工性质，本身不是一个独立职位 ——
+// "Data Analytics Assistant, Intern" 是一个职位，不是「助理」加「实习生」两个
+const ROLE_MODIFIER = /^(?:intern(?:ship)?|co-?op|contract(?:or)?|part[-\s]?time|full[-\s]?time|temporary|temp|seasonal|summer|fellow(?:ship)?|trainee|apprentice|volunteer|freelance|per\s?diem|pt|ft)$/i;
+// "DiamondUp Technology Co., Ltd" 里的 Ltd 是公司名的一部分。
+// 分隔符规则会在 "Co., Ltd" 的逗号处切开，切完之后 Ltd 无处安放就落进了职位栏 ——
+// 于是职位变成 "Ltd, Intern"，真正的职位被挤掉
+const ENTITY_TAIL = /^(?:ltd|inc|llc|l\.l\.c|corp|co|plc|ag|nv|bv|gmbh|s\.?a\.?|s\.?r\.?l|pte\.?\s*ltd|pty\.?\s*ltd|kk|oy|ab)\.?$/i;
 
 /**
  * 经历条目 = 一个「抬头块」（1–2 行）+ 后面挂的 bullet。
@@ -352,21 +459,101 @@ function parseExperience(lines) {
       cur.current ||= dr.current;
       rest = rest.replace(dr.matched, '');
     }
-    const loc = rest.match(RE.cityState);
-    if (loc && STATE_CODES.has(loc[2]) && !cur.location) {
-      cur.location = `${loc[1]}, ${loc[2]}`;
-      rest = rest.replace(loc[0], '');
+    const loc = parseLocation(rest);
+    if (loc && !cur.location) {
+      cur.location = loc.label;
+      rest = rest.replace(loc.matched, '  ');
     }
 
     for (const seg of rest.split(SEG_SPLIT).map((x) => x.replace(/[,\s]+$/, '').trim()).filter(Boolean)) {
-      if (!cur.title && TITLE_WORDS.test(seg)) cur.title = seg;
-      else if (!cur.company && (ORG_SUFFIX.test(seg) || !TITLE_WORDS.test(seg))) cur.company = seg;
+      if (!cur.title && TITLE_WORDS.test(seg)) { cur.title = seg; continue; }
+      if (!cur.company && (ORG_SUFFIX.test(seg) || !TITLE_WORDS.test(seg))) { cur.company = seg; continue; }
+
+      /* 走到这里说明公司和职位至少有一个已经填上了，但这一段还没安置。
+       * 之前这种段【直接丢掉】，结果 "Product Development Assistant, Intern"
+       * 只留下 "Product Development Assistant"，"Value-Added Service, Intern"
+       * 更惨 —— 公司在上一行已经填了，于是只剩一个光秃秃的 "Intern"。
+       * 职位写成 Intern 会让后面的家族匹配和资历判定全错。 */
+      if (cur.title && ROLE_MODIFIER.test(seg)) { cur.title += `, ${seg}`; continue; }
+      if (cur.company && !cur.title && ENTITY_TAIL.test(seg)) { cur.company += `, ${seg}`; continue; }
+      if (!cur.title) cur.title = seg;                 // 公司已定，剩下的就是职位
     }
   }
   push();
 
   // 两个都填上了才算高置信；只认出一个的标记出来，界面上提示核对
   for (const e of out) e._lowConfidence = !(e.company && e.title);
+  return out;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   项目
+   ──────────────────────────────────────────────────────────────── */
+
+/**
+ * 项目不能复用 parseExperience。
+ *
+ * 差别在切分符：经历那边把「空格连字符空格」当分隔符（"Analyst - Acme Corp"），
+ * 但项目名里带破折号是常态 ——
+ *     FlightShield – Parametric Flight-Delay Insurance    Columbia University
+ * 用经历的规则会把项目名从中间切开，副标题被当成第二个字段。
+ * 项目行的列分隔实际上只有「两个以上空格」和竖线/圆点，所以这里用更窄的切分符。
+ *
+ * 结构和经历一致（名称 / 归属 / 角色 / 日期 / bullet），这样打分和生成简历
+ * 都不用为项目单独写一套逻辑。
+ */
+const PROJ_SPLIT = /\s{2,}|\s*[|·•]\s*/;
+
+function parseProjects(lines) {
+  const out = [];
+  let cur = null;
+  const push = () => { if (cur && cur.name) out.push(cur); cur = null; };
+  const blank = (s) => !s.trim();
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+    if (!line) continue;
+
+    if (BULLET_RE.test(line)) {
+      if (!cur) continue;
+      cur.bullets.push({ text: line.replace(BULLET_RE, '').trim(), tags: [] });
+      continue;
+    }
+    if (cur && cur.bullets.length && !dateRange(line) && /^[a-z(]/.test(line)) {
+      cur.bullets[cur.bullets.length - 1].text += ' ' + line;
+      continue;
+    }
+
+    const dr = dateRange(line);
+    const next = lines[i + 1] || '';
+    const nextHasDate = !blank(next) && !BULLET_RE.test(next) && !!dateRange(next);
+    const startsNew = cur ? (cur.bullets.length > 0 || (dr && cur.startDate)) : (dr || nextHasDate || true);
+
+    if (startsNew) {
+      push();
+      cur = { name: '', org: '', role: '', url: '', startDate: '', endDate: '',
+              current: false, bullets: [], tags: [], description: '' };
+    }
+
+    let rest = line;
+    if (dr) {
+      cur.startDate ||= dr.startDate;
+      cur.endDate ||= dr.endDate;
+      cur.current ||= dr.current;
+      rest = rest.replace(dr.matched, '  ');
+    }
+    const u = rest.match(RE.url);
+    if (u && !cur.url) { cur.url = withScheme(u[0].replace(/[.,]$/, '')); rest = rest.replace(u[0], '  '); }
+
+    const segs = rest.split(PROJ_SPLIT).map((x) => x.replace(/[,\s]+$/, '').trim()).filter(Boolean);
+    for (const seg of segs) {
+      if (!cur.name) cur.name = seg;
+      else if (!cur.org && !cur.role) cur.org = seg;    // 第一行右列 = 归属机构
+      else if (!cur.role) cur.role = seg;
+      else if (!cur.org) cur.org = seg;
+    }
+  }
+  push();
   return out;
 }
 
@@ -404,38 +591,82 @@ function wordStream(s) {
     .filter(Boolean).join(' ') + ' ';
 }
 
+/**
+ * 只在【括号外】切分。
+ *
+ * "Python (pandas, NumPy, Scikit-learn), SQL, PostgreSQL" 用普通 split
+ * 会切成 "Python (pandas" / "NumPy" / "Scikit-learn)" —— 三个都不是技能名，
+ * 而且括号还是断的，直接填进档案里就是一串垃圾。
+ */
+function splitTopLevel(line, sepRe) {
+  const out = [];
+  let depth = 0, buf = '';
+  for (const ch of line) {
+    if (ch === '(' || ch === '[') depth++;
+    else if (ch === ')' || ch === ']') depth = Math.max(0, depth - 1);
+    if (depth === 0 && sepRe.test(ch)) { out.push(buf); buf = ''; continue; }
+    buf += ch;
+  }
+  out.push(buf);
+  return out.map((s) => s.trim()).filter(Boolean);
+}
+
+// 这些技能名同时也是普通英文词。用小写词流去匹配，
+// "a single trusted oracle" 会被当成会用 Oracle 数据库，"go to market" 会被当成会写 Go ——
+// 填进档案后又会流到打分和岗位推荐里，错得很隐蔽。
+// 对这一批要求原文里【大写形式】出现过。
+const CASE_SENSITIVE_SKILLS = new Set(['go', 'r', 'c', 'oracle', 'spring', 'rails', 'segment',
+  'looker', 'braze', 'swift', 'scala', 'kotlin', 'rust', 'hive', 'shell', 'bash']);
+
 function parseSkills(skillLines, fullText) {
   const found = [];
+  const groups = [];
   const seen = new Set();
-  const add = (s) => {
+  const add = (s, bucket) => {
     const t = s.trim().replace(/[.,;]+$/, '');
     const k = t.toLowerCase();
-    if (!t || t.length > 34 || seen.has(k)) return;
+    if (!t || t.length > 60 || seen.has(k)) return;
     // 单字母技能只认 R 和 C —— 别的单字母基本都是排版残渣
     if (t.length === 1 && !['r', 'c'].includes(k)) return;
     if (/^\d+$/.test(t)) return;
-    seen.add(k); found.push(t);
+    seen.add(k); found.push(t); bucket?.push(t);
   };
 
   for (const raw of skillLines) {
-    // "Languages: Python, SQL, R" —— 冒号左边是分类名，不是技能
-    const line = raw.replace(BULLET_RE, '').replace(/^[^:：]{2,28}[:：]\s*/, '');
+    // "Databases & Visualizations: Python, SQL" —— 冒号左边是分类名，不是技能。
+    // 但这个分类名要留着：模板里技能区就是按这几行分类排的，丢了就还原不回去
+    const stripped = raw.replace(BULLET_RE, '');
+    const m = stripped.match(/^([^:：]{2,40})[:：]\s*(.*)$/);
+    const label = m ? m[1].trim() : '';
+    const line = m ? m[2] : stripped;
     if (!line.trim()) continue;
+
+    const bucket = [];
     // '/' 只在两边有空格时才是分隔符 —— 否则 "A/B testing" 会被切成 "A" 和 "B testing"
-    const parts = line.split(/\s*[,;|·•]\s*|\s+\/\s+|\s{3,}/);
+    const parts = splitTopLevel(line, /[,;|·•]/)
+      .flatMap((p) => p.split(/\s+\/\s+|\s{3,}/));
     // 整行没有分隔符又很长，多半是句子而不是技能列表
     if (parts.length === 1 && line.length > 44) continue;
-    for (const p of parts) if (p.split(/\s+/).length <= 4) add(p);
+    for (const p of parts) if (p.replace(/\([^)]*\)/g, '').split(/\s+/).filter(Boolean).length <= 4) add(p, bucket);
+    if (bucket.length) groups.push({ label, items: bucket });
   }
 
   // 补漏：技能区没写但 bullet 里提到的
   const stream = wordStream(fullText);
+  const listedStream = wordStream(found.join(' '));
   const extra = [];
   for (const s of SKILL_DICT) {
-    if (seen.has(s.toLowerCase())) continue;
-    if (stream.includes(' ' + wordStream(s).trim() + ' ')) { extra.push(s); seen.add(s.toLowerCase()); }
+    const key = s.toLowerCase();
+    if (seen.has(key)) continue;
+    const needle = ' ' + wordStream(s).trim() + ' ';
+    if (!stream.includes(needle)) continue;
+    // 已经写在技能区里了，只是外面套了括号（"Python (pandas, NumPy)"）—— 不算漏
+    if (listedStream.includes(needle)) continue;
+    if (CASE_SENSITIVE_SKILLS.has(key)
+      && !new RegExp(`(?:^|[^A-Za-z0-9])${s.replace(/[.+*?^$()[\]{}|\\]/g, '\\$&')}(?![A-Za-z0-9])`).test(fullText)) continue;
+    extra.push(s); seen.add(key);
   }
-  return { listed: found, inferred: extra };
+  return { listed: found, inferred: extra, groups };
 }
 
 /* ────────────────────────────────────────────────────────────────
@@ -521,7 +752,12 @@ export function parseResume(rawText) {
   const text = String(rawText || '')
     .replace(/\r\n?/g, '\n')
     .replace(/ /g, ' ')
-    .replace(/[‐-―]/g, '-')      // 各种破折号统一，日期区间正则才好写
+    // 只把几种【长得像连字符但不是】的字符换成 '-'（U+2010/2011/2012/2015）。
+    // 短横线 – 和长横线 — 保留原样：它们是正文的一部分，
+    // "FlightShield – Parametric Flight-Delay Insurance" 被压成 '-' 之后，
+    // 生成出来的简历标题和用户自己写的就不一样了 —— 模板的意义就在于原样还原。
+    // 需要认这两个符号的地方（日期区间、分隔符）各自在正则里写全
+    .replace(/[‐‑‒―]/g, '-')
     .replace(/[ \t]+\n/g, '\n');
 
   const lines = text.split('\n');
@@ -539,6 +775,8 @@ export function parseResume(rawText) {
 
   const education = parseEducation(sec.education || []);
   const experience = parseExperience(sec.experience || []);
+  const projects = parseProjects(sec.projects || []);
+  const leadership = parseExperience(sec.leadership || []);   // 结构和工作经历完全一样
   const skills = parseSkills(sec.skills || [], text);
 
   const other = (findIn(RE.url) || '').replace(/[.,]$/, '');
@@ -548,6 +786,7 @@ export function parseResume(rawText) {
     basics: {
       legalFirstName: name?.first || '',
       legalLastName: name?.last || '',
+      preferredName: name?.preferred || '',
       email,
       phone: phoneM ? `(${phoneM[1]}) ${phoneM[2]}-${phoneM[3]}` : '',
       address: {
@@ -564,7 +803,14 @@ export function parseResume(rawText) {
     },
     education,
     experience: experience.map(({ _lowConfidence, ...e }) => e),
-    skills: { technical: [...skills.listed, ...skills.inferred].slice(0, 60) },
+    projects,
+    leadership: leadership.map(({ _lowConfidence, ...e }) => e),
+    skills: {
+      technical: [...skills.listed, ...skills.inferred].slice(0, 60),
+      // 分组是简历技能区【原本的排版】。生成简历时按这个还原，
+      // 而不是把几十个技能拍平成一行 —— 拍平之后招聘方一眼看不出重点在哪
+      groups: skills.groups,
+    },
   };
 
   // 界面按这个决定默认勾不勾。低置信度的字段【不默认应用】——
@@ -590,7 +836,9 @@ export function parseResume(rawText) {
       sections: Object.keys(sec).filter((k) => k !== 'header'),
       education: education.length,
       experience: experience.length,
-      bullets: experience.reduce((n, e) => n + e.bullets.length, 0),
+      projects: projects.length,
+      leadership: leadership.length,
+      bullets: [...experience, ...projects, ...leadership].reduce((n, e) => n + e.bullets.length, 0),
       skillsListed: skills.listed.length,
       skillsInferred: skills.inferred.length,
       needsReview: experience.filter((e) => e._lowConfidence).map((e) => e.title || e.company),

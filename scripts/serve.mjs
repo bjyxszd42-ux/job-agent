@@ -97,7 +97,7 @@ function blankFrom(v) {
   if (v && typeof v === 'object') {
     const out = {};
     for (const [k, val] of Object.entries(v)) {
-      if (k === '_comment') continue;
+      if (k.startsWith('_')) continue;        // _comment / _xxxNote 都是写给人看的说明
       out[k] = blankFrom(val);
     }
     return out;
@@ -210,6 +210,64 @@ const server = http.createServer(async (req, res) => {
         stats: parsed.stats,
         suggestions: tax ? suggestFamilies(parsed, tax) : [],
       });
+    } catch (e) {
+      return send(res, 400, { error: String(e.message || e) });
+    }
+  }
+
+  // ── 简历生成与审阅 ──
+  //
+  // 输入永远是【请求体里的档案】，不是磁盘上的 data/profile.json。
+  // 因为界面上用户可能正在试「如果去掉这条 bullet 会怎样」——
+  // 预览必须跟着编辑走，而不是跟着已保存的内容走。
+  if (url.pathname.startsWith('/api/resume/') && req.method === 'POST') {
+    try {
+      const body = JSON.parse(await readBody(req, 4e6) || '{}');
+      const profile = body.profile && typeof body.profile === 'object' ? body.profile : await loadProfile();
+      const job = body.job || null;
+      const maxBullets = Number(body.maxBullets) || 0;
+
+      const { buildDoc } = await import('./resume-template.mjs');
+      const doc = buildDoc(profile, { job, maxBullets });
+
+      if (url.pathname === '/api/resume/review') {
+        const { reviewResume } = await import('./resume-review.mjs');
+        const { renderHtml } = await import('./resume-render.mjs');
+        return send(res, 200, {
+          ok: true,
+          review: reviewResume(profile, { job, doc }),
+          preview: renderHtml(doc, { standalone: false }),
+          meta: doc.meta,
+        });
+      }
+
+      if (url.pathname === '/api/resume/build') {
+        const fmt = (url.searchParams.get('format') || 'docx').toLowerCase();
+        const R = await import('./resume-render.mjs');
+        const name = R.fileNameFor(doc, fmt);
+        // attachment 而不是 inline：浏览器直接下到本地，
+        // 用户拿到的就是可以上传到申请页的那个文件
+        const disp = `attachment; filename="${name}"`;
+        if (fmt === 'docx') {
+          const buf = R.renderDocx(doc);
+          res.writeHead(200, {
+            'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'Content-Disposition': disp, 'Content-Length': buf.length, 'Cache-Control': 'no-store',
+          });
+          return res.end(buf);
+        }
+        if (fmt === 'html' || fmt === 'txt') {
+          const text = fmt === 'html' ? R.renderHtml(doc) : R.renderText(doc);
+          res.writeHead(200, {
+            'Content-Type': fmt === 'html' ? 'text/html; charset=utf-8' : 'text/plain; charset=utf-8',
+            'Content-Disposition': disp, 'Cache-Control': 'no-store',
+          });
+          return res.end(text);
+        }
+        return send(res, 400, { error: `unknown format: ${fmt}` });
+      }
+
+      return send(res, 404, { error: 'unknown resume endpoint' });
     } catch (e) {
       return send(res, 400, { error: String(e.message || e) });
     }

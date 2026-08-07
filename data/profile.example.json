@@ -18,6 +18,7 @@
   "basics": {
     "legalFirstName": "",
     "legalLastName": "",
+    "_preferredNameNote": "英文名。留学生简历上写成 Fei (Freya) Long，生成简历时括号是自动加的",
     "preferredName": "",
     "email": "",
     "phone": "",
@@ -48,13 +49,16 @@
 
   "education": [
     {
-      "school": "", "degree": "", "field": "", "gpa": "", "showGpa": false,
-      "startDate": "", "endDate": "", "location": "", "notes": ""
+      "_comment": "division = 大学下属的院系（School of Professional Studies / Smeal College of Business）。honors 里放辅修、Dean's List 这类，两个一行排。expected=true 时日期显示成 Expected December 2026",
+      "school": "", "division": "", "degree": "", "field": "", "gpa": "", "showGpa": false,
+      "startDate": "", "endDate": "", "expected": false,
+      "location": "", "honors": [], "notes": ""
     }
   ],
 
   "experience": [
     {
+      "_comment": "bullets 可以【比简历上多】—— 生成简历时按目标岗位挑，不是每次重写。tags 用来标这条 bullet 属于哪个方向，方便手动置顶",
       "company": "", "title": "", "location": "",
       "startDate": "", "endDate": "", "current": false,
       "bullets": [
@@ -64,10 +68,29 @@
   ],
 
   "projects": [
-    { "name": "", "url": "", "description": "", "tags": [] }
+    {
+      "_comment": "结构和 experience 一样，多了 name / org。org 是这个项目挂在哪（学校、公司、个人）",
+      "name": "", "org": "", "role": "", "url": "",
+      "startDate": "", "endDate": "", "current": false,
+      "bullets": [{ "text": "", "tags": [] }],
+      "description": "", "tags": []
+    }
   ],
 
-  "skills": { "technical": [], "tools": [], "languages": [] },
+  "leadership": [
+    {
+      "_comment": "社团、助教、志愿活动。字段和 experience 完全一致，简历上单独成一节",
+      "company": "", "title": "", "location": "",
+      "startDate": "", "endDate": "", "current": false,
+      "bullets": [{ "text": "", "tags": [] }]
+    }
+  ],
+
+  "skills": {
+    "_comment": "groups 是简历技能区的分行方式（Databases & Visualizations: … / Analytics & AI Tools: …）。有 groups 就按 groups 排版，没有就把 technical 拍成一行",
+    "technical": [], "tools": [], "languages": [],
+    "groups": [{ "label": "", "items": [] }]
+  },
 
   "eeo": {
     "gender": "decline",

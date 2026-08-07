@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Résumé · JobBrowser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239a3f16'/%3E%3Ctext x='16' y='23' font-family='system-ui,sans-serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/ui/app.css">
+<style>
+  .shell{max-width:1320px; margin:0 auto; padding:24px 28px 90px; display:grid;
+         grid-template-columns:minmax(430px,1fr) 660px; gap:22px; align-items:start}
+  @media (max-width:1180px){ .shell{grid-template-columns:1fr} }
+
+  section{background:var(--card); border:1px solid var(--line); border-radius:14px;
+          padding:22px 24px; margin-bottom:16px}
+  section > h2{margin:0 0 4px; font-size:16px; font-weight:600; letter-spacing:-.01em}
+  section > .desc{margin:0 0 16px; font-size:13px; color:var(--mute-2); line-height:1.55; max-width:68ch}
+
+  /* ── 分数 ── */
+  .score{display:flex; align-items:center; gap:18px; margin-bottom:6px}
+  .num{font-size:38px; font-weight:700; letter-spacing:-.03em; line-height:1;
+       font-family:var(--mono)}
+  .num.hi{color:var(--green)} .num.mid{color:#b4690e} .num.lo{color:var(--red)}
+  .counts{display:flex; gap:7px; flex-wrap:wrap}
+
+  /* ── findings ── */
+  .f{border:1px solid var(--line); border-radius:11px; padding:13px 15px; margin-bottom:9px;
+     background:var(--card)}
+  .f.fix{border-left:3px solid var(--red)}
+  .f.improve{border-left:3px solid #d98218}
+  .f.idea{border-left:3px solid var(--line-2)}
+  .f .top{display:flex; align-items:baseline; gap:10px}
+  .f .lab{font-weight:600; font-size:13.5px; flex:1}
+  .f .loc{font-size:11px; color:var(--mute-3); font-family:var(--mono); white-space:nowrap}
+  .f .what{margin:5px 0 0; font-size:12.5px; color:var(--mute-2)}
+  .f .why{margin:6px 0 0; font-size:12.5px; color:var(--mute-2); line-height:1.55}
+  .diff{margin-top:9px; font-size:12.5px; line-height:1.5}
+  .diff .was, .diff .now{padding:7px 10px; border-radius:8px; display:block}
+  .diff .was{background:#fdf0ee; color:#7d2b1c; text-decoration:line-through;
+             text-decoration-color:rgba(125,43,28,.35)}
+  .diff .now{background:#eef7ef; color:#1d5c2c; margin-top:4px}
+  .f .acts{margin-top:9px; display:flex; gap:7px}
+  .empty{padding:26px; text-align:center; color:var(--mute-2); font-size:13px}
+
+  .trim li{margin:0 0 9px; font-size:12.5px; line-height:1.5; color:var(--mute-2)}
+  .trim .why{color:var(--mute-3); font-size:11.5px; font-family:var(--mono)}
+  .trim ul{margin:8px 0 0; padding-left:18px}
+
+  /* ── 预览 ── */
+  .pv{position:sticky; top:76px}
+  .pvhead{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+  .pvhead .t{font-weight:600; font-size:14px}
+  .pages{font-size:12px; color:var(--mute-2); font-family:var(--mono)}
+  /* 预览必须【等比缩小整页】，不能让 iframe 自己适应宽度。
+     纸张宽 8.5 英寸 = 816px，面板只有 660px —— 直接塞进去右列会被切掉，
+     而右列正是日期和地点所在的那一列，看不见就等于没预览。 */
+  .paper{border:1px solid var(--line-2); border-radius:10px; overflow:auto; background:#fff;
+         height:calc(100vh - 190px); min-height:520px}
+  .paper iframe{width:816px; border:0; display:block; transform-origin:0 0}
+
+  .row{display:flex; gap:9px; flex-wrap:wrap; align-items:center}
+  .row + .row{margin-top:10px}
+  label.lbl{font-size:12px; color:var(--mute-2); font-weight:500}
+
+  /* ── 目标岗位 ── */
+  .jobpick{border:1px solid var(--line); border-radius:10px; padding:11px 13px; font-size:13px}
+  .jobpick.on{border-color:var(--accent); background:var(--soft)}
+  .jobpick .co{color:var(--mute-2); font-size:12px}
+  .results{max-height:230px; overflow:auto; margin-top:8px; border:1px solid var(--line);
+           border-radius:10px}
+  .results div{padding:9px 12px; font-size:12.5px; cursor:pointer; border-bottom:1px solid var(--line)}
+  .results div:last-child{border-bottom:0}
+  .results div:hover{background:var(--soft)}
+  .cov{display:flex; gap:6px; flex-wrap:wrap; margin-top:9px}
+
+  .dirty{display:flex; align-items:center; gap:12px; padding:11px 15px; border-radius:11px;
+         background:#fff8e8; border:1px solid #f0d9a4; font-size:13px; margin-bottom:14px}
+  .dirty b{font-weight:600}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hin">
+    <a class="brand" href="/">Job<span>Browser</span></a>
+    <nav class="nav">
+      <a href="/ui/index.html">Jobs</a>
+      <a href="/ui/profile.html">Profile</a>
+      <a href="/ui/resume.html" class="on">Résumé</a>
+    </nav>
+    <div style="margin-left:auto; font-size:13px; color:var(--mute-2); font-family:var(--mono)"
+         id="state">loading…</div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- ══ 左栏 ══ -->
+  <div>
+    <div class="dirty" id="dirty" hidden>
+      <span><b id="dirtyn">0</b> edits applied here but not saved to your profile.</span>
+      <button class="btn primary" id="save" style="margin-left:auto">Save to profile</button>
+      <button class="btn ghost" id="discard">Discard</button>
+    </div>
+
+    <!-- 目标岗位 -->
+    <section>
+      <h2>Target a job</h2>
+      <p class="desc">
+        Pick a job you've saved and the résumé is built for that posting: bullets are chosen by how
+        well they match it, and you get a keyword read-out. Leave it off for a general-purpose résumé.
+      </p>
+      <div class="jobpick" id="target">No target job — general résumé</div>
+      <div class="row" style="margin-top:10px">
+        <input id="jq" type="search" placeholder="Search your saved jobs by title or company…"
+               style="flex:1; min-width:220px">
+        <button class="btn ghost" id="clearjob" hidden>Clear</button>
+      </div>
+      <div class="results" id="jr" hidden></div>
+      <div id="covwrap" hidden>
+        <p class="desc" style="margin:14px 0 0">
+          Keyword overlap with this posting — <b id="covpct">0%</b>.
+          Approximate: the index stores only the first 400 characters of each description,
+          so treat it as a hint, not a score.
+        </p>
+        <div class="cov" id="cov"></div>
+      </div>
+    </section>
+
+    <!-- 审阅 -->
+    <section>
+      <div class="score">
+        <div class="num" id="scoren">–</div>
+        <div>
+          <div class="counts" id="counts"></div>
+          <p class="desc" style="margin:7px 0 0; max-width:46ch">
+            Every item below is a rule, not an opinion — each one says what it found and why it matters.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="passwrap" hidden>
+      <h2>Already fine</h2>
+      <div class="pills" id="passed"></div>
+    </section>
+
+    <section>
+      <h2>What to change</h2>
+      <p class="desc">
+        Items with a suggested rewrite can be applied in one click; the rest need a fact only you have.
+        Nothing here touches your saved profile until you press Save.
+      </p>
+      <div id="findings"><div class="empty">Loading your profile…</div></div>
+    </section>
+  </div>
+
+  <!-- ══ 右栏：预览 ══ -->
+  <div class="pv">
+    <div class="pvhead">
+      <span class="t">Preview</span>
+      <span class="pages" id="pages"></span>
+      <span style="margin-left:auto"></span>
+      <label class="lbl" for="maxb">Bullets per role</label>
+      <select id="maxb" style="width:auto">
+        <option value="0">All</option>
+        <option value="4">4</option>
+        <option value="3">3</option>
+        <option value="2">2</option>
+      </select>
+    </div>
+    <div class="paper"><iframe id="paper" title="Résumé preview"></iframe></div>
+    <div class="row" style="margin-top:12px">
+      <button class="btn primary" id="dl-docx">Download .docx</button>
+      <button class="btn" id="dl-pdf">Print / Save as PDF</button>
+      <button class="btn ghost" id="dl-txt">Plain text</button>
+    </div>
+    <p class="desc" style="margin-top:10px">
+      Upload the .docx when a form accepts a file — most ATS parse Word more reliably than PDF.
+      Use plain text for the “paste your résumé” boxes.
+    </p>
+  </div>
+
+</div>
+
+<script type="module">
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => (
+  { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+/* 工作副本。
+ *
+ * 所有「应用修改」都只改这份，不碰 data/profile.json ——
+ * 用户可能只是在试「去掉这条会不会变成一页」，试完不一定要留下。
+ * 存盘是一次明确的动作，不是副作用。 */
+let P = null;          // 工作副本
+let SAVED = null;      // 上次存盘时的样子，用来算 dirty 和支持 Discard
+let JOB = null;
+let JOBS = null;       // jobs.json 懒加载
+let applied = 0;
+
+const state = (t, cls) => { $('#state').textContent = t; $('#state').className = cls || ''; };
+
+/* ── 加载 ── */
+async function boot() {
+  const r = await fetch('/api/profile');
+  P = await r.json();
+  SAVED = structuredClone(P);
+  state('');
+  await refresh();
+}
+
+/* ── 审阅 + 预览 ── */
+let inflight = 0;
+async function refresh() {
+  const seq = ++inflight;
+  const body = { profile: P, job: JOB, maxBullets: +$('#maxb').value || 0 };
+  const r = await fetch('/api/resume/review', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+  });
+  const d = await r.json();
+  if (seq !== inflight) return;                 // 有更新的请求在飞，丢掉这次结果
+  if (!d.ok) { $('#findings').innerHTML = `<div class="empty">${esc(d.error)}</div>`; return; }
+
+  drawScore(d.review);
+  drawFindings(d.review);
+  drawCoverage(d.review.coverage);
+  drawPreview(d.meta);
+  drawDirty();
+}
+
+function drawScore(rv) {
+  const n = $('#scoren');
+  n.textContent = rv.score;
+  n.className = 'num ' + (rv.score >= 85 ? 'hi' : rv.score >= 65 ? 'mid' : 'lo');
+  $('#counts').innerHTML = [
+    rv.counts.fix && `<span class="pill t-warn">${rv.counts.fix} to fix</span>`,
+    rv.counts.improve && `<span class="pill">${rv.counts.improve} to improve</span>`,
+    rv.counts.idea && `<span class="pill">${rv.counts.idea} to consider</span>`,
+  ].filter(Boolean).join('') || '<span class="pill">nothing flagged</span>';
+
+  $('#passwrap').hidden = !rv.passed.length;
+  $('#passed').innerHTML = rv.passed.map((p) => `<span class="pill">✓ ${esc(p)}</span>`).join('');
+}
+
+let LAST = [];
+function drawFindings(rv) {
+  LAST = rv.findings;
+  if (!rv.findings.length) {
+    $('#findings').innerHTML = '<div class="empty">Nothing flagged. That is unusual — worth a human read anyway.</div>';
+    return;
+  }
+  const order = { fix: 0, improve: 1, idea: 2 };
+  const sorted = [...rv.findings].sort((a, b) => order[a.level] - order[b.level]);
+
+  $('#findings').innerHTML = sorted.map((f, i) => {
+    const where = f.where?.label ? `${f.where.label}` : 'résumé';
+    const diff = f.after
+      ? `<div class="diff"><span class="was">${esc(f.before)}</span><span class="now">${esc(f.after)}</span></div>`
+      : (f.before ? `<div class="diff"><span class="was" style="text-decoration:none; background:var(--soft); color:var(--mute-2)">${esc(f.before)}</span></div>` : '');
+    const trim = f.trim?.length ? `<div class="trim"><ul>${f.trim.map((t) => (
+      `<li>${esc(t.text.slice(0, 110))}${t.text.length > 110 ? '…' : ''}
+        <div class="why">${esc(t.where.label)} · ${esc(t.reason)}</div>
+        <button class="btn ghost" data-cut="${esc(t.path)}" style="margin-top:5px">Remove this bullet</button></li>`
+    )).join('')}</ul></div>` : '';
+    const act = f.after
+      ? `<div class="acts"><button class="btn primary" data-apply="${i}">Apply this rewrite</button></div>` : '';
+    return `<div class="f ${f.level}">
+      <div class="top"><span class="lab">${esc(f.label)}</span><span class="loc">${esc(where)}</span></div>
+      <p class="what">${esc(f.what)}</p>
+      <p class="why">${esc(f.why)}</p>
+      ${diff}${trim}${act}</div>`;
+  }).join('');
+
+  $('#findings').querySelectorAll('[data-apply]').forEach((b) => {
+    b.onclick = () => applyOne(sorted[+b.dataset.apply]);
+  });
+  $('#findings').querySelectorAll('[data-cut]').forEach((b) => {
+    b.onclick = () => cutBullet(b.dataset.cut);
+  });
+}
+
+/* 应用一条重写。判断依据是「原文还是不是我们看到的那句」——
+   中途在 Profile 页改过就不应用，避免覆盖掉用户自己的编辑 */
+function applyOne(f) {
+  const { section, index, bullet } = f.where;
+  const t = P?.[section]?.[index]?.bullets?.[bullet];
+  if (!t || t.text !== f.before) { alert('That bullet has changed since this was suggested — reloading.'); return refresh(); }
+  t.text = f.after;
+  applied++;
+  refresh();
+}
+
+function cutBullet(path) {
+  const m = /^(\w+)\[(\d+)\]\.bullets\[(\d+)\]$/.exec(path);
+  if (!m) return;
+  const arr = P?.[m[1]]?.[+m[2]]?.bullets;
+  if (!arr) return;
+  arr.splice(+m[3], 1);
+  applied++;
+  refresh();
+}
+
+function drawDirty() {
+  const dirty = JSON.stringify(P) !== JSON.stringify(SAVED);
+  $('#dirty').hidden = !dirty;
+  $('#dirtyn').textContent = applied;
+}
+
+$('#save').onclick = async () => {
+  const r = await fetch('/api/profile', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(P),
+  });
+  if (r.ok) { SAVED = structuredClone(P); applied = 0; drawDirty(); state('saved', ''); setTimeout(() => state(''), 1600); }
+  else state('save failed', '');
+};
+$('#discard').onclick = () => { P = structuredClone(SAVED); applied = 0; refresh(); };
+
+/* ── 预览 ── */
+const PAPER_W = 816;                              // 8.5 英寸 @96dpi
+
+/** 把 iframe 缩到面板宽度，并把外框高度改成【缩放后】的高度，否则底下会留一大片空白 */
+function fitPreview() {
+  const box = $('.paper');
+  const f = $('#paper');
+  const s = Math.min(1, (box.clientWidth - 2) / PAPER_W);
+  f.style.transform = `scale(${s})`;
+  try {
+    const h = f.contentDocument?.body?.scrollHeight || 1100;
+    f.style.height = `${h}px`;
+    f.style.marginBottom = `${-(h * (1 - s))}px`;   // 抵消缩放后多出来的占位
+  } catch { /* 跨域读不到就保持默认高度 */ }
+}
+window.addEventListener('resize', fitPreview);
+
+async function drawPreview(meta) {
+  $('#pages').textContent = meta.estimatedPages === 1 ? '~1 page' : `~${meta.estimatedPages} pages`;
+  const html = await buildAs('html');
+  const f = $('#paper');
+  f.onload = fitPreview;
+  f.srcdoc = html;
+}
+
+async function buildAs(fmt) {
+  const r = await fetch(`/api/resume/build?format=${fmt}`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ profile: P, job: JOB, maxBullets: +$('#maxb').value || 0 }),
+  });
+  return fmt === 'docx' ? r.blob() : r.text();
+}
+
+function download(blobOrText, name, type) {
+  const blob = blobOrText instanceof Blob ? blobOrText : new Blob([blobOrText], { type });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+const stem = () => {
+  const b = P?.basics || {};
+  return `${b.legalFirstName || 'Resume'}_${b.legalLastName || ''}`.replace(/_+$/, '');
+};
+
+$('#dl-docx').onclick = async () => download(await buildAs('docx'), `${stem()}_Resume.docx`);
+$('#dl-txt').onclick = async () => download(await buildAs('txt'), `${stem()}_Resume.txt`, 'text/plain');
+$('#dl-pdf').onclick = async () => {
+  // 用浏览器自己的打印引擎转 PDF —— 比在 Node 里塞一个 PDF 库可靠，
+  // 而且用户在打印预览里能先看一眼分页对不对
+  const w = window.open('', '_blank');
+  if (!w) { alert('Allow pop-ups for localhost to print.'); return; }
+  w.document.write(await buildAs('html'));
+  w.document.close();
+  w.onload = () => w.print();
+};
+$('#maxb').onchange = refresh;
+
+/* ── 目标岗位 ── */
+async function loadJobs() {
+  if (JOBS) return JOBS;
+  state('loading jobs…');
+  const [j, m] = await Promise.all([
+    fetch('/data/jobs.json').then((r) => r.json()).catch(() => null),
+    fetch('/api/marks').then((r) => r.json()).catch(() => ({})),
+  ]);
+  state('');
+  if (!j) return (JOBS = []);
+  // 优先给标过「感兴趣 / 已投递」的 —— 会想改简历，多半就是为了这些岗位
+  const marked = new Set(Object.keys(m || {}));
+  JOBS = (j.jobs || []).map((x) => ({ ...x, _marked: marked.has(x.id) }))
+    .sort((a, b) => Number(b._marked) - Number(a._marked));
+  return JOBS;
+}
+
+let jt = 0;
+$('#jq').oninput = () => {
+  clearTimeout(jt);
+  jt = setTimeout(async () => {
+    const q = $('#jq').value.trim().toLowerCase();
+    if (q.length < 2) { $('#jr').hidden = true; return; }
+    const list = await loadJobs();
+    const hits = list.filter((x) => `${x.title} ${x.company}`.toLowerCase().includes(q)).slice(0, 30);
+    $('#jr').hidden = false;
+    $('#jr').innerHTML = hits.length
+      ? hits.map((x, i) => `<div data-i="${i}">${x._marked ? '★ ' : ''}${esc(x.title)}
+          <span class="co">— ${esc(x.company)}</span></div>`).join('')
+      : '<div style="color:var(--mute-3)">No match in your index.</div>';
+    $('#jr').querySelectorAll('[data-i]').forEach((el) => {
+      el.onclick = () => pickJob(hits[+el.dataset.i]);
+    });
+  }, 180);
+};
+
+function pickJob(j) {
+  JOB = j;
+  $('#target').className = 'jobpick on';
+  $('#target').innerHTML = `<b>${esc(j.title)}</b> <span class="co">— ${esc(j.company)}</span>`;
+  $('#jr').hidden = true;
+  $('#jq').value = '';
+  $('#clearjob').hidden = false;
+  refresh();
+}
+$('#clearjob').onclick = () => {
+  JOB = null;
+  $('#target').className = 'jobpick';
+  $('#target').textContent = 'No target job — general résumé';
+  $('#clearjob').hidden = true;
+  $('#covwrap').hidden = true;
+  refresh();
+};
+
+function drawCoverage(c) {
+  $('#covwrap').hidden = !c;
+  if (!c) return;
+  $('#covpct').textContent = `${c.pct}%`;
+  const tag = (w, cls, title) => `<span class="pill ${cls}" title="${esc(title)}">${esc(w)}</span>`;
+  $('#cov').innerHTML = [
+    ...c.inProfile.slice(0, 14).map((w) => tag(w, 't-warn', 'In your profile but not on this version of the résumé')),
+    ...c.missing.slice(0, 14).map((w) => tag(w, '', 'Not anywhere in your profile')),
+  ].join('') || '<span class="pill">everything in the posting is already covered</span>';
+}
+
+boot().catch((e) => { $('#findings').innerHTML = `<div class="empty">${esc(e.message)}</div>`; });
+</script>
+</body>
+</html>

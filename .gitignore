@@ -21,3 +21,4 @@ data/marks.json
 # 这是整个仓库里最敏感的文件，绝不进 git（data/profile.example.json 是模板）。
 data/profile.json
 data/profile.json.tmp
+.DS_Store

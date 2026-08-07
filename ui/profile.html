@@ -134,7 +134,7 @@
 <header>
   <div class="hin">
     <a class="brand" href="/">Job<span>Browser</span></a>
-    <nav class="nav"><a href="/ui/index.html">Jobs</a><a href="/ui/profile.html" class="on">Profile</a></nav>
+    <nav class="nav"><a href="/ui/index.html">Jobs</a><a href="/ui/profile.html" class="on">Profile</a><a href="/ui/resume.html">R&eacute;sum&eacute;</a></nav>
     <div class="save"><span id="savestate">loading…</span></div>
   </div>
 </header>
@@ -314,6 +314,32 @@
     <div class="addrow"><button class="btn" data-add="experience">+ Add role</button></div>
   </section>
 
+  <!-- ── Projects ── -->
+  <section>
+    <h2>Projects</h2>
+    <p class="desc">
+      Course projects, side projects, anything you built. For students these often carry more weight than a short
+      internship, because they show what you choose to do when nobody assigns it.
+    </p>
+    <div class="note">
+      <b>Context / Challenge / Outcome reads well here.</b> What was the problem worth solving, what constraint made it
+      hard, and what did you actually ship or decide. The constraint is the part most people leave out, and it's the part
+      that shows judgment.
+    </div>
+    <div id="proj-list"></div>
+    <div class="addrow"><button class="btn" data-add="projects">+ Add project</button></div>
+  </section>
+
+  <!-- ── Leadership ── -->
+  <section>
+    <h2>Leadership &amp; activities</h2>
+    <p class="desc">
+      Teaching assistant, club officer, volunteering. Same shape as a role — it gets its own section on the résumé.
+    </p>
+    <div id="lead-list"></div>
+    <div class="addrow"><button class="btn" data-add="leadership">+ Add activity</button></div>
+  </section>
+
   <!-- ── Skills ── -->
   <section>
     <h2>Skills</h2>
@@ -430,8 +456,7 @@ async function boot() {
   bindFields();
   renderPills();
   renderFamilies();
-  renderList('education');
-  renderList('experience');
+  for (const k of ['education', 'experience', 'projects', 'leadership']) renderList(k);
   updateAuthHint();
   updateNext();
   status('saved');
@@ -548,16 +573,24 @@ function renderFamilies() {
   };
 }
 
-/* education / experience 的重复块 */
+/* 四种重复块。leadership 和 experience 字段完全一致 ——
+   助教、社团这些在简历上单独成一节，但结构上就是一段经历 */
 const BLANK = {
-  education: { school:'', degree:'', field:'', gpa:'', showGpa:false, startDate:'', endDate:'', location:'' },
+  education: { school:'', division:'', degree:'', field:'', gpa:'', showGpa:false,
+               startDate:'', endDate:'', expected:false, location:'', honors:[] },
   experience: { company:'', title:'', location:'', startDate:'', endDate:'', current:false, bullets:[{ text:'', tags:[] }] },
+  leadership: { company:'', title:'', location:'', startDate:'', endDate:'', current:false, bullets:[{ text:'', tags:[] }] },
+  projects: { name:'', org:'', role:'', url:'', startDate:'', endDate:'', current:false, bullets:[{ text:'', tags:[] }] },
 };
+
+const LIST_BOX = { education:'edu-list', experience:'exp-list', projects:'proj-list', leadership:'lead-list' };
+const LIST_ITEM = { education: eduItem, experience: expItem, projects: projItem, leadership: leadItem };
 
 function renderList(kind) {
   const arr = P[kind] || [];
-  const box = $(`#${kind === 'education' ? 'edu' : 'exp'}-list`);
-  box.innerHTML = arr.map((it, i) => kind === 'education' ? eduItem(it, i) : expItem(it, i)).join('')
+  const box = $(`#${LIST_BOX[kind]}`);
+  if (!box) return;
+  box.innerHTML = arr.map((it, i) => LIST_ITEM[kind](it, i)).join('')
     || `<p style="font-size:13px;color:var(--mute-3);margin:0 0 4px">Nothing yet.</p>`;
 
   // 事件用委托，避免每次重渲染都要重新绑一堆
@@ -565,6 +598,9 @@ function renderList(kind) {
     const el = e.target.closest('[data-k]'); if (!el) return;
     const { i, b, k } = el.dataset;
     if (b != null) arr[+i].bullets[+b].text = el.value;
+    // honors 这种「一行里放多项」的字段按分隔符拆开存 ——
+    // 生成简历时它们要两两分列排版，存成一整个字符串就排不出来了
+    else if (el.dataset.klist) arr[+i][k] = el.value.split(/\s*[;|·]\s*/).map((s) => s.trim()).filter(Boolean);
     else if (el.type === 'checkbox') {
       arr[+i][k] = el.checked;
       // 勾了 Current role 就没有结束日期了 —— 直接改 DOM 而不是整块重渲染，
@@ -596,12 +632,19 @@ function eduItem(it, i) {
     <div class="grid g2">
       <div class="field"><label>School</label><input type="text" data-k="school" data-i="${i}" value="${esc(it.school)}"></div>
       <div class="field"><label>Location</label><input type="text" data-k="location" data-i="${i}" value="${esc(it.location)}"></div>
+      <div class="field"><label>School or college within the university</label>
+        <input type="text" data-k="division" data-i="${i}" value="${esc(it.division || '')}" placeholder="School of Professional Studies"></div>
       <div class="field"><label>Degree</label><input type="text" data-k="degree" data-i="${i}" value="${esc(it.degree)}" placeholder="M.S."></div>
       <div class="field"><label>Field of study</label><input type="text" data-k="field" data-i="${i}" value="${esc(it.field)}"></div>
+      <div class="field"><label>Honours, minors, awards <span style="color:var(--mute-3)">— separate with ;</span></label>
+        <input type="text" data-k="honors" data-klist="1" data-i="${i}" value="${esc((it.honors || []).join('; '))}"
+               placeholder="Minor: Management Information Systems; Dean's List: 4/7 Semesters"></div>
     </div>
     <div class="grid g3" style="margin-top:14px">
       <div class="field"><label>Start</label><input type="month" data-k="startDate" data-i="${i}" value="${esc(it.startDate)}"></div>
-      <div class="field"><label>End (or expected)</label><input type="month" data-k="endDate" data-i="${i}" value="${esc(it.endDate)}"></div>
+      <div class="field"><label>End (or expected)</label><input type="month" data-k="endDate" data-i="${i}" value="${esc(it.endDate)}">
+        <label class="chk" style="margin-top:8px"><input type="checkbox" data-k="expected" data-i="${i}" ${it.expected?'checked':''}> Not graduated yet</label>
+      </div>
       <div class="field"><label>GPA</label><input type="text" data-k="gpa" data-i="${i}" value="${esc(it.gpa)}" placeholder="3.8/4.0">
         <label class="chk" style="margin-top:8px"><input type="checkbox" data-k="showGpa" data-i="${i}" ${it.showGpa?'checked':''}> Show on résumé</label>
       </div>
@@ -609,15 +652,48 @@ function eduItem(it, i) {
   </div>`;
 }
 
-function expItem(it, i) {
+/* bullet 编辑器三个块共用 */
+function bulletsHtml(it, i) {
   const bullets = (it.bullets || []).map((b, bi) => `<div class="bullet">
     <textarea data-k="bullets" data-i="${i}" data-b="${bi}" rows="2"
       placeholder="Accomplished [X] as measured by [Y] by doing [Z]">${esc(b.text)}</textarea>
     <button class="btn ghost" data-delb="${i}:${bi}" title="Remove bullet">×</button>
   </div>`).join('');
+  return `<div class="bullets">${bullets}</div>
+    <div class="addrow"><button class="btn" data-addb="${i}">+ Add bullet</button></div>`;
+}
 
+function projItem(it, i) {
   return `<div class="item">
-    <div class="itemhead"><span class="n">ROLE ${i + 1}</span>
+    <div class="itemhead"><span class="n">PROJECT ${i + 1}</span>
+      <button class="btn ghost" data-del="${i}">Remove</button></div>
+    <div class="grid g2">
+      <div class="field"><label>Project name</label><input type="text" data-k="name" data-i="${i}" value="${esc(it.name || '')}"
+        placeholder="FlightShield – Parametric Flight-Delay Insurance"></div>
+      <div class="field"><label>Where it sat</label><input type="text" data-k="org" data-i="${i}" value="${esc(it.org || '')}"
+        placeholder="Columbia University"></div>
+      <div class="field"><label>Your role</label><input type="text" data-k="role" data-i="${i}" value="${esc(it.role || '')}"
+        placeholder="Business Lead"></div>
+      <div class="field"><label>Link <span style="color:var(--mute-3)">— optional</span></label>
+        <input type="text" data-k="url" data-i="${i}" value="${esc(it.url || '')}"></div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="field"><label>Start</label><input type="month" data-k="startDate" data-i="${i}" value="${esc(it.startDate || '')}"></div>
+      <div class="field"><label>End</label><input type="month" data-k="endDate" data-i="${i}" value="${esc(it.endDate || '')}" ${it.current?'disabled':''}>
+        <label class="chk" style="margin-top:8px"><input type="checkbox" data-k="current" data-i="${i}" ${it.current?'checked':''}> Still going</label>
+      </div>
+    </div>
+    ${bulletsHtml(it, i)}
+  </div>`;
+}
+
+function leadItem(it, i) {
+  return expItem(it, i, 'LEADERSHIP');
+}
+
+function expItem(it, i, kindLabel = 'ROLE') {
+  return `<div class="item">
+    <div class="itemhead"><span class="n">${kindLabel} ${i + 1}</span>
       <button class="btn ghost" data-del="${i}">Remove</button></div>
     <div class="grid g2">
       <div class="field"><label>Company</label><input type="text" data-k="company" data-i="${i}" value="${esc(it.company)}"></div>
@@ -630,8 +706,7 @@ function expItem(it, i) {
         <label class="chk" style="margin-top:8px"><input type="checkbox" data-k="current" data-i="${i}" ${it.current?'checked':''}> Current role</label>
       </div>
     </div>
-    <div class="bullets">${bullets}</div>
-    <div class="addrow"><button class="btn" data-addb="${i}">+ Add bullet</button></div>
+    ${bulletsHtml(it, i)}
   </div>`;
 }
 
@@ -727,13 +802,33 @@ function renderReview(d) {
           ? ` <em>— couldn't split company from title on ${d.stats.needsReview.length}; check those after applying</em>` : ''),
     });
   }
+  if ((p.projects || []).length) {
+    const nb = p.projects.reduce((n, x) => n + (x.bullets || []).length, 0);
+    blocks.push({
+      k: 'projects', on: true,
+      t: `Projects — ${p.projects.length}, ${nb} bullets`,
+      d: p.projects.map((x) => esc(x.name || '?')).join(' · ')
+        + (P.projects?.length ? ` <em>— replaces your ${P.projects.length} existing</em>` : ''),
+    });
+  }
+  if ((p.leadership || []).length) {
+    blocks.push({
+      k: 'leadership', on: true,
+      t: `Leadership & activities — ${p.leadership.length}`,
+      d: p.leadership.map((x) => `${esc(x.title || '?')} @ ${esc(x.company || '?')}`).join(' · ')
+        + (P.leadership?.length ? ` <em>— replaces your ${P.leadership.length} existing</em>` : ''),
+    });
+  }
   if (p.skills.technical.length) {
     const fresh = p.skills.technical.filter((s) => !(P.skills?.technical || []).some((x) => x.toLowerCase() === s.toLowerCase()));
+    const groups = (p.skills.groups || []).filter((g) => g.label);
     blocks.push({
       k: 'skills', on: true,
       t: `Skills — ${fresh.length} new`,
       d: fresh.slice(0, 16).map(esc).join(', ') + (fresh.length > 16 ? ` +${fresh.length - 16} more` : '')
-        + ' <em>— added to what you have, nothing removed</em>',
+        + ' <em>— added to what you have, nothing removed</em>'
+        // 分组是简历技能区原本的分行方式，生成简历时要按它排版
+        + (groups.length ? `<br>Keeps your groupings: ${groups.map((g) => esc(g.label)).join(' · ')}` : ''),
     });
   }
 
@@ -790,11 +885,16 @@ function applyParsed() {
   }
   if (want('education')) { P.education = structuredClone(src.education); done.push(`${src.education.length} education entries`); }
   if (want('experience')) { P.experience = structuredClone(src.experience); done.push(`${src.experience.length} roles`); }
+  if (want('projects')) { P.projects = structuredClone(src.projects || []); done.push(`${(src.projects || []).length} projects`); }
+  if (want('leadership')) { P.leadership = structuredClone(src.leadership || []); done.push(`${(src.leadership || []).length} activities`); }
   if (want('skills')) {
     const cur = (P.skills ||= { technical: [], tools: [], languages: [] });
     const seen = new Set([...(cur.technical || []), ...(cur.tools || [])].map((s) => s.toLowerCase()));
     const add = src.skills.technical.filter((s) => !seen.has(s.toLowerCase()));
     cur.technical = [...(cur.technical || []), ...add];
+    // 分组【整组替换】而不是合并：它描述的是技能区怎么分行，
+    // 两份来源的分组混在一起会排出重复的技能
+    if ((src.skills.groups || []).length) cur.groups = structuredClone(src.skills.groups);
     done.push(`${add.length} skills`);
   }
 
@@ -809,7 +909,7 @@ function applyParsed() {
 
   // 重新绑定所有控件，把新值刷到界面上
   bindFields(); renderPills(); renderFamilies();
-  renderList('education'); renderList('experience');
+  for (const k of ['education', 'experience', 'projects', 'leadership']) renderList(k);
   updateAuthHint(); updateNext();
   touch();
 
