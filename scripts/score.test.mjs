@@ -7,6 +7,7 @@
  * 薪资解析、关键词边界、sponsorship 否定句、没数据时不许扣分。
  */
 import { parseComp, detectSignals, scoreJob, profileIsUsable, WEIGHTS } from './score.mjs';
+import { domainFor, logoUrl, initialFor } from './logo.mjs';
 
 let pass = 0, fail = 0;
 const ok = (label, cond, extra) => {
@@ -145,6 +146,22 @@ ok('空档案不可用', !profileIsUsable({ preferences: {}, skills: {} }));
 ok('只填了家族就可用', profileIsUsable({ preferences: { families: ['data_analyst'] } }));
 ok('只填了技能就可用', profileIsUsable({ skills: { technical: ['Python'] } }));
 ok('undefined 不崩', !profileIsUsable(undefined));
+
+/* ── 公司图标 ── */
+group('公司图标域名推断');
+ok('单词公司名', domainFor('AbbVie') === 'abbvie.com', domainFor('AbbVie'));
+ok('已经是域名就原样用', domainFor('stripe.com') === 'stripe.com');
+ok('多词压成一个词', domainFor('JPMorgan Chase') === 'jpmorganchase.com', domainFor('JPMorgan Chase'));
+ok('缩写走覆盖表', domainFor('gehc') === 'gehealthcare.com', domainFor('gehc'));
+ok('覆盖表不区分大小写和符号', domainFor('M&T Bank') === 'mtb.com', domainFor('M&T Bank'));
+ok('法人后缀被剥掉', domainFor('DiamondUp Technology Co., Ltd') === 'diamondup.com',
+  domainFor('DiamondUp Technology Co., Ltd'));
+ok('空公司名返回 null', domainFor('') === null && domainFor(null) === null);
+ok('单字母返回 null（猜不出来）', domainFor('a') === null);
+ok('URL 带上域名和尺寸', /favicons\?domain=abbvie\.com&sz=64$/.test(logoUrl('AbbVie')), logoUrl('AbbVie'));
+ok('猜不出域名时不给 URL', logoUrl('') === null);
+ok('首字母大写', initialFor('gofundme') === 'G');
+ok('空值兜底成 ?', initialFor('') === '?' && initialFor(undefined) === '?');
 
 console.log(`\n${fail ? '✗' : '✓'} ${pass} passed, ${fail} failed\n`);
 process.exit(fail ? 1 : 0);

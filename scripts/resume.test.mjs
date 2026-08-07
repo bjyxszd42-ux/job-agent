@@ -114,6 +114,44 @@ ok('PDF bullet 数量对', Ap.profile.experience[0].bullets.length === 3, Ap.pro
 ok('PDF 学历', Ap.profile.education[0].field === 'Business Analytics', Ap.profile.education[0].field);
 ok('PDF 推荐结果和 txt 一致', suggestFamilies(Ap, tax)[0]?.key === 'data_analyst');
 
+/* ── 折行被误标成新 bullet ── */
+group('bullet 折行修复');
+const WRAP = `PROFESSIONAL EXPERIENCE
+Vectornate USA  Princeton, NJ
+Product Development Assistant, Intern  March 2026 - Present
+• Support the company's expansion into robotics by benchmarking Gemma, Qwen, and Llama models, assessing candidate chip
+• boards on specification, compute, and cost, and engaging 8 robotics manufacturers.
+• Conduct weekly competitive analysis across 10 competitors to inform product strategy, surfacing 4 growth opportunities
+• and 2 new product concepts, and model pricing across 32 SKUs to inform a 5% price adjustment.`;
+const W = parseResume(WRAP);
+ok('折断的后半截被并回去了', W.profile.experience[0].bullets.length === 2,
+  W.profile.experience[0].bullets.map((b) => b.text.slice(0, 40)));
+ok('并回去的内容完整', /candidate chip boards on specification/.test(W.profile.experience[0].bullets[0].text),
+  W.profile.experience[0].bullets[0].text.slice(0, 120));
+ok('中间补了空格没粘连', !/chipboards/.test(W.profile.experience[0].bullets[0].text));
+
+// 上一条已经用句号收尾时，小写开头的是【新的一条】，不能吃掉
+const LOWER = `PROFESSIONAL EXPERIENCE
+Acme Inc.  New York, NY
+Data Engineer  January 2023 - March 2024
+• Built the ingestion pipeline and cut cost by 30%.
+• dbt models rewritten to incremental, saving 4 hours per run.`;
+const L = parseResume(LOWER);
+ok('前一条收了尾就不合并', L.profile.experience[0].bullets.length === 2,
+  L.profile.experience[0].bullets.map((b) => b.text.slice(0, 40)));
+ok('小写开头的 bullet 保持独立', /^dbt models/.test(L.profile.experience[0].bullets[1].text));
+
+// 项目那一节走的是另一个解析函数，同样要修
+const PROJ = `PROJECTS
+FlightShield  Columbia University
+Business Lead  January 2026 - May 2026
+• Context: 22% of U.S. flights are delayed, yet traditional delay insurance requires manual claim
+• filing and weeks of review.
+• Outcome: designed a three-tier payout and led the 14-slide pitch.`;
+const PR = parseResume(PROJ);
+ok('项目里的折行也修', PR.profile.projects[0].bullets.length === 2,
+  PR.profile.projects[0].bullets.map((b) => b.text.slice(0, 40)));
+
 /* ── 坏输入不能炸 ── */
 group('异常输入');
 const bad = async (label, buf, name) => {

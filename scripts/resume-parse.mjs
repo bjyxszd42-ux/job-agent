@@ -369,6 +369,28 @@ function applyDegree(entry, text) {
 const SEG_SPLIT = /\s*[|·•]\s*|\s+[-–—]\s+|\s{2,}|,\s(?=[A-Z])/;
 
 const BULLET_RE = /^\s*[•·▪●‣◦○*+\-–—]\s+/;
+
+/**
+ * 这条 bullet 其实是上一条被排版折断的后半截吗？
+ *
+ * 抽取层已经按缩进合并过折行了，但那只在【抽取层看得见缩进】时有效 ——
+ * 不同工具导出的 PDF 差别很大，有的把续行的 x 坐标画得和正文一样，
+ * 有的干脆给续行也画一个项目符号。真实文件里就出现过一条 bullet
+ * 被拆成两条、断点正好在折行处（"…assessing candidate chip" /
+ * "boards on specification…"）。
+ *
+ * 所以在解析层再加一道和来源无关的防线，判据是英文写作本身的规律：
+ *   · 简历 bullet 一律以大写动词开头，小写开头的几乎不可能是新的一条
+ *   · 上一条如果已经用句号收尾，那它是完整的，后面就是新的一条
+ * 两个条件同时成立才合并 —— 这样 "dbt models…" 这种真的以小写开头的
+ * bullet，只要前一条正常收了尾，就不会被吃掉。
+ */
+function isContinuation(text, prevBullet) {
+  if (!prevBullet) return false;
+  const prev = prevBullet.text.trim();
+  if (!prev || /[.!?:;]$/.test(prev)) return false;
+  return /^[a-z(,)]/.test(text.trim());
+}
 const TITLE_WORDS = /\b(engineer|developer|analyst|scientist|manager|designer|consultant|director|specialist|coordinator|associate|assistant|intern(?:ship)?|lead|architect|administrator|officer|president|founder|researcher|strategist|marketer|recruiter|accountant|auditor|controller|advisor|representative|executive|supervisor|technician|writer|editor|producer|planner|buyer|trader|actuary|paralegal|attorney|nurse|therapist|teacher|instructor|professor|fellow|apprentice)\b/i;
 const ORG_SUFFIX = /\b(inc|llc|ltd|corp(?:oration)?|co|company|group|labs?|technologies|technology|solutions|systems|partners|capital|ventures|bank|university|hospital|foundation|institute|associates|consulting|holdings|gmbh|s\.?a\.?)\b\.?/i;
 // 跟在职位后面的用工性质，本身不是一个独立职位 ——
@@ -413,7 +435,10 @@ function parseExperience(lines) {
 
     if (BULLET_RE.test(line)) {
       if (!cur) continue;                                 // 没有抬头的孤儿 bullet，丢掉
-      cur.bullets.push({ text: line.replace(BULLET_RE, '').trim(), tags: [] });
+      const body = line.replace(BULLET_RE, '').trim();
+      const last = cur.bullets[cur.bullets.length - 1];
+      if (isContinuation(body, last)) { last.text += ' ' + body; continue; }
+      cur.bullets.push({ text: body, tags: [] });
       continue;
     }
 
@@ -516,7 +541,10 @@ function parseProjects(lines) {
 
     if (BULLET_RE.test(line)) {
       if (!cur) continue;
-      cur.bullets.push({ text: line.replace(BULLET_RE, '').trim(), tags: [] });
+      const body = line.replace(BULLET_RE, '').trim();
+      const last = cur.bullets[cur.bullets.length - 1];
+      if (isContinuation(body, last)) { last.text += ' ' + body; continue; }
+      cur.bullets.push({ text: body, tags: [] });
       continue;
     }
     if (cur && cur.bullets.length && !dateRange(line) && /^[a-z(]/.test(line)) {

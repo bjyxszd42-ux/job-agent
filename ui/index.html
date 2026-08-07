@@ -100,6 +100,13 @@
     width:40px; height:40px; border-radius:10px; background:var(--soft); border:1px solid var(--line);
     display:flex; align-items:center; justify-content:center;
     font-size:15px; font-weight:600; color:var(--mute-2); text-transform:uppercase;
+    position:relative; overflow:hidden; flex:0 0 auto;
+  }
+  /* 图标盖在首字母【上面】而不是替换它：加载中、加载失败、
+     或者关掉图标功能时，下面的字母自然就露出来了，不用写任何回退分支 */
+  .avatar img{
+    position:absolute; inset:0; width:100%; height:100%;
+    object-fit:contain; padding:6px; background:#fff;
   }
   .body{min-width:0; display:flex; flex-direction:column; gap:9px}
   .title{font-size:17px; font-weight:600; line-height:1.35; letter-spacing:-.01em; color:var(--ink)}
@@ -247,6 +254,21 @@
 
 <script type="module">
 import { scoreJob, profileIsUsable } from '/scripts/score.mjs';
+import { logoUrl, initialFor } from '/scripts/logo.mjs';
+
+/**
+ * 公司图标。loading="lazy" 是关键 ——
+ * 索引里有一万多个岗位，不加的话滚动之前就会向第三方发出上千个请求；
+ * 加了之后只有真正滚到屏幕上的那几十条才发。
+ *
+ * onerror 直接把 img 删掉，下面预先放好的首字母就露出来了。
+ */
+function logoImg(company) {
+  const src = logoUrl(company);
+  if (!src) return '';
+  return `<img src="${esc(src)}" alt="" loading="lazy" decoding="async"
+    referrerpolicy="no-referrer" onerror="this.remove()">`;
+}
 
 const PAGE = 50;
 let JOBS = [], TAX = { families: [], groups: {} }, MARKS = {}, PROFILE = null;
@@ -473,7 +495,7 @@ function card(j) {
   const m = j._m;
 
   return `<article class="${mk === 'applied' ? 'is-applied' : ''}" data-id="${esc(j.id)}">
-    <div class="avatar">${esc(String(j.company || '?').trim().charAt(0))}</div>
+    <div class="avatar">${esc(initialFor(j.company))}${logoImg(j.company)}</div>
     <div class="body">
       <div class="title"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></div>
       <div class="meta">
