@@ -21,6 +21,10 @@
     "harvest:status": "node scripts/harvest.mjs --status",
     "harvest:merge": "node scripts/harvest.mjs --merge-only --top 400",
     "harvest:reset": "node scripts/harvest.mjs --reset",
-    "ui": "node scripts/serve.mjs"
+    "ui": "node scripts/serve.mjs",
+    "test": "node scripts/score.test.mjs && node scripts/resume.test.mjs"
+  },
+  "dependencies": {
+    "pdfjs-dist": "^6.2.108"
   }
 }

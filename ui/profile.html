@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile · JobBrowser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239a3f16'/%3E%3Ctext x='16' y='23' font-family='system-ui,sans-serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/ui/app.css">
+<style>
+  .shell{max-width:920px; margin:0 auto; padding:32px 32px 100px}
+  .save{
+    margin-left:auto; display:flex; align-items:center; gap:14px;
+    font-size:13px; color:var(--mute-2); font-family:var(--mono); white-space:nowrap;
+  }
+  .saved-ok{color:var(--green)}
+  .saved-err{color:var(--red)}
+
+  section{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:26px 28px; margin-bottom:16px;
+  }
+  section > h2{
+    margin:0 0 4px; font-size:16px; font-weight:600; letter-spacing:-.01em; color:var(--ink);
+  }
+  section > .desc{margin:0 0 20px; font-size:13px; color:var(--mute-2); line-height:1.55; max-width:70ch}
+  .grid{display:grid; gap:14px}
+  .g2{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr 1fr}
+  .g4{grid-template-columns:2fr 1fr 1fr 1.2fr}
+  .subhead{
+    font-size:11px; font-weight:600; letter-spacing:.09em; color:var(--mute-3);
+    margin:22px 0 12px; padding-top:18px; border-top:1px solid var(--line);
+  }
+  .subhead:first-of-type{margin-top:0; padding-top:0; border-top:none}
+
+  .item{
+    border:1px solid var(--line); border-radius:12px; padding:18px 20px;
+    margin-bottom:12px; background:var(--bg);
+  }
+  .itemhead{display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:14px}
+  .itemhead .n{font-size:12px; font-weight:600; letter-spacing:.08em; color:var(--mute-3)}
+  .bullets{display:flex; flex-direction:column; gap:8px; margin-top:12px}
+  .bullet{display:flex; gap:8px; align-items:flex-start}
+  .bullet textarea{flex:1; min-width:0; min-height:52px; font-size:13.5px}
+  .addrow{display:flex; gap:8px; margin-top:10px}
+
+  .note{
+    background:var(--gold-bg); border-left:3px solid var(--gold); color:var(--ink-2);
+    padding:12px 16px; border-radius:0 8px 8px 0; font-size:13px; line-height:1.6; margin:0 0 18px;
+  }
+  .note b{color:var(--gold)}
+  .note.warn{background:var(--red-bg); border-left-color:var(--red)}
+  .note.warn b{color:var(--red)}
+
+  .radios{display:flex; flex-direction:column; gap:9px}
+  .radios label{display:flex; align-items:flex-start; gap:9px; font-size:14px; color:var(--ink-3); cursor:pointer; line-height:1.5}
+  .radios input{margin-top:3px; accent-color:var(--accent); flex:0 0 auto}
+
+  .taglist{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+  .taglist .x{
+    display:inline-flex; align-items:center; gap:6px; padding:4px 8px 4px 10px;
+    border-radius:6px; background:var(--soft); color:var(--ink-3); font-size:12.5px;
+  }
+  .taglist .x button{border:none; background:none; padding:0; color:var(--mute-3); font-size:14px; line-height:1}
+  .taglist .x button:hover{color:var(--red)}
+
+  /* ── 步骤条 ── */
+  .steps{display:flex; align-items:center; gap:10px; margin:0 0 22px; font-size:13px}
+  .steps .s{display:flex; align-items:center; gap:8px; color:var(--mute-3)}
+  .steps .s.on{color:var(--accent); font-weight:600}
+  .steps .s .num{
+    width:21px; height:21px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:11.5px; font-weight:600; border:1px solid currentColor;
+  }
+  .steps .s.on .num{background:var(--accent); border-color:var(--accent); color:#fff}
+  .steps .arw{color:var(--line-3)}
+
+  /* ── 上传区 ── */
+  .drop{
+    border:1.5px dashed var(--line-3); border-radius:12px; padding:26px 22px; text-align:center;
+    background:var(--bg); transition:border-color .12s, background .12s;
+  }
+  .drop.over{border-color:var(--accent); background:var(--soft)}
+  .drop .big{font-size:14.5px; color:var(--ink-2); font-weight:500; margin-bottom:5px}
+  .drop .sm{font-size:12.5px; color:var(--mute-3)}
+  .drop input[type=file]{display:none}
+  .drop .btn{margin-top:14px}
+
+  .review{margin-top:18px; border:1px solid var(--line); border-radius:12px; overflow:hidden}
+  .review .rh{
+    padding:12px 18px; background:var(--soft); font-size:13px; color:var(--ink-2);
+    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  }
+  .review .rh b{font-weight:600}
+  .rblock{padding:14px 18px; border-top:1px solid var(--line); display:flex; gap:12px; align-items:flex-start}
+  .rblock > input{margin-top:3px; width:15px; height:15px; accent-color:var(--accent); flex:0 0 auto}
+  .rblock .t{font-size:13.5px; color:var(--ink-2); font-weight:500}
+  .rblock .d{font-size:12.5px; color:var(--mute-2); line-height:1.55; margin-top:3px}
+  .rblock .d em{font-style:normal; color:var(--accent)}
+  .rblock.off{opacity:.5}
+  .ract{padding:14px 18px; border-top:1px solid var(--line); display:flex; gap:10px; align-items:center}
+  .ract .msg{font-size:12.5px; color:var(--mute-2)}
+
+  .sugg{display:flex; flex-direction:column; gap:8px; margin-top:10px}
+  .sugg .s{
+    display:flex; gap:11px; align-items:flex-start; padding:11px 14px;
+    border:1px solid var(--line); border-radius:10px; background:var(--bg);
+  }
+  .sugg .s input{margin-top:2px; width:15px; height:15px; accent-color:var(--accent); flex:0 0 auto}
+  .sugg .s .n{font-size:13.5px; font-weight:600; color:var(--ink-2)}
+  .sugg .s .w{font-size:12.5px; color:var(--mute-2); line-height:1.5; margin-top:2px}
+
+  .gonext{
+    display:flex; align-items:center; justify-content:space-between; gap:18px; margin-top:22px;
+    padding:18px 22px; border:1px solid var(--line); border-radius:14px; background:var(--card);
+  }
+  .gonext .t{font-size:14px; color:var(--ink-2); font-weight:500}
+  .gonext .d{font-size:12.5px; color:var(--mute-2); margin-top:3px; line-height:1.5}
+  .gonext .btn.primary{padding:10px 20px; font-size:14px}
+
+  @media (max-width:760px){
+    .shell{padding:20px}
+    .g2,.g3,.g4{grid-template-columns:1fr}
+    .hin{padding:14px 20px; flex-wrap:wrap; gap:12px}
+    .gonext{flex-direction:column; align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hin">
+    <a class="brand" href="/">Job<span>Browser</span></a>
+    <nav class="nav"><a href="/ui/index.html">Jobs</a><a href="/ui/profile.html" class="on">Profile</a></nav>
+    <div class="save"><span id="savestate">loading…</span></div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <div class="steps">
+    <span class="s on"><span class="num">1</span> Your profile</span>
+    <span class="arw">→</span>
+    <span class="s" id="step2"><span class="num">2</span> Jobs ranked for you</span>
+  </div>
+
+  <!-- ── 简历导入 ── -->
+  <section>
+    <h2>Start from your résumé</h2>
+    <p class="desc">
+      Upload it and I'll fill in what I can read reliably — contact details, education, roles, dates,
+      bullets and skills — then suggest which job families to target. Nothing is applied until you
+      look it over and say so.
+    </p>
+
+    <div class="drop" id="drop">
+      <div class="big">Drop your résumé here</div>
+      <div class="sm">PDF, Word (.docx), or plain text · stays on this machine, never uploaded anywhere</div>
+      <button class="btn" id="pick">Choose a file</button>
+      <input type="file" id="file" accept=".pdf,.docx,.txt,.md,application/pdf,text/plain">
+    </div>
+
+    <div id="rev"></div>
+  </section>
+
+  <!-- ── Basics ── -->
+  <section>
+    <h2>Basics</h2>
+    <p class="desc">Used to auto-fill applications. Use your legal name exactly as it appears on your work authorization documents.</p>
+    <div class="grid g3">
+      <div class="field"><label>Legal first name</label><input type="text" data-p="basics.legalFirstName"></div>
+      <div class="field"><label>Legal last name</label><input type="text" data-p="basics.legalLastName"></div>
+      <div class="field"><label>Preferred name <span style="color:var(--mute-3)">optional</span></label><input type="text" data-p="basics.preferredName"></div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="field"><label>Email</label><input type="email" data-p="basics.email"></div>
+      <div class="field"><label>Phone</label><input type="tel" data-p="basics.phone" placeholder="+1 555 123 4567"></div>
+    </div>
+
+    <div class="subhead">ADDRESS</div>
+    <p class="desc" style="margin-top:-8px">Workday requires a full street address. Greenhouse and Lever usually don't, but having it saves typing.</p>
+    <div class="grid g2">
+      <div class="field"><label>Street address</label><input type="text" data-p="basics.address.line1"></div>
+      <div class="field"><label>Apt / Suite</label><input type="text" data-p="basics.address.line2"></div>
+    </div>
+    <div class="grid g4" style="margin-top:14px">
+      <div class="field"><label>City</label><input type="text" data-p="basics.address.city"></div>
+      <div class="field"><label>State</label><input type="text" data-p="basics.address.state" maxlength="2" placeholder="NY"></div>
+      <div class="field"><label>ZIP</label><input type="text" data-p="basics.address.zip"></div>
+      <div class="field"><label>Country</label><input type="text" data-p="basics.address.country"></div>
+    </div>
+
+    <div class="subhead">LINKS</div>
+    <div class="grid g2">
+      <div class="field"><label>LinkedIn</label><input type="url" data-p="basics.links.linkedin" placeholder="https://linkedin.com/in/…"></div>
+      <div class="field"><label>GitHub</label><input type="url" data-p="basics.links.github"></div>
+      <div class="field"><label>Portfolio / website</label><input type="url" data-p="basics.links.portfolio"></div>
+      <div class="field"><label>Other</label><input type="url" data-p="basics.links.other"></div>
+    </div>
+  </section>
+
+  <!-- ── Work authorization ── -->
+  <section>
+    <h2>Work authorization</h2>
+    <p class="desc">Almost every US application asks these two questions separately. They are not the same question, and getting them wrong is one of the most common reasons applications get auto-rejected.</p>
+
+    <div class="note">
+      <b>The two-question trap.</b> "Are you legally authorized to work in the US?" and "Will you now or in the future require sponsorship?" are independent.
+      An F-1 student on OPT is authorized to work <em>right now</em> (Yes) but <em>will</em> need sponsorship later (Yes).
+      Answering "No" to the second question because you can work today is a misrepresentation and a common self-inflicted rejection.
+    </div>
+
+    <div class="field" style="max-width:420px">
+      <label>Current status</label>
+      <select data-p="workAuth.status" id="wa-status">
+        <option value="">Select…</option>
+        <option value="citizen">US Citizen</option>
+        <option value="green_card">Permanent Resident (Green Card)</option>
+        <option value="ead">EAD (work permit, e.g. asylum / spouse)</option>
+        <option value="f1_opt">F-1 OPT</option>
+        <option value="f1_stem_opt">F-1 STEM OPT</option>
+        <option value="f1_cpt">F-1 CPT</option>
+        <option value="h1b">H-1B (needs transfer)</option>
+        <option value="j1">J-1</option>
+        <option value="tn">TN (Canada / Mexico)</option>
+        <option value="o1">O-1</option>
+        <option value="need_sponsor">Not authorized — need sponsorship to start</option>
+        <option value="other">Other</option>
+      </select>
+    </div>
+
+    <div class="subhead">THE TWO QUESTIONS</div>
+    <div class="grid g2">
+      <div class="field">
+        <label>Are you legally authorized to work in the US?</label>
+        <div class="radios">
+          <label><input type="radio" name="auth" data-p="workAuth.authorizedToWork" value="true"> Yes</label>
+          <label><input type="radio" name="auth" data-p="workAuth.authorizedToWork" value="false"> No</label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Will you now or in the future require sponsorship?</label>
+        <div class="radios">
+          <label><input type="radio" name="spon" data-p="workAuth.requireSponsorshipFuture" value="true"> Yes</label>
+          <label><input type="radio" name="spon" data-p="workAuth.requireSponsorshipFuture" value="false"> No</label>
+        </div>
+      </div>
+    </div>
+    <div class="field" style="margin-top:16px">
+      <label>Notes <span style="color:var(--mute-3)">optional — e.g. OPT end date, STEM extension eligibility</span></label>
+      <textarea data-p="workAuth.notes" rows="2"></textarea>
+    </div>
+    <div id="wa-hint" style="margin-top:14px"></div>
+  </section>
+
+  <!-- ── Preferences ── -->
+  <section>
+    <h2>Job preferences</h2>
+    <p class="desc">These drive which jobs surface on the Jobs page and, later, how matches are scored.</p>
+
+    <div class="grid g3">
+      <div class="field"><label>Salary minimum (USD)</label><input type="number" data-p="preferences.salaryMin" placeholder="90000"></div>
+      <div class="field"><label>Salary target</label><input type="number" data-p="preferences.salaryMax" placeholder="120000"></div>
+      <div class="field"><label>Available from</label><input type="date" data-p="preferences.availableFrom"></div>
+    </div>
+
+    <div class="subhead">LEVEL</div>
+    <div class="pills" id="pref-sen"></div>
+    <p class="desc" style="margin:10px 0 0">Filtering widens by one level in each direction, since many postings carry no level word in the title at all.</p>
+
+    <div class="subhead">WORK MODE &amp; LOCATION</div>
+    <div class="pills" id="pref-modes"></div>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="field">
+        <label>Target states <span style="color:var(--mute-3)">blank = anywhere in the US</span></label>
+        <input type="text" data-p="preferences.targetStates" data-list="1" placeholder="NY, CA, MA">
+      </div>
+      <div class="field" style="justify-content:flex-end">
+        <label class="chk"><input type="checkbox" data-p="preferences.willingToRelocate"> Willing to relocate</label>
+        <label class="chk" style="margin-top:8px"><input type="checkbox" data-p="preferences.salaryNegotiable"> Salary negotiable</label>
+      </div>
+    </div>
+
+    <div class="subhead">JOB FAMILIES</div>
+    <p class="desc" style="margin-top:-6px">Pick the families you're actually targeting. Counts show how many jobs are in the current index.</p>
+    <div id="pref-fams"></div>
+  </section>
+
+  <!-- ── Education ── -->
+  <section>
+    <h2>Education</h2>
+    <p class="desc">Most applications ask for degree, field, and exact dates. GPA is optional — only show it if it helps you.</p>
+    <div id="edu-list"></div>
+    <div class="addrow"><button class="btn" data-add="education">+ Add education</button></div>
+  </section>
+
+  <!-- ── Experience ── -->
+  <section>
+    <h2>Experience</h2>
+    <p class="desc">
+      Write <b>more bullets than fit on a résumé</b> — five to eight per role. This is a library, not the résumé itself.
+      When you target a specific job, the right subset gets selected and reordered. That's why one honest record can produce
+      a data-analytics résumé and a product résumé without rewriting anything.
+    </p>
+    <div class="note">
+      <b>Write bullets with the XYZ formula.</b> "Accomplished [X] as measured by [Y] by doing [Z]."
+      "Rebuilt the weekly reporting pipeline in dbt, cutting refresh time from 6 hours to 20 minutes for a team of 40"
+      beats "Responsible for reporting" every time. Quantify whatever you honestly can.
+    </div>
+    <div id="exp-list"></div>
+    <div class="addrow"><button class="btn" data-add="experience">+ Add role</button></div>
+  </section>
+
+  <!-- ── Skills ── -->
+  <section>
+    <h2>Skills</h2>
+    <p class="desc">Comma-separated. Used for keyword matching against job descriptions — only list what you'd be comfortable being asked about.</p>
+    <div class="grid g3">
+      <div class="field"><label>Technical</label><input type="text" data-p="skills.technical" data-list="1" placeholder="Python, SQL, R"></div>
+      <div class="field"><label>Tools &amp; platforms</label><input type="text" data-p="skills.tools" data-list="1" placeholder="dbt, Tableau, Snowflake"></div>
+      <div class="field"><label>Languages</label><input type="text" data-p="skills.languages" data-list="1" placeholder="English, Mandarin"></div>
+    </div>
+  </section>
+
+  <!-- ── EEO ── -->
+  <section>
+    <h2>Voluntary self-identification (EEO)</h2>
+    <p class="desc">
+      US employers with federal contracts are required to invite this information, and equally required to let you decline.
+      It is kept separate from hiring decisions. Every field below defaults to "decline" — nothing is pre-answered for you.
+    </p>
+    <div class="note warn">
+      <b>Never enter an SSN, driver's licence, or bank details here — or in any application.</b>
+      Legitimate employers only need those after an offer, through their HR system.
+      A posting that asks for them at the application stage is almost certainly a scam.
+    </div>
+
+    <div class="grid g2">
+      <div class="field">
+        <label>Gender</label>
+        <select data-p="eeo.gender">
+          <option value="decline">I don't wish to answer</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="nonbinary">Non-binary</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Race / ethnicity</label>
+        <select data-p="eeo.race">
+          <option value="decline">I don't wish to answer</option>
+          <option value="hispanic">Hispanic or Latino</option>
+          <option value="white">White (Not Hispanic or Latino)</option>
+          <option value="black">Black or African American</option>
+          <option value="asian">Asian</option>
+          <option value="native_hawaiian">Native Hawaiian or Other Pacific Islander</option>
+          <option value="american_indian">American Indian or Alaska Native</option>
+          <option value="two_or_more">Two or More Races</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Veteran status</label>
+        <select data-p="eeo.veteran">
+          <option value="decline">I don't wish to answer</option>
+          <option value="protected">I identify as one or more classifications of protected veteran</option>
+          <option value="not_protected">I am not a protected veteran</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Disability <span style="color:var(--mute-3)">form CC-305</span></label>
+        <select data-p="eeo.disability">
+          <option value="decline">I do not want to answer</option>
+          <option value="yes">Yes, I have a disability (or previously had one)</option>
+          <option value="no">No, I do not have a disability</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <div class="gonext">
+    <div>
+      <div class="t" id="gt">Next: see the jobs that match</div>
+      <div class="d" id="gd">Everything saves as you type — there's no submit button.</div>
+    </div>
+    <a class="btn primary" id="go" href="/ui/index.html">Browse matched jobs →</a>
+  </div>
+
+</div>
+
+<script>
+let P = {};
+let TAX = { families: [], groups: {} };
+let JOBCOUNT = {};
+let dirty = false, saveTimer = null;
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+
+/* 按 "a.b.c" 路径读写嵌套对象 —— 表单用 data-p 声明路径，省掉一堆样板代码 */
+const get = (o, path) => path.split('.').reduce((x, k) => (x == null ? x : x[k]), o);
+const set = (o, path, v) => {
+  const ks = path.split('.');
+  const last = ks.pop();
+  let cur = o;
+  for (const k of ks) cur = (cur[k] ??= {});
+  cur[last] = v;
+};
+
+const EMPTY = {
+  basics: { address: { country: 'United States' }, links: {} },
+  workAuth: {}, preferences: { workModes: [], targetStates: [], families: [] },
+  education: [], experience: [], projects: [],
+  skills: { technical: [], tools: [], languages: [] },
+  eeo: { gender: 'decline', race: 'decline', veteran: 'decline', disability: 'decline' },
+};
+
+async function boot() {
+  const [p, t] = await Promise.all([
+    fetch('/api/profile').then((r) => r.json()).catch(() => ({})),
+    fetch('/data/taxonomy.json').then((r) => r.json()).catch(() => TAX),
+  ]);
+  P = Object.keys(p || {}).length ? p : structuredClone(EMPTY);
+  for (const k of Object.keys(EMPTY)) P[k] ??= structuredClone(EMPTY[k]);
+  TAX = t;
+
+  bindFields();
+  renderPills();
+  renderFamilies();
+  renderList('education');
+  renderList('experience');
+  updateAuthHint();
+  updateNext();
+  status('saved');
+
+  // 岗位数只是锦上添花，但 jobs.json 有十几 MB —— 不能让它挡住整个页面。
+  // 先把表单渲染出来能填，数字到了再补上去。
+  fetch('/data/jobs.json').then((r) => r.json()).then((jobs) => {
+    for (const j of (jobs.jobs || [])) for (const f of (j.families || [])) JOBCOUNT[f] = (JOBCOUNT[f] || 0) + 1;
+    renderFamilies();
+  }).catch(() => {});
+}
+
+/* 把所有带 data-p 的控件跟 P 双向绑定 */
+function bindFields() {
+  for (const el of $$('[data-p]')) {
+    const path = el.dataset.p;
+    const v = get(P, path);
+
+    if (el.type === 'radio') {
+      el.checked = String(v) === el.value;
+      el.onchange = () => { if (el.checked) { set(P, path, el.value === 'true'); touch(); updateAuthHint(); } };
+    } else if (el.type === 'checkbox') {
+      el.checked = !!v;
+      el.onchange = () => { set(P, path, el.checked); touch(); };
+    } else if (el.dataset.list) {
+      el.value = Array.isArray(v) ? v.join(', ') : (v || '');
+      el.oninput = () => {
+        set(P, path, el.value.split(',').map((s) => s.trim()).filter(Boolean));
+        touch();
+      };
+    } else {
+      el.value = v ?? '';
+      el.oninput = () => {
+        const raw = el.value;
+        set(P, path, el.type === 'number' ? (raw === '' ? null : Number(raw)) : raw);
+        touch();
+        if (path === 'workAuth.status') updateAuthHint();
+      };
+      if (el.tagName === 'SELECT') el.onchange = el.oninput;
+    }
+  }
+}
+
+/* 根据 status 给出两个问题的建议答案 —— 这是最容易填错的地方 */
+const AUTH_HINT = {
+  citizen:      ['Yes', 'No',  'US citizens never need sponsorship.'],
+  green_card:   ['Yes', 'No',  'Permanent residents never need sponsorship.'],
+  ead:          ['Yes', 'No',  'An EAD authorizes work without employer sponsorship. If your EAD is tied to a status that expires, note the date.'],
+  f1_opt:       ['Yes', 'Yes', 'You can work now on OPT, but you will need H-1B (or another status) later. Answering "No" to the second question is a misrepresentation.'],
+  f1_stem_opt:  ['Yes', 'Yes', 'STEM OPT buys you 24 more months, but sponsorship is still required eventually.'],
+  f1_cpt:       ['Yes', 'Yes', 'CPT is tied to your programme and school authorisation. Sponsorship will be needed after graduation.'],
+  h1b:          ['Yes', 'Yes', 'A transfer is still sponsorship. Most employers treat H-1B transfer as a "Yes" on the second question.'],
+  j1:           ['Yes', 'Yes', 'Check whether you are subject to the two-year home residency requirement — it affects what you can accept.'],
+  tn:           ['Yes', 'Yes', 'TN is employer-specific, so a new employer must file. Many forms count that as sponsorship.'],
+  o1:           ['Yes', 'Yes', 'O-1 is employer-petitioned, so a new employer would need to file.'],
+  need_sponsor: ['No',  'Yes', 'Be aware many US postings filter out candidates who answer this way. The H-1B sponsor filter we can add later will help you avoid wasted applications.'],
+};
+
+function updateAuthHint() {
+  const s = get(P, 'workAuth.status');
+  const box = $('#wa-hint');
+  if (!s || !AUTH_HINT[s]) { box.innerHTML = ''; return; }
+  const [a, b, why] = AUTH_HINT[s];
+  const cur = [get(P, 'workAuth.authorizedToWork'), get(P, 'workAuth.requireSponsorshipFuture')];
+  const want = [a === 'Yes', b === 'Yes'];
+  const mismatch = cur.some((v, i) => v != null && v !== want[i]);
+  box.innerHTML = `<div class="note${mismatch ? ' warn' : ''}">`
+    + `<b>For this status the usual answers are: ${a} / ${b}.</b> ${esc(why)}`
+    + (mismatch ? ' <br><br>Your current answers differ. That can be correct for an unusual situation — just make sure it is deliberate.' : '')
+    + `</div>`;
+}
+
+function renderPills() {
+  const sens = [['intern','Intern'],['entry','Entry'],['mid','Mid'],['senior','Senior'],['staff','Staff'],['manager','Manager']];
+  $('#pref-sen').innerHTML = sens.map(([v,l]) =>
+    `<button class="pill${get(P,'preferences.seniority')===v?' on':''}" data-sen="${v}">${l}</button>`).join('');
+  $('#pref-sen').onclick = (e) => {
+    const b = e.target.closest('[data-sen]'); if (!b) return;
+    set(P, 'preferences.seniority', get(P,'preferences.seniority') === b.dataset.sen ? '' : b.dataset.sen);
+    renderPills(); touch();
+  };
+
+  const modes = [['onsite','On-site'],['hybrid','Hybrid'],['remote','Remote']];
+  const cur = get(P, 'preferences.workModes') || [];
+  $('#pref-modes').innerHTML = modes.map(([v,l]) =>
+    `<button class="pill${cur.includes(v)?' on':''}" data-mode="${v}">${l}</button>`).join('');
+  $('#pref-modes').onclick = (e) => {
+    const b = e.target.closest('[data-mode]'); if (!b) return;
+    const m = get(P, 'preferences.workModes') || [];
+    set(P, 'preferences.workModes', m.includes(b.dataset.mode) ? m.filter((x) => x !== b.dataset.mode) : [...m, b.dataset.mode]);
+    renderPills(); touch();
+  };
+}
+
+function renderFamilies() {
+  const sel = get(P, 'preferences.families') || [];
+  const byGroup = {};
+  for (const f of (TAX.families || [])) (byGroup[f.group || 'other'] ||= []).push(f);
+  let html = '';
+  for (const [g, list] of Object.entries(byGroup)) {
+    list.sort((a, b) => (JOBCOUNT[b.key] || 0) - (JOBCOUNT[a.key] || 0));
+    html += `<div style="font-size:12px;color:var(--mute-2);margin:14px 0 7px">${esc(TAX.groups?.[g] || g)}</div><div class="pills">`;
+    html += list.map((f) => `<button class="pill${sel.includes(f.key)?' on':''}" data-fam="${esc(f.key)}">`
+      + `${esc(f.label)}${JOBCOUNT[f.key] ? ` <span style="opacity:.6">${JOBCOUNT[f.key]}</span>` : ''}</button>`).join('');
+    html += '</div>';
+  }
+  $('#pref-fams').innerHTML = html;
+  $('#pref-fams').onclick = (e) => {
+    const b = e.target.closest('[data-fam]'); if (!b) return;
+    const cur = get(P, 'preferences.families') || [];
+    const k = b.dataset.fam;
+    set(P, 'preferences.families', cur.includes(k) ? cur.filter((x) => x !== k) : [...cur, k]);
+    renderFamilies(); updateNext(); touch();
+  };
+}
+
+/* education / experience 的重复块 */
+const BLANK = {
+  education: { school:'', degree:'', field:'', gpa:'', showGpa:false, startDate:'', endDate:'', location:'' },
+  experience: { company:'', title:'', location:'', startDate:'', endDate:'', current:false, bullets:[{ text:'', tags:[] }] },
+};
+
+function renderList(kind) {
+  const arr = P[kind] || [];
+  const box = $(`#${kind === 'education' ? 'edu' : 'exp'}-list`);
+  box.innerHTML = arr.map((it, i) => kind === 'education' ? eduItem(it, i) : expItem(it, i)).join('')
+    || `<p style="font-size:13px;color:var(--mute-3);margin:0 0 4px">Nothing yet.</p>`;
+
+  // 事件用委托，避免每次重渲染都要重新绑一堆
+  box.oninput = (e) => {
+    const el = e.target.closest('[data-k]'); if (!el) return;
+    const { i, b, k } = el.dataset;
+    if (b != null) arr[+i].bullets[+b].text = el.value;
+    else if (el.type === 'checkbox') {
+      arr[+i][k] = el.checked;
+      // 勾了 Current role 就没有结束日期了 —— 直接改 DOM 而不是整块重渲染，
+      // 重渲染会把焦点从复选框上弹走
+      if (k === 'current') {
+        const end = box.querySelector(`input[data-k="endDate"][data-i="${i}"]`);
+        if (end) { end.disabled = el.checked; if (el.checked) { end.value = ''; arr[+i].endDate = ''; } }
+      }
+    } else arr[+i][k] = el.value;
+    touch();
+  };
+  box.onclick = (e) => {
+    const del = e.target.closest('[data-del]');
+    if (del) { arr.splice(+del.dataset.del, 1); renderList(kind); touch(); return; }
+    const addB = e.target.closest('[data-addb]');
+    if (addB) { arr[+addB.dataset.addb].bullets.push({ text:'', tags:[] }); renderList(kind); touch(); return; }
+    const delB = e.target.closest('[data-delb]');
+    if (delB) {
+      const [i, b] = delB.dataset.delb.split(':').map(Number);
+      arr[i].bullets.splice(b, 1); renderList(kind); touch();
+    }
+  };
+}
+
+function eduItem(it, i) {
+  return `<div class="item">
+    <div class="itemhead"><span class="n">EDUCATION ${i + 1}</span>
+      <button class="btn ghost" data-del="${i}">Remove</button></div>
+    <div class="grid g2">
+      <div class="field"><label>School</label><input type="text" data-k="school" data-i="${i}" value="${esc(it.school)}"></div>
+      <div class="field"><label>Location</label><input type="text" data-k="location" data-i="${i}" value="${esc(it.location)}"></div>
+      <div class="field"><label>Degree</label><input type="text" data-k="degree" data-i="${i}" value="${esc(it.degree)}" placeholder="M.S."></div>
+      <div class="field"><label>Field of study</label><input type="text" data-k="field" data-i="${i}" value="${esc(it.field)}"></div>
+    </div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="field"><label>Start</label><input type="month" data-k="startDate" data-i="${i}" value="${esc(it.startDate)}"></div>
+      <div class="field"><label>End (or expected)</label><input type="month" data-k="endDate" data-i="${i}" value="${esc(it.endDate)}"></div>
+      <div class="field"><label>GPA</label><input type="text" data-k="gpa" data-i="${i}" value="${esc(it.gpa)}" placeholder="3.8/4.0">
+        <label class="chk" style="margin-top:8px"><input type="checkbox" data-k="showGpa" data-i="${i}" ${it.showGpa?'checked':''}> Show on résumé</label>
+      </div>
+    </div>
+  </div>`;
+}
+
+function expItem(it, i) {
+  const bullets = (it.bullets || []).map((b, bi) => `<div class="bullet">
+    <textarea data-k="bullets" data-i="${i}" data-b="${bi}" rows="2"
+      placeholder="Accomplished [X] as measured by [Y] by doing [Z]">${esc(b.text)}</textarea>
+    <button class="btn ghost" data-delb="${i}:${bi}" title="Remove bullet">×</button>
+  </div>`).join('');
+
+  return `<div class="item">
+    <div class="itemhead"><span class="n">ROLE ${i + 1}</span>
+      <button class="btn ghost" data-del="${i}">Remove</button></div>
+    <div class="grid g2">
+      <div class="field"><label>Company</label><input type="text" data-k="company" data-i="${i}" value="${esc(it.company)}"></div>
+      <div class="field"><label>Title</label><input type="text" data-k="title" data-i="${i}" value="${esc(it.title)}"></div>
+    </div>
+    <div class="grid g3" style="margin-top:14px">
+      <div class="field"><label>Location</label><input type="text" data-k="location" data-i="${i}" value="${esc(it.location)}"></div>
+      <div class="field"><label>Start</label><input type="month" data-k="startDate" data-i="${i}" value="${esc(it.startDate)}"></div>
+      <div class="field"><label>End</label><input type="month" data-k="endDate" data-i="${i}" value="${esc(it.endDate)}" ${it.current?'disabled':''}>
+        <label class="chk" style="margin-top:8px"><input type="checkbox" data-k="current" data-i="${i}" ${it.current?'checked':''}> Current role</label>
+      </div>
+    </div>
+    <div class="bullets">${bullets}</div>
+    <div class="addrow"><button class="btn" data-addb="${i}">+ Add bullet</button></div>
+  </div>`;
+}
+
+document.body.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-add]'); if (!b) return;
+  const kind = b.dataset.add;
+  (P[kind] ||= []).push(structuredClone(BLANK[kind]));
+  renderList(kind); touch();
+});
+
+/* ────────────────────────────────────────────────────────────────
+   简历导入
+   ──────────────────────────────────────────────────────────────── */
+
+let PARSED = null;
+
+$('#pick').onclick = () => $('#file').click();
+$('#file').onchange = (e) => { if (e.target.files[0]) upload(e.target.files[0]); };
+
+const drop = $('#drop');
+for (const ev of ['dragenter', 'dragover']) {
+  drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.add('over'); });
+}
+for (const ev of ['dragleave', 'drop']) {
+  drop.addEventListener(ev, (e) => { e.preventDefault(); drop.classList.remove('over'); });
+}
+drop.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; if (f) upload(f); });
+
+async function upload(file) {
+  $('#rev').innerHTML = `<div class="review"><div class="rh">Reading ${esc(file.name)}…</div></div>`;
+  try {
+    // 直接发原始字节，不用 multipart —— 只有一个文件，
+    // 加一层 multipart 封装等于两边都要写解析器，没有任何收益
+    const r = await fetch(`/api/resume?name=${encodeURIComponent(file.name)}`, {
+      method: 'POST', body: file,
+    });
+    const data = await r.json();
+    if (!r.ok || data.error) throw new Error(data.error || r.statusText);
+    PARSED = data;
+    renderReview(data);
+  } catch (e) {
+    $('#rev').innerHTML = `<div class="review"><div class="rh saved-err">Couldn't read that file</div>`
+      + `<div class="rblock"><div><div class="d">${esc(e.message)}</div></div></div></div>`;
+  } finally {
+    $('#file').value = '';                       // 清空，否则连传同一个文件不触发 change
+  }
+}
+
+/**
+ * 「审阅后应用」而不是直接覆盖。
+ *
+ * 解析里最靠谱的是邮箱电话链接日期，最不靠谱的是公司名和职位名怎么切。
+ * 但用户没法预先知道哪块准哪块不准 —— 所以把每一块要写入什么、
+ * 会覆盖掉什么，明说出来再让他决定。填错的档案会污染后面所有环节，
+ * 而且错得很隐蔽：你不会想到岗位排序不对是因为当初简历里的公司名串了行。
+ */
+function renderReview(d) {
+  const p = d.profile;
+  const b = p.basics;
+  const conf = d.confidence;
+  const nBul = d.stats.bullets;
+
+  const contactBits = [
+    b.legalFirstName && `${b.legalFirstName} ${b.legalLastName}`.trim(),
+    b.email, b.phone,
+    b.address.city && `${b.address.city}, ${b.address.state}`,
+    b.links.linkedin && 'LinkedIn', b.links.github && 'GitHub',
+  ].filter(Boolean);
+
+  const blocks = [];
+  if (contactBits.length) {
+    blocks.push({
+      k: 'contact', on: true,
+      t: 'Contact details',
+      d: contactBits.join(' · ') + (hasContact() ? ' <em>— replaces what\'s there now</em>' : ''),
+    });
+  }
+  if (p.education.length) {
+    blocks.push({
+      k: 'education', on: conf.education === 'high',
+      t: `Education — ${p.education.length} ${p.education.length === 1 ? 'entry' : 'entries'}`,
+      d: p.education.map((e) => `${esc(e.school || '?')}${e.degree ? `, ${esc(e.degree)}` : ''}${e.field ? ` ${esc(e.field)}` : ''}`).join(' · ')
+        + (P.education?.length ? ` <em>— replaces your ${P.education.length} existing</em>` : ''),
+    });
+  }
+  if (p.experience.length) {
+    blocks.push({
+      k: 'experience', on: conf.experience === 'high',
+      t: `Experience — ${p.experience.length} ${p.experience.length === 1 ? 'role' : 'roles'}, ${nBul} bullets`,
+      d: p.experience.map((e) => `${esc(e.title || '?')} @ ${esc(e.company || '?')}`).join(' · ')
+        + (P.experience?.length ? ` <em>— replaces your ${P.experience.length} existing</em>` : '')
+        + (d.stats.needsReview.length
+          ? ` <em>— couldn't split company from title on ${d.stats.needsReview.length}; check those after applying</em>` : ''),
+    });
+  }
+  if (p.skills.technical.length) {
+    const fresh = p.skills.technical.filter((s) => !(P.skills?.technical || []).some((x) => x.toLowerCase() === s.toLowerCase()));
+    blocks.push({
+      k: 'skills', on: true,
+      t: `Skills — ${fresh.length} new`,
+      d: fresh.slice(0, 16).map(esc).join(', ') + (fresh.length > 16 ? ` +${fresh.length - 16} more` : '')
+        + ' <em>— added to what you have, nothing removed</em>',
+    });
+  }
+
+  const sug = (d.suggestions || []).filter((s) => !(P.preferences?.families || []).includes(s.key));
+
+  $('#rev').innerHTML = `<div class="review">
+    <div class="rh"><b>Read ${d.stats.lines} lines${d.kind === 'pdf' ? ' from the PDF' : d.kind === 'docx' ? ' from the Word file' : ''}.</b>
+      Tick what looks right — nothing is written until you apply.</div>
+    ${blocks.map((x) => `<label class="rblock${x.on ? '' : ' off'}">
+      <input type="checkbox" data-blk="${x.k}" ${x.on ? 'checked' : ''}>
+      <div><div class="t">${esc(x.t)}</div><div class="d">${x.d}</div></div>
+    </label>`).join('')}
+    ${sug.length ? `<div class="rblock" style="display:block">
+      <div class="t">Job families that match this résumé</div>
+      <div class="d">These drive the ranking on the Jobs page. Reasons are shown so you can tell whether I read you right.</div>
+      <div class="sugg">${sug.map((s) => `<label class="s">
+        <input type="checkbox" data-fam="${esc(s.key)}" ${s.score >= 12 ? 'checked' : ''}>
+        <div><div class="n">${esc(s.label)}</div><div class="w">Because ${esc(s.why.join('; and '))}.</div></div>
+      </label>`).join('')}</div>
+    </div>` : ''}
+    <div class="ract">
+      <button class="btn primary" id="apply">Apply selected</button>
+      <button class="btn ghost" id="discard">Discard</button>
+      <span class="msg" id="rmsg"></span>
+    </div>
+  </div>`;
+
+  $('#discard').onclick = () => { PARSED = null; $('#rev').innerHTML = ''; };
+  $('#apply').onclick = applyParsed;
+  $('#rev').onchange = (e) => {
+    const blk = e.target.closest('[data-blk]');
+    if (blk) blk.closest('.rblock').classList.toggle('off', !blk.checked);
+  };
+}
+
+const hasContact = () => !!(P.basics?.email || P.basics?.legalFirstName || P.basics?.phone);
+
+function applyParsed() {
+  if (!PARSED) return;
+  const src = PARSED.profile;
+  const want = (k) => $(`[data-blk="${k}"]`)?.checked;
+  const done = [];
+
+  if (want('contact')) {
+    // 空字段不覆盖已有值 —— 解析出来是空的，不代表用户填的那个是错的
+    const merge = (dst, s) => {
+      for (const [k, v] of Object.entries(s)) {
+        if (v && typeof v === 'object' && !Array.isArray(v)) merge((dst[k] ||= {}), v);
+        else if (v) dst[k] = v;
+      }
+    };
+    merge((P.basics ||= {}), src.basics);
+    done.push('contact details');
+  }
+  if (want('education')) { P.education = structuredClone(src.education); done.push(`${src.education.length} education entries`); }
+  if (want('experience')) { P.experience = structuredClone(src.experience); done.push(`${src.experience.length} roles`); }
+  if (want('skills')) {
+    const cur = (P.skills ||= { technical: [], tools: [], languages: [] });
+    const seen = new Set([...(cur.technical || []), ...(cur.tools || [])].map((s) => s.toLowerCase()));
+    const add = src.skills.technical.filter((s) => !seen.has(s.toLowerCase()));
+    cur.technical = [...(cur.technical || []), ...add];
+    done.push(`${add.length} skills`);
+  }
+
+  const fams = $$('[data-fam]').filter((el) => el.checked).map((el) => el.dataset.fam);
+  if (fams.length) {
+    const cur = get(P, 'preferences.families') || [];
+    set(P, 'preferences.families', [...new Set([...cur, ...fams])]);
+    done.push(`${fams.length} job families`);
+  }
+
+  if (!done.length) { $('#rmsg').textContent = 'Nothing selected.'; return; }
+
+  // 重新绑定所有控件，把新值刷到界面上
+  bindFields(); renderPills(); renderFamilies();
+  renderList('education'); renderList('experience');
+  updateAuthHint(); updateNext();
+  touch();
+
+  PARSED = null;
+  $('#rev').innerHTML = `<div class="review"><div class="rh saved-ok">`
+    + `Applied ${esc(done.join(', '))}. Scroll down and check it over —`
+    + ` dates and company names are the two things worth a second look.</div></div>`;
+}
+
+/** 底部「去看岗位」的状态：档案够不够用来排序 */
+function updateNext() {
+  const ready = (get(P, 'preferences.families') || []).length
+    || (P.skills?.technical || []).length || get(P, 'preferences.seniority');
+  $('#step2').classList.toggle('on', !!ready);
+  $('#gt').textContent = ready ? 'Ready — the Jobs page will rank by fit' : 'Next: see the jobs that match';
+  $('#gd').textContent = ready
+    ? 'Everything saves as you type. Come back and adjust any time — the ranking follows.'
+    : 'Pick at least one job family above (or upload a résumé) so the Jobs page has something to rank by.';
+}
+
+/* 自动保存：改完 800ms 落盘，不用点保存按钮 */
+function touch() {
+  dirty = true;
+  status('saving');
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 800);
+}
+async function save() {
+  try {
+    const r = await fetch('/api/profile', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(P),
+    });
+    if (!r.ok) throw new Error((await r.json()).error || r.statusText);
+    dirty = false; status('saved');
+  } catch (e) { status('error', e.message); }
+}
+function status(s, msg) {
+  const el = $('#savestate');
+  if (s === 'saving') { el.textContent = 'saving…'; el.className = ''; }
+  else if (s === 'saved') { el.textContent = '✓ saved locally'; el.className = 'saved-ok'; }
+  else { el.textContent = `save failed: ${msg || ''}`; el.className = 'saved-err'; }
+}
+addEventListener('beforeunload', (e) => { if (dirty) { e.preventDefault(); e.returnValue = ''; } });
+
+/* 关标签页 / 切走时把还没落盘的改动冲出去。
+   beforeunload 里发 fetch 会被浏览器掐掉，sendBeacon 不会 ——
+   最后 800ms 的输入不该因为手快关了页面就没了。 */
+addEventListener('pagehide', () => {
+  if (!dirty) return;
+  clearTimeout(saveTimer);
+  navigator.sendBeacon('/api/profile', new Blob([JSON.stringify(P)], { type: 'application/json' }));
+});
+
+boot();
+</script>
+</body>
+</html>

@@ -50,6 +50,28 @@ export async function fetchJSON(url, { retries = 2, timeoutMs = 20000 } = {}) {
 export const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
+ * slug → 可读公司名，兜底用。
+ * Common Crawl 收割来的条目 company 就是 slug 本身（"jj"、"abbott"、"cvshealth"），
+ * 直接显示很难看。Greenhouse / Workable / Recruitee / SmartRecruiters 的接口
+ * 会返回公司真名，优先用那个；Lever / Ashby / Workday 不返回，只能靠这里美化。
+ *
+ * 只做保守处理：连字符和下划线转空格、每个词首字母大写、常见缩写保持全大写。
+ * 猜不出来的（"jj" → "Jj"）就认了 —— 宁可难看也别猜错。
+ */
+const ACRONYMS = new Set(['ai','ml','hr','it','us','uk','api','sdk','bi','crm','erp','saas','iot','ip','tv','fm','db']);
+export function prettyName(slug) {
+  if (!slug) return '';
+  const s = String(slug).split('|')[0];      // Workday 的 token 是 tenant|site|host
+  return s
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .map((w) => (ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(' ');
+}
+
+/**
  * HTML 实体解码。
  * & 必须【最后】解 —— 否则 "&amp;lt;" 会先变成 "&lt;" 再变成 "<"，
  * 把本该显示为文本的东西错误地当成标签。
@@ -103,7 +125,9 @@ export async function greenhouse(token, company, _opts = {}) {
   return {
     jobs: (data?.jobs || []).map((j) => ({
       ats: 'greenhouse',
-      company,
+      // Common Crawl 收割来的 company 只是 slug（"jj"、"abbott"），
+      // 而接口自己返回了公司真名，优先用它
+      company: j.company_name || prettyName(company),
       externalId: String(j.id),
       title: j.title,
       locationRaw: j.location?.name || '',
@@ -132,7 +156,7 @@ export async function lever(token, company, _opts = {}) {
   return {
     jobs: list.map((j) => ({
       ats: 'lever',
-      company,
+      company: prettyName(company),
       externalId: String(j.id),
       title: j.text,
       locationRaw: j.categories?.location || '',
@@ -159,7 +183,7 @@ export async function ashby(token, company, _opts = {}) {
   return {
     jobs: (data?.jobs || []).map((j) => ({
       ats: 'ashby',
-      company,
+      company: prettyName(company),
       externalId: String(j.id),
       title: j.title,
       locationRaw:
@@ -187,7 +211,7 @@ export async function workable(token, company, _opts = {}) {
   return {
     jobs: (data?.jobs || []).map((j) => ({
       ats: 'workable',
-      company,
+      company: data?.name || prettyName(company),
       externalId: String(j.shortcode || j.id),
       title: j.title,
       locationRaw: [j.city, j.state, j.country].filter(Boolean).join(', ') ||
@@ -213,7 +237,7 @@ export async function recruitee(token, company, _opts = {}) {
   return {
     jobs: (data?.offers || []).map((j) => ({
       ats: 'recruitee',
-      company,
+      company: j.company_name || prettyName(company),
       externalId: String(j.id),
       title: j.title,
       locationRaw: [j.city, j.state_code || j.state_name, j.country_code]
@@ -239,7 +263,7 @@ export async function smartrecruiters(token, company, _opts = {}) {
   return {
     jobs: (data?.content || []).map((j) => ({
       ats: 'smartrecruiters',
-      company,
+      company: j.company?.name || prettyName(company),
       externalId: String(j.id),
       title: j.name,
       locationRaw: [j.location?.city, j.location?.region, j.location?.country]
@@ -328,7 +352,7 @@ export async function workday(token, company, opts = {}) {
       const p = j.externalPath || '';
       jobs.push({
         ats: 'workday',
-        company,
+        company: prettyName(company),
         // externalPath 末段带唯一 requisition id，是稳定的
         externalId: p.split('/').pop() || j.bulletFields?.[0] || j.title,
         title: j.title,

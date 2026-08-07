@@ -1,0 +1,78 @@
+{
+  "_comment": [
+    "Master Profile —— 模块一的核心数据结构，也是后面所有功能的输入。",
+    "",
+    "设计要点：",
+    "1. 简历不是一个 PDF，是这份结构化数据。每段经历下面挂着比简历上多的 bullet，",
+    "   生成具体简历时按目标岗位【挑选和重排】，而不是每次重写。",
+    "2. workAuth 不做 yes/no。「是否有工作许可」和「是否需要 sponsor」是两个独立问题，",
+    "   OPT 学生的正确答案是 Yes + Yes，填错直接被筛掉。",
+    "3. eeo 全部默认 decline。这些是自愿填写的，不该替用户默认。",
+    "4. 绝不存 SSN / 驾照 / 银行信息 —— 申请阶段根本不需要，",
+    "   在这个阶段索要这些的岗位大概率是招聘诈骗。",
+    "",
+    "实际文件是 data/profile.json，已在 .gitignore 里（个人数据不进仓库）。",
+    "这份 example 只是结构参考，字段可以留空。"
+  ],
+
+  "basics": {
+    "legalFirstName": "",
+    "legalLastName": "",
+    "preferredName": "",
+    "email": "",
+    "phone": "",
+    "address": { "line1": "", "line2": "", "city": "", "state": "", "zip": "", "country": "United States" },
+    "links": { "linkedin": "", "github": "", "portfolio": "", "other": "" }
+  },
+
+  "workAuth": {
+    "status": "",
+    "authorizedToWork": null,
+    "requireSponsorshipNow": null,
+    "requireSponsorshipFuture": null,
+    "notes": ""
+  },
+
+  "preferences": {
+    "salaryMin": null,
+    "salaryMax": null,
+    "salaryNegotiable": true,
+    "availableFrom": "",
+    "noticePeriodWeeks": null,
+    "willingToRelocate": null,
+    "workModes": [],
+    "targetStates": [],
+    "families": [],
+    "seniority": ""
+  },
+
+  "education": [
+    {
+      "school": "", "degree": "", "field": "", "gpa": "", "showGpa": false,
+      "startDate": "", "endDate": "", "location": "", "notes": ""
+    }
+  ],
+
+  "experience": [
+    {
+      "company": "", "title": "", "location": "",
+      "startDate": "", "endDate": "", "current": false,
+      "bullets": [
+        { "text": "", "tags": [] }
+      ]
+    }
+  ],
+
+  "projects": [
+    { "name": "", "url": "", "description": "", "tags": [] }
+  ],
+
+  "skills": { "technical": [], "tools": [], "languages": [] },
+
+  "eeo": {
+    "gender": "decline",
+    "race": "decline",
+    "veteran": "decline",
+    "disability": "decline"
+  }
+}

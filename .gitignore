@@ -16,3 +16,8 @@ data/prefs.json
 
 # 岗位标记是用户数据
 data/marks.json
+
+# 个人档案：姓名、地址、电话、工作授权状态、EEO 自我识别、全部经历。
+# 这是整个仓库里最敏感的文件，绝不进 git（data/profile.example.json 是模板）。
+data/profile.json
+data/profile.json.tmp

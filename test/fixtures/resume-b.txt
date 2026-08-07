@@ -1,0 +1,25 @@
+Marcus Webb
+Austin, TX  •  512-555-0117  •  marcus.webb@gmail.com  •  https://linkedin.com/in/marcuswebb
+
+PROFESSIONAL SUMMARY
+Senior backend engineer with 8 years building distributed systems.
+
+WORK EXPERIENCE
+
+Senior Software Engineer, Stripe
+March 2021 - Present
+- Led migration of the payments ledger to a sharded Postgres cluster serving 40k requests per second
+- Reduced p99 latency from 340ms to 85ms by rewriting the settlement path in Go
+- Mentored 5 engineers, 3 of whom were promoted
+
+Software Engineer
+Rackspace                                                   08/2017 - 02/2021
+- Built internal Kubernetes tooling adopted by 200+ engineers
+- Owned the CI/CD pipeline, cutting build times 60%
+
+EDUCATION
+University of Texas at Austin
+B.S. in Computer Science, 2013 - 2017
+
+TECHNICAL SKILLS
+Go, Python, Java, PostgreSQL, Kubernetes, Docker, Terraform, AWS, Kafka, gRPC

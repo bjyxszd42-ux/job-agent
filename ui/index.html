@@ -3,173 +3,225 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Job Browser · job-agent</title>
+<title>JobBrowser</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%239a3f16'/%3E%3Ctext x='16' y='23' font-family='system-ui,sans-serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/ui/app.css">
 <style>
-  :root{
-    --bg:#faf9f7; --surface:#fff; --surface-2:#f4f2ef; --surface-3:#eceae5;
-    --ink:#1c1a17; --ink-2:#5b554d; --ink-3:#8d8579;
-    --line:#e5e1da; --line-2:#d6d0c6;
-    --accent:#b4552d; --accent-soft:#fdf0e9;
-    --teal:#2f6f6a; --teal-soft:#e8f2f1;
-    --blue:#3a5a8c; --blue-soft:#eaf0f8;
-    --gold:#8a6d1f; --gold-soft:#f8f1dc;
-    --r:10px;
-  }
-  @media (prefers-color-scheme:dark){
-    :root{
-      --bg:#16150f; --surface:#1f1e18; --surface-2:#26251e; --surface-3:#2f2e26;
-      --ink:#f0ece3; --ink-2:#b4ada0; --ink-3:#847d70;
-      --line:#33312a; --line-2:#413e35;
-      --accent:#e08a5f; --accent-soft:#3a251b;
-      --teal:#6fb5ae; --teal-soft:#1b2f2d;
-      --blue:#8aa8d4; --blue-soft:#1c2635;
-      --gold:#d4b45c; --gold-soft:#312a15;
-    }
-  }
-  *{box-sizing:border-box}
-  html,body{height:100%}
-  body{
-    margin:0; background:var(--bg); color:var(--ink); font-size:14px; line-height:1.5;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    -webkit-font-smoothing:antialiased; display:flex; flex-direction:column;
-  }
-  button{font:inherit; cursor:pointer}
-  a{color:inherit}
+  html{scroll-behavior:smooth}
 
-  header{
-    display:flex; align-items:center; gap:16px; padding:12px 20px;
-    background:var(--surface); border-bottom:1px solid var(--line); flex:0 0 auto;
-  }
-  .brand{font-weight:700; font-size:15px; white-space:nowrap; letter-spacing:-.01em}
-  .brand span{color:var(--accent)}
-  .stat{font-size:12.5px; color:var(--ink-3); white-space:nowrap}
-  .stat b{color:var(--ink); font-weight:650}
+  .search{flex:1; max-width:520px; position:relative; display:flex; align-items:center}
+  .search svg{position:absolute; left:13px; pointer-events:none}
   #q{
-    flex:1; min-width:120px; padding:7px 12px; border:1px solid var(--line-2);
-    background:var(--bg); color:var(--ink); border-radius:8px; font-size:13.5px;
+    width:100%; padding:11px 14px 11px 36px; font-size:15px; border:1px solid var(--line-2);
+    border-radius:10px; background:var(--card); color:var(--ink-1); outline:none;
   }
-  #q:focus{outline:2px solid var(--accent); outline-offset:-1px}
+  #q:focus{border-color:var(--accent)}
+  .hstat{
+    margin-left:auto; display:flex; align-items:center; gap:16px;
+    font-size:13px; color:var(--mute-2); font-family:var(--mono); white-space:nowrap;
+  }
+  .hstat b{color:var(--ink-1); font-weight:500}
+  .sep{color:var(--line-2)}
+  #refresh{
+    padding:7px 13px; font-size:12.5px; border:1px solid var(--line-2); border-radius:8px;
+    background:var(--card); color:var(--ink-3); font-family:var(--mono);
+  }
+  #refresh:hover{border-color:var(--accent); color:var(--accent)}
+  #refresh:disabled{opacity:.5; cursor:default}
 
-  .wrap{display:flex; flex:1; min-height:0}
+  /* ── layout ── */
+  .shell{
+    max-width:1400px; margin:0 auto; padding:0 32px;
+    display:grid; grid-template-columns:248px minmax(0,1fr); gap:40px; align-items:start;
+  }
+  /* 侧栏比视口高（37 个岗位家族），单纯 sticky+top 会把顶部钉住、
+     底部推出视口永远够不着。让它自己成为滚动容器才对：
+     高度限制在视口剩余空间内，内部独立滚动，
+     overscroll-behavior:contain 防止滚到底后带着整页一起滚。 */
   aside{
-    width:264px; flex:0 0 264px; overflow-y:auto; padding:16px;
-    background:var(--surface); border-right:1px solid var(--line);
+    position:sticky; top:78px; padding:32px 0 40px;
+    display:flex; flex-direction:column; gap:30px;
+    max-height:calc(100vh - 78px); overflow-y:auto; overscroll-behavior:contain;
+    scrollbar-width:thin; scrollbar-color:var(--line-2) transparent;
+    padding-right:10px; margin-right:-10px;   /* 给滚动条留位置又不挤压内容 */
   }
-  main{flex:1; overflow-y:auto; padding:16px 20px 60px}
+  aside::-webkit-scrollbar{width:8px}
+  aside::-webkit-scrollbar-track{background:transparent}
+  aside::-webkit-scrollbar-thumb{background:var(--line-2); border-radius:4px; border:2px solid var(--bg)}
+  aside::-webkit-scrollbar-thumb:hover{background:var(--line-3)}
+  main{padding:32px 0 80px; min-width:0}
 
-  .fgroup{margin-bottom:20px}
-  .flabel{
-    font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3);
-    font-weight:650; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;
+  /* ── filters ── */
+  .fg{display:flex; flex-direction:column; gap:11px}
+  .fh{font-size:11px; font-weight:600; letter-spacing:.1em; color:var(--mute-3)}
+  .fhrow{display:flex; align-items:baseline; justify-content:space-between}
+  .fhrow button{border:none; background:none; padding:0; font-size:12px; color:var(--accent)}
+  #f-state{
+    width:100%; padding:9px 12px; font-size:13px; border:1px solid var(--line-2);
+    border-radius:8px; background:var(--card); color:var(--ink-1); outline:none;
   }
-  .flabel button{
-    background:none; border:none; color:var(--accent); font-size:11px; padding:0;
-    text-transform:none; letter-spacing:0;
+  #f-state:focus{border-color:var(--accent)}
+  .famgrp{font-size:12px; color:var(--mute-2); margin:10px 0 2px}
+  .famgrp:first-child{margin-top:0}
+  .famrow{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%;
+    padding:8px 4px; border:none; border-bottom:1px solid var(--softer); background:none;
+    font-size:14px; color:var(--ink-3); text-align:left;
   }
-  .chips{display:flex; flex-wrap:wrap; gap:5px}
-  .chip{
-    padding:4px 9px; border-radius:20px; border:1px solid var(--line-2);
-    background:var(--bg); color:var(--ink-2); font-size:12px; white-space:nowrap;
-  }
-  .chip:hover{border-color:var(--ink-3)}
-  .chip.on{background:var(--accent); border-color:var(--accent); color:#fff; font-weight:600}
-  .fam-group{font-size:11px; color:var(--ink-3); margin:11px 0 5px; font-weight:650; letter-spacing:.03em}
-  .fam-group:first-child{margin-top:0}
-  select,input[type=text]{
-    width:100%; padding:6px 9px; border:1px solid var(--line-2); border-radius:7px;
-    background:var(--bg); color:var(--ink); font-size:13px;
-  }
-  .toggle{display:flex; align-items:center; gap:7px; font-size:13px; color:var(--ink-2); padding:3px 0; cursor:pointer}
-  .toggle input{accent-color:var(--accent); width:15px; height:15px}
+  .famrow:hover{color:var(--accent)}
+  .famrow.on{color:var(--accent); font-weight:600}
+  .famrow .n{font-family:var(--mono); font-size:12px; color:var(--mute-3)}
+  .famrow.on .n{color:var(--accent)}
 
-  .listhead{
-    display:flex; justify-content:space-between; align-items:baseline;
-    margin-bottom:12px; font-size:13px; color:var(--ink-2); gap:12px;
+  /* ── list ── */
+  .lhead{display:flex; align-items:baseline; justify-content:space-between; gap:24px; padding-bottom:18px}
+  .lhead .big{font-size:22px; font-weight:600; color:var(--ink-1); letter-spacing:-.01em}
+  .lhead .sub{font-size:15px; color:var(--mute-2)}
+  #sort{
+    padding:8px 12px; font-size:13px; border:1px solid var(--line-2); border-radius:8px;
+    background:var(--card); color:var(--ink-3);
   }
-  .listhead b{color:var(--ink); font-size:15px}
-  .job{
-    background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
-    padding:13px 15px; margin-bottom:9px;
+  .grouphead{display:flex; align-items:center; gap:14px; padding:22px 0 12px}
+  .grouphead .lbl{font-size:13px; font-weight:600; letter-spacing:.06em; color:var(--accent)}
+  .grouphead .ln{flex:1; height:1px; background:var(--line)}
+  .grouphead .n{font-family:var(--mono); font-size:12px; color:var(--mute-3)}
+  .cards{display:flex; flex-direction:column; gap:10px}
+
+  article{
+    display:grid; grid-template-columns:40px minmax(0,1fr) auto; gap:18px; align-items:start;
+    padding:20px 22px; background:var(--card); border:1px solid var(--line); border-radius:14px;
   }
-  .job:hover{border-color:var(--line-2)}
-  .job.marked-interested{border-left:3px solid var(--teal)}
-  .job.marked-applied{border-left:3px solid var(--accent); opacity:.72}
-  .jt{display:flex; justify-content:space-between; gap:12px; align-items:flex-start}
-  .jt h3{margin:0 0 3px; font-size:15px; font-weight:650; line-height:1.35}
-  .jt h3 a{text-decoration:none}
-  .jt h3 a:hover{color:var(--accent); text-decoration:underline}
-  .meta{font-size:12.5px; color:var(--ink-2); display:flex; flex-wrap:wrap; gap:3px 10px; align-items:center}
-  .co{font-weight:600; color:var(--ink)}
-  .badges{display:flex; gap:5px; flex-wrap:wrap; margin-top:7px}
-  .b{font-size:11px; padding:2px 7px; border-radius:5px; font-weight:600; white-space:nowrap}
-  .b-fam{background:var(--blue-soft); color:var(--blue)}
-  .b-sen{background:var(--surface-3); color:var(--ink-2)}
-  .b-rem{background:var(--teal-soft); color:var(--teal)}
-  .b-new{background:var(--accent-soft); color:var(--accent)}
-  .b-pay{background:var(--teal-soft); color:var(--teal)}
-  .snip{
-    font-size:12.5px; color:var(--ink-3); margin-top:8px; line-height:1.55;
-    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+  article:hover{border-color:var(--line-3); box-shadow:0 2px 10px rgba(60,45,30,.06)}
+  article.is-applied{opacity:.65}
+  .avatar{
+    width:40px; height:40px; border-radius:10px; background:var(--soft); border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    font-size:15px; font-weight:600; color:var(--mute-2); text-transform:uppercase;
   }
-  .acts{display:flex; gap:6px; flex:0 0 auto}
+  .body{min-width:0; display:flex; flex-direction:column; gap:9px}
+  .title{font-size:17px; font-weight:600; line-height:1.35; letter-spacing:-.01em; color:var(--ink)}
+  .title a{color:inherit; text-decoration:none}
+  .title a:hover{color:var(--accent)}
+  .meta{display:flex; flex-wrap:wrap; align-items:center; gap:10px; font-size:14px; color:var(--mute)}
+  .meta .co{font-weight:500; color:var(--ink-2)}
+  .meta .dot{color:var(--line-2)}
+  .meta .ago{color:var(--mute-2)}
+  .tags{display:flex; flex-wrap:wrap; gap:7px; margin-top:2px}
+  .snip{font-size:13px; color:var(--mute-2); line-height:1.55; margin-top:1px;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
+  .acts{display:flex; align-items:center; gap:8px}
   .acts button{
-    padding:4px 10px; border-radius:7px; border:1px solid var(--line-2);
-    background:var(--bg); color:var(--ink-2); font-size:12px; white-space:nowrap;
+    padding:8px 15px; font-size:13px; font-weight:500; border:1px solid var(--line-2);
+    border-radius:8px; background:var(--card); color:var(--ink-3); white-space:nowrap;
   }
-  .acts button:hover{border-color:var(--ink-3); color:var(--ink)}
-  .acts button.on{background:var(--teal); border-color:var(--teal); color:#fff}
-  .acts button.on-a{background:var(--accent); border-color:var(--accent); color:#fff}
-  .more{
-    display:block; width:100%; padding:11px; margin-top:6px; border-radius:var(--r);
-    border:1px dashed var(--line-2); background:var(--surface); color:var(--ink-2); font-size:13px;
+  .acts button:hover{border-color:var(--accent); color:var(--accent)}
+  .acts button.on{border-color:var(--accent); background:var(--accent); color:#fff}
+  .acts .x{
+    width:32px; height:32px; padding:0; font-size:15px; line-height:1;
+    border-color:transparent; background:none; color:var(--mute-3);
   }
-  .more:hover{border-color:var(--accent); color:var(--accent)}
-  .empty{text-align:center; padding:60px 20px; color:var(--ink-3)}
-  .empty b{display:block; font-size:16px; color:var(--ink-2); margin-bottom:6px}
-  code{background:var(--surface-3); padding:1px 5px; border-radius:4px; font-size:12.5px}
+  .acts .x:hover{background:var(--soft); color:var(--ink-3); border-color:transparent}
 
-  @media (max-width:820px){
-    .wrap{flex-direction:column}
-    aside{width:auto; flex:0 0 auto; border-right:none; border-bottom:1px solid var(--line); max-height:38vh}
-    header{flex-wrap:wrap}
+  /* ── 匹配度 ── */
+  .t-match{
+    font-family:var(--mono); font-weight:500; cursor:pointer;
+    background:var(--soft); color:var(--mute); border:1px solid transparent;
+  }
+  .t-match:hover{border-color:var(--line-3)}
+  .t-match.hi{background:var(--green-bg); color:var(--green)}
+  .t-match.mid{background:var(--gold-bg); color:var(--gold)}
+  .why{
+    margin-top:9px; padding:12px 15px; background:var(--bg);
+    border:1px solid var(--line); border-radius:10px; font-size:12.5px;
+  }
+  .why .r{display:flex; justify-content:space-between; align-items:baseline; gap:16px; padding:3.5px 0; color:var(--mute)}
+  .why .r b{font-family:var(--mono); font-weight:500; color:var(--ink-3); white-space:nowrap}
+  .why .r.zero{opacity:.45}
+  .why .r.zero b{color:var(--mute-3)}
+  .why .tot{
+    display:flex; justify-content:space-between; gap:16px; margin-top:7px; padding-top:8px;
+    border-top:1px solid var(--line); font-weight:600; color:var(--ink-2);
+  }
+  .why .tot b{font-family:var(--mono)}
+  .why .blk{color:var(--red); padding:3.5px 0}
+
+  .banner{
+    display:flex; align-items:center; gap:14px; margin-bottom:18px; padding:14px 18px;
+    background:var(--gold-bg); border-left:3px solid var(--gold);
+    border-radius:0 10px 10px 0; font-size:13.5px; color:var(--ink-2); line-height:1.55;
+  }
+  .banner a{font-weight:600; white-space:nowrap}
+
+  .loadwrap{display:flex; justify-content:center; padding:36px 0 0}
+  #more{
+    padding:11px 26px; font-size:14px; font-weight:500; border:1px solid var(--line-2);
+    border-radius:999px; background:var(--card); color:var(--ink-3);
+  }
+  #more:hover{border-color:var(--accent); color:var(--accent)}
+  .empty{text-align:center; padding:80px 20px; color:var(--mute-2)}
+  .empty b{display:block; font-size:17px; color:var(--ink-2); margin-bottom:8px; font-weight:600}
+
+  @media (max-width:900px){
+    .shell{grid-template-columns:1fr; gap:0; padding:0 20px}
+    aside{
+      position:static; padding:20px 0; border-bottom:1px solid var(--line);
+      max-height:none; overflow:visible; padding-right:0; margin-right:0;
+    }
+    .hin{padding:14px 20px; flex-wrap:wrap; gap:14px}
+    .hstat{width:100%; margin-left:0}
+    article{grid-template-columns:minmax(0,1fr); gap:12px}
+    .avatar{display:none}
+    .acts{justify-content:flex-start}
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="brand">Job<span>Browser</span></div>
-  <input id="q" type="search" placeholder="Search title, company, keyword…" autocomplete="off">
-  <div class="stat" id="stat">Loading…</div>
+  <div class="hin">
+    <a class="brand" href="/">Job<span>Browser</span></a>
+    <nav class="nav"><a href="/ui/index.html" class="on">Jobs</a><a href="/ui/profile.html">Profile</a></nav>
+    <div class="search">
+      <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" style="color:var(--mute-3)">
+        <circle cx="6.8" cy="6.8" r="4.6"></circle><line x1="10.4" y1="10.4" x2="14" y2="14"></line>
+      </svg>
+      <input id="q" type="search" placeholder="Search title, company, keyword…" autocomplete="off">
+    </div>
+    <div class="hstat" id="stat">loading…</div>
+    <button id="refresh" title="Pull the latest scrape from GitHub">Refresh</button>
+  </div>
 </header>
 
-<div class="wrap">
+<div class="shell">
   <aside>
-    <div class="fgroup">
-      <div class="flabel">Posted</div>
-      <div class="chips" id="f-time"></div>
+    <div class="fg">
+      <div class="fh">POSTED</div>
+      <div class="pills" id="f-time"></div>
     </div>
+    <div class="rule"></div>
 
-    <div class="fgroup">
-      <div class="flabel">Level</div>
-      <div class="chips" id="f-sen"></div>
+    <div class="fg">
+      <div class="fh">LEVEL</div>
+      <div class="pills" id="f-sen"></div>
     </div>
+    <div class="rule"></div>
 
-    <div class="fgroup">
-      <div class="flabel">Location</div>
-      <label class="toggle"><input type="checkbox" id="f-remote"> Remote only</label>
-      <input type="text" id="f-state" placeholder="States, e.g. NY, CA, MA" style="margin-top:7px">
+    <div class="fg">
+      <div class="fh">LOCATION</div>
+      <input type="text" id="f-state" placeholder="States, e.g. NY, CA, MA">
+      <label class="chk"><input type="checkbox" id="f-remote"> Remote only</label>
+      <label class="chk"><input type="checkbox" id="f-pay"> Salary posted only</label>
+      <label class="chk"><input type="checkbox" id="f-mine"> Saved &amp; applied only</label>
+      <label class="chk" id="blockwrap" hidden><input type="checkbox" id="f-block"> Hide roles I'm not eligible for</label>
     </div>
+    <div class="rule"></div>
 
-    <div class="fgroup">
-      <div class="flabel">Filters</div>
-      <label class="toggle"><input type="checkbox" id="f-pay"> Salary posted only</label>
-      <label class="toggle"><input type="checkbox" id="f-mine"> Saved &amp; applied only</label>
-    </div>
-
-    <div class="fgroup">
-      <div class="flabel">
-        Job family
+    <div class="fg">
+      <div class="fhrow">
+        <div class="fh">JOB FAMILY</div>
         <button id="clear-fam">Clear</button>
       </div>
       <div id="f-fam"></div>
@@ -177,9 +229,11 @@
   </aside>
 
   <main>
-    <div class="listhead">
-      <div><b id="count">—</b> <span id="countsub"></span></div>
-      <select id="sort" style="width:auto">
+    <div class="banner" id="profbanner" hidden></div>
+    <div class="lhead">
+      <div><span class="big" id="count">—</span> <span class="sub" id="countsub">jobs</span></div>
+      <select id="sort">
+        <option value="match" hidden>Best match</option>
         <option value="new">Newest first</option>
         <option value="old">Oldest first</option>
         <option value="co">Company A–Z</option>
@@ -187,27 +241,27 @@
       </select>
     </div>
     <div id="list"></div>
-    <button class="more" id="more" hidden>Load more</button>
+    <div class="loadwrap"><button id="more" hidden>Load 50 more</button></div>
   </main>
 </div>
 
-<script>
-const PAGE = 60;
-let JOBS = [], TAX = { families: [], groups: {} }, MARKS = {};
+<script type="module">
+import { scoreJob, profileIsUsable } from '/scripts/score.mjs';
+
+const PAGE = 50;
+let JOBS = [], TAX = { families: [], groups: {} }, MARKS = {}, PROFILE = null;
+let RANKED = false;                 // 档案够不够用来打分
 let shown = PAGE, filtered = [];
+const OPEN = new Set();             // 展开了打分明细的岗位 id
 
 const S = {
   q: '', time: 'all', sen: 'all', remote: false, states: [],
-  payOnly: false, mineOnly: false, fams: new Set(), sort: 'new',
+  payOnly: false, mineOnly: false, hideBlocked: false, fams: new Set(), sort: 'new',
 };
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
-
-const SEN_LABEL = {
-  intern:'Intern', entry:'Entry', mid:'Mid', senior:'Senior',
-  staff:'Staff', manager:'Manager', director:'Director', exec:'Exec',
-};
+const SEN = { intern:'Intern', entry:'Entry', mid:'Mid', senior:'Senior', staff:'Staff', manager:'Manager', director:'Director', exec:'Exec' };
 
 function rel(iso) {
   if (!iso) return '';
@@ -221,39 +275,94 @@ function rel(iso) {
   return mo === 1 ? '1 month ago' : `${mo} months ago`;
 }
 
+// 日期分组：设计稿用 TODAY / YESTERDAY / 具体日期 作为分节标题
+function groupLabel(iso) {
+  const d = new Date(iso);
+  if (isNaN(d)) return 'UNDATED';
+  const day = (x) => Math.floor((x - new Date(x).getTimezoneOffset() * 6e4) / 864e5);
+  const diff = day(Date.now()) - day(d.getTime());
+  if (diff <= 0) return 'TODAY';
+  if (diff === 1) return 'YESTERDAY';
+  if (diff < 7) return 'EARLIER THIS WEEK';
+  if (diff < 30) return 'THIS MONTH';
+  return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }).toUpperCase();
+}
+
 async function boot() {
   try {
-    const [j, t, m] = await Promise.all([
+    const [j, t, m, p] = await Promise.all([
       fetch('/data/jobs.json').then((r) => r.json()),
       fetch('/data/taxonomy.json').then((r) => r.json()).catch(() => TAX),
       fetch('/api/marks').then((r) => r.json()).catch(() => ({})),
+      fetch('/api/profile').then((r) => r.json()).catch(() => null),
     ]);
-    JOBS = j.jobs || [];
-    TAX = t; MARKS = m;
-    const when = (j.generatedAt || '').slice(0, 16).replace('T', ' ');
+    JOBS = j.jobs || []; TAX = t; MARKS = m; PROFILE = p;
+    const ageH = j.generatedAt ? (Date.now() - Date.parse(j.generatedAt)) / 36e5 : 999;
     $('stat').innerHTML =
-      `<b>${JOBS.length.toLocaleString()}</b> indexed · ${(j.total || 0).toLocaleString()} scraped · updated ${when} UTC`;
+      `<span><b>${JOBS.length.toLocaleString()}</b> indexed</span><span class="sep">|</span>`
+      + `<span class="${ageH > 30 ? 'stale' : ''}">updated ${rel(j.generatedAt)}</span>`;
+    rank();
     buildFilters();
     apply();
   } catch (e) {
-    $('list').innerHTML =
-      `<div class="empty"><b>Couldn't load job data</b>Make sure <code>data/jobs.json</code> exists — run <code>npm run scrape</code> first.<br><br>${esc(e.message)}</div>`;
+    $('list').innerHTML = `<div class="empty"><b>Couldn't load job data</b>`
+      + `Make sure <code>data/jobs.json</code> exists — run <code>npm run scrape</code> first.<br><br>${esc(e.message)}</div>`;
     $('stat').textContent = 'no data';
+  }
+}
+
+/**
+ * 按当前档案给所有岗位打分，结果挂在 j._m 上。
+ *
+ * 只在启动时算一次 —— 一万多个岗位约 0.3–0.6 秒，放进 apply() 里
+ * 每次改筛选条件都重算的话，界面会明显发涩。档案改了要重新排序，刷新页面即可。
+ */
+function rank() {
+  RANKED = profileIsUsable(PROFILE);
+  const banner = $('profbanner');
+  const nBlocked = () => JOBS.reduce((n, j) => n + (j._m?.blockers.length ? 1 : 0), 0);
+
+  if (!RANKED) {
+    for (const j of JOBS) j._m = null;
+    banner.hidden = false;
+    banner.innerHTML = 'These are all the jobs in the index, newest first. '
+      + 'Tell me what you\'re looking for and I\'ll rank them by fit instead — '
+      + 'job families, level, states, and skills are what the score is built from. '
+      + '<a href="/ui/profile.html">Fill in your profile →</a>';
+    $('sort').querySelector('[value=match]').hidden = true;
+    $('blockwrap').hidden = true;
+    // "Best match" 是 select 里的第一个 option，藏起来之后浏览器会自动选中下一个可见的，
+    // 但 S.sort 还停在初始值 —— 不显式对齐的话，下拉框显示的和实际排序的会对不上
+    S.sort = 'new';
+    $('sort').value = 'new';
+    return;
+  }
+
+  const now = Date.now();
+  for (const j of JOBS) j._m = scoreJob(j, PROFILE, now);
+
+  $('sort').querySelector('[value=match]').hidden = false;
+  S.sort = 'match';
+  $('sort').value = 'match';
+
+  const blocked = nBlocked();
+  $('blockwrap').hidden = !blocked;
+  banner.hidden = !blocked;
+  if (blocked) {
+    banner.innerHTML = `<span><b>${blocked}</b> ${blocked === 1 ? 'posting says' : 'postings say'} outright that they `
+      + `won't sponsor, or require US citizenship or a security clearance. `
+      + `They're scored down and flagged rather than deleted — the wording isn't always what it looks like, `
+      + `so have a look before you write them off.</span>`;
   }
 }
 
 function buildFilters() {
   const times = [['all','Any time'],['1','24 hours'],['3','3 days'],['7','7 days'],['30','30 days']];
-  $('f-time').innerHTML = times.map(([v, l]) =>
-    `<button class="chip${S.time === v ? ' on' : ''}" data-t="${v}">${l}</button>`).join('');
-  $('f-time').onclick = (e) => { const b = e.target.closest('[data-t]'); if (!b) return; S.time = b.dataset.t; buildFilters(); apply(); };
-
+  $('f-time').innerHTML = times.map(([v,l]) => `<button class="pill${S.time===v?' on':''}" data-t="${v}">${l}</button>`).join('');
   const sens = [['all','Any'],['intern','Intern'],['entry','Entry'],['mid','Mid'],['senior','Senior'],['staff','Staff'],['manager','Manager']];
-  $('f-sen').innerHTML = sens.map(([v, l]) =>
-    `<button class="chip${S.sen === v ? ' on' : ''}" data-s="${v}">${l}</button>`).join('');
-  $('f-sen').onclick = (e) => { const b = e.target.closest('[data-s]'); if (!b) return; S.sen = b.dataset.s; buildFilters(); apply(); };
+  $('f-sen').innerHTML = sens.map(([v,l]) => `<button class="pill${S.sen===v?' on':''}" data-s="${v}">${l}</button>`).join('');
 
-  // Only show families that actually appear in the index, grouped, with counts
+  // 只列索引里真实出现过的家族，按分组，带计数
   const used = new Map();
   for (const j of JOBS) for (const f of (j.families || [])) used.set(f, (used.get(f) || 0) + 1);
   const byGroup = {};
@@ -264,18 +373,12 @@ function buildFilters() {
   let html = '';
   for (const [g, list] of Object.entries(byGroup)) {
     list.sort((a, b) => b.n - a.n);
-    html += `<div class="fam-group">${esc(TAX.groups?.[g] || g)}</div><div class="chips">`;
+    html += `<div class="famgrp">${esc(TAX.groups?.[g] || g)}</div>`;
     html += list.map((f) =>
-      `<button class="chip${S.fams.has(f.key) ? ' on' : ''}" data-f="${esc(f.key)}">${esc(f.label)} <span style="opacity:.6">${f.n}</span></button>`).join('');
-    html += '</div>';
+      `<button class="famrow${S.fams.has(f.key)?' on':''}" data-f="${esc(f.key)}">`
+      + `<span>${esc(f.label)}</span><span class="n">${f.n.toLocaleString()}</span></button>`).join('');
   }
-  $('f-fam').innerHTML = html || '<div style="font-size:12px;color:var(--ink-3)">No families in this index</div>';
-  $('f-fam').onclick = (e) => {
-    const b = e.target.closest('[data-f]'); if (!b) return;
-    const k = b.dataset.f;
-    S.fams.has(k) ? S.fams.delete(k) : S.fams.add(k);
-    buildFilters(); apply();
-  };
+  $('f-fam').innerHTML = html || '<div style="font-size:13px;color:var(--mute-2)">No families in this index</div>';
 }
 
 function apply() {
@@ -283,6 +386,7 @@ function apply() {
   const cutoff = S.time === 'all' ? 0 : Date.now() - parseInt(S.time, 10) * 864e5;
 
   filtered = JOBS.filter((j) => {
+    if (S.hideBlocked && j._m?.blockers.length) return false;
     if (S.payOnly && !j.compensationRaw) return false;
     if (S.remote && !j.location?.isRemote) return false;
     if (S.sen !== 'all' && j.seniority !== S.sen) return false;
@@ -303,7 +407,13 @@ function apply() {
   });
 
   const dir = { new: -1, old: 1 }[S.sort];
-  if (dir) filtered.sort((a, b) => dir * (Date.parse(a.postedAt || 0) - Date.parse(b.postedAt || 0)));
+  if (S.sort === 'match') {
+    // 同分的按新旧排 —— 分数只有 100 档，一万多个岗位必然大量并列，
+    // 不给次级排序键的话同分组内是任意顺序，看起来像坏了
+    filtered.sort((a, b) => (b._m?.score ?? 0) - (a._m?.score ?? 0)
+      || Date.parse(b.postedAt || 0) - Date.parse(a.postedAt || 0));
+  }
+  else if (dir) filtered.sort((a, b) => dir * (Date.parse(a.postedAt || 0) - Date.parse(b.postedAt || 0)));
   else if (S.sort === 'co') filtered.sort((a, b) => String(a.company).localeCompare(String(b.company)) || String(a.title).localeCompare(String(b.title)));
   else filtered.sort((a, b) => String(a.title).localeCompare(String(b.title)));
 
@@ -315,10 +425,8 @@ function render() {
   $('count').textContent = filtered.length.toLocaleString();
   const saved = Object.values(MARKS).filter((m) => m.state === 'interested').length;
   const applied = Object.values(MARKS).filter((m) => m.state === 'applied').length;
-  const bits = ['jobs'];
-  if (saved) bits.push(`${saved} saved`);
-  if (applied) bits.push(`${applied} applied`);
-  $('countsub').textContent = bits.join(' · ');
+  $('countsub').textContent = 'jobs match'
+    + (saved ? ` · ${saved} saved` : '') + (applied ? ` · ${applied} applied` : '');
 
   if (!filtered.length) {
     $('list').innerHTML = '<div class="empty"><b>No matching jobs</b>Try loosening the filters.</div>';
@@ -326,9 +434,31 @@ function render() {
     return;
   }
 
-  $('list').innerHTML = filtered.slice(0, shown).map(card).join('');
+  // 只有按时间排序时才做日期分组 —— 按公司/标题排序时分组没有意义
+  const slice = filtered.slice(0, shown);
+  let html = '';
+  if (S.sort === 'new' || S.sort === 'old') {
+    let cur = null, buf = [];
+    const flush = () => {
+      if (!buf.length) return;
+      html += `<section><div class="grouphead"><div class="lbl">${esc(cur)}</div>`
+        + `<div class="ln"></div><div class="n">${buf.length}</div></div>`
+        + `<div class="cards">${buf.join('')}</div></section>`;
+      buf = [];
+    };
+    for (const j of slice) {
+      const g = groupLabel(j.postedAt || j.firstSeenAt);
+      if (g !== cur) { flush(); cur = g; }
+      buf.push(card(j));
+    }
+    flush();
+  } else {
+    html = `<div class="cards">${slice.map(card).join('')}</div>`;
+  }
+  $('list').innerHTML = html;
+
   $('more').hidden = shown >= filtered.length;
-  $('more').textContent = `Load more (${(filtered.length - shown).toLocaleString()} remaining)`;
+  $('more').textContent = `Load ${Math.min(PAGE, filtered.length - shown)} more`;
 }
 
 function card(j) {
@@ -337,41 +467,57 @@ function card(j) {
     ? (loc.states?.length ? `Remote · ${loc.states.join('/')}` : 'Remote')
     : (loc.states?.length ? `${loc.cities?.[0] ? loc.cities[0] + ', ' : ''}${loc.states.join('/')}` : (loc.raw || '—'));
   const posted = j.postedAt || j.firstSeenAt;
-  const isNew = Date.now() - Date.parse(posted) < 864e5;
   const mk = MARKS[j.id]?.state;
-  const famNames = (j.families || []).map((f) =>
-    (TAX.families || []).find((x) => x.key === f)?.label || f);
+  const fam = (j.families || [])[0];
+  const famLabel = fam ? ((TAX.families || []).find((x) => x.key === fam)?.label || fam) : null;
+  const m = j._m;
 
-  return `<div class="job ${mk ? 'marked-' + mk : ''}" data-id="${esc(j.id)}">
-    <div class="jt">
-      <div style="min-width:0">
-        <h3><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></h3>
-        <div class="meta">
-          <span class="co">${esc(j.company)}</span>
-          <span>${esc(where)}</span>
-          <span>${rel(posted)}</span>
-          ${j.department ? `<span style="opacity:.7">${esc(j.department)}</span>` : ''}
-        </div>
+  return `<article class="${mk === 'applied' ? 'is-applied' : ''}" data-id="${esc(j.id)}">
+    <div class="avatar">${esc(String(j.company || '?').trim().charAt(0))}</div>
+    <div class="body">
+      <div class="title"><a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.title)}</a></div>
+      <div class="meta">
+        <span class="co">${esc(j.company)}</span>
+        <span class="dot">·</span><span>${esc(where)}</span>
+        <span class="dot">·</span><span class="ago">${rel(posted)}</span>
       </div>
-      <div class="acts">
-        <button data-act="interested" class="${mk === 'interested' ? 'on' : ''}">${mk === 'interested' ? '✓ Saved' : 'Save'}</button>
-        <button data-act="applied" class="${mk === 'applied' ? 'on-a' : ''}">${mk === 'applied' ? '✓ Applied' : 'Applied'}</button>
-        <button data-act="hidden" title="Hide this job">×</button>
+      <div class="tags">
+        ${m ? `<span class="tag t-match ${m.score >= 70 ? 'hi' : m.score >= 50 ? 'mid' : ''}" data-why title="How this score was worked out">${m.score} match</span>` : ''}
+        ${(m?.blockers || []).map((b) => `<span class="tag t-warn">${esc(b)}</span>`).join('')}
+        ${famLabel ? `<span class="tag t-fam">${esc(famLabel)}</span>` : ''}
+        <span class="tag t-lvl">${SEN[j.seniority] || esc(j.seniority)}</span>
+        ${loc.isRemote ? '<span class="tag t-rem">Remote</span>' : ''}
+        ${j.compensationRaw ? `<span class="tag t-pay">${esc(j.compensationRaw)}</span>` : ''}
       </div>
+      ${j.snippet ? `<div class="snip">${esc(j.snippet)}</div>` : ''}
+      ${m && OPEN.has(j.id) ? why(m) : ''}
     </div>
-    <div class="badges">
-      ${isNew ? '<span class="b b-new">New today</span>' : ''}
-      ${famNames.map((f) => `<span class="b b-fam">${esc(f)}</span>`).join('')}
-      <span class="b b-sen">${SEN_LABEL[j.seniority] || esc(j.seniority)}</span>
-      ${loc.isRemote ? '<span class="b b-rem">Remote</span>' : ''}
-      ${j.compensationRaw ? `<span class="b b-pay">${esc(j.compensationRaw)}</span>` : ''}
+    <div class="acts">
+      <button data-act="interested" class="${mk === 'interested' ? 'on' : ''}">${mk === 'interested' ? 'Saved' : 'Save'}</button>
+      <button data-act="applied" class="${mk === 'applied' ? 'on' : ''}">Applied</button>
+      <button data-act="hidden" class="x" title="Hide">×</button>
     </div>
-    ${j.snippet ? `<div class="snip">${esc(j.snippet)}</div>` : ''}
-  </div>`;
+  </article>`;
+}
+
+/**
+ * 打分明细。
+ *
+ * 分数不解释就没人信，没人信就不会按它排序，这个功能也就白做了。
+ * 所以每一项都列出来，包括拿了 0 分的（灰掉但不隐藏）——
+ * 「为什么这个岗位分低」和「为什么那个岗位分高」是同一个问题。
+ */
+function why(m) {
+  return `<div class="why">`
+    + m.reasons.map((r) =>
+        `<div class="r${r.delta ? '' : ' zero'}"><span>${esc(r.label)}</span><b>+${r.delta}</b></div>`).join('')
+    + (m.blockers || []).map((b) => `<div class="blk">− ${esc(b)}</div>`).join('')
+    + `<div class="tot"><span>Match score</span><b>${m.score}</b></div>`
+    + `</div>`;
 }
 
 async function mark(id, state) {
-  if (MARKS[id]?.state === state) state = null;   // clicking the same button again clears it
+  if (MARKS[id]?.state === state) state = null;   // 再点一次取消
   if (state) MARKS[id] = { state, at: new Date().toISOString() };
   else delete MARKS[id];
   render();
@@ -380,7 +526,7 @@ async function mark(id, state) {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, state }),
     });
-  } catch { /* a failed write doesn't break browsing; state reloads from disk */ }
+  } catch { /* 写失败不影响浏览，刷新后从磁盘恢复 */ }
 }
 
 let t;
@@ -396,18 +542,43 @@ $('f-state').oninput = (e) => {
     apply();
   }, 300);
 };
+$('f-time').onclick = (e) => { const b = e.target.closest('[data-t]'); if (b) { S.time = b.dataset.t; buildFilters(); apply(); } };
+$('f-sen').onclick  = (e) => { const b = e.target.closest('[data-s]'); if (b) { S.sen  = b.dataset.s; buildFilters(); apply(); } };
+$('f-fam').onclick  = (e) => {
+  const b = e.target.closest('[data-f]'); if (!b) return;
+  const k = b.dataset.f;
+  S.fams.has(k) ? S.fams.delete(k) : S.fams.add(k);
+  buildFilters(); apply();
+};
 $('clear-fam').onclick = () => { S.fams.clear(); buildFilters(); apply(); };
 $('more').onclick = () => { shown += PAGE; render(); };
+$('f-block').onchange = (e) => { S.hideBlocked = e.target.checked; apply(); };
 $('list').onclick = (e) => {
-  const b = e.target.closest('[data-act]'); if (!b) return;
-  const id = b.closest('.job')?.dataset.id;
-  if (id) mark(id, b.dataset.act);
-};
-document.querySelector('main').onscroll = (e) => {
-  const el = e.target;
-  if (el.scrollTop + el.clientHeight > el.scrollHeight - 400 && shown < filtered.length) {
-    shown += PAGE; render();
+  const id = e.target.closest('article')?.dataset.id;
+  if (!id) return;
+  if (e.target.closest('[data-why]')) {
+    OPEN.has(id) ? OPEN.delete(id) : OPEN.add(id);
+    render();
+    return;
   }
+  const b = e.target.closest('[data-act]');
+  if (b) mark(id, b.dataset.act);
+};
+addEventListener('scroll', () => {
+  if (shown >= filtered.length) return;
+  if (innerHeight + scrollY > document.body.offsetHeight - 600) { shown += PAGE; render(); }
+});
+
+$('refresh').onclick = async () => {
+  const b = $('refresh');
+  b.disabled = true; b.textContent = 'Pulling…';
+  try {
+    const r = await fetch('/api/pull', { method: 'POST' }).then((x) => x.json());
+    if (!r.ok) { b.textContent = 'Failed'; $('stat').innerHTML = `<span class="stale">${esc(r.message || 'pull failed')}</span>`; }
+    else if (r.changed) { await boot(); b.textContent = 'Refresh'; }
+    else { b.textContent = 'Up to date'; setTimeout(() => { b.textContent = 'Refresh'; }, 1800); }
+  } catch { b.textContent = 'Failed'; }
+  b.disabled = false;
 };
 
 boot();

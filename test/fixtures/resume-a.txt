@@ -1,0 +1,32 @@
+JIAYI CHEN
+Brooklyn, NY 11217 | (646) 555-0182 | jiayi.chen@nyu.edu
+linkedin.com/in/jiayichen | github.com/jiayichen | jiayichen.dev
+
+EDUCATION
+New York University, Stern School of Business                    New York, NY
+Master of Science in Business Analytics                    Sep 2023 – May 2025
+GPA: 3.82/4.0
+
+Zhejiang University                                          Hangzhou, China
+Bachelor of Science in Statistics                          Sep 2019 – Jun 2023
+
+EXPERIENCE
+Datafold Inc. | New York, NY                               Jun 2024 – Present
+Data Analyst Intern
+• Rebuilt the weekly revenue reporting pipeline in dbt, cutting refresh time from 6 hours to 20 minutes for a team of 40 analysts
+• Designed 12 Tableau dashboards tracking activation and retention, adopted by 3 product teams
+• Automated anomaly detection in Python, catching 4 data-quality incidents before they reached executives
+
+Meituan | Beijing, China                                    Jul 2022 – Aug 2022
+Business Analyst Intern
+• Analyzed 2M+ delivery records in SQL to identify 3 pricing inefficiencies worth an estimated ¥1.4M annually
+• Built an A/B testing framework used across the regional operations team
+
+PROJECTS
+NYC Subway Delay Predictor
+• Trained an XGBoost model on 5 years of MTA data reaching 0.87 AUC
+
+SKILLS
+Languages: Python, SQL, R, VBA
+Tools: Tableau, dbt, Snowflake, Airflow, Excel, Git
+Analytics: A/B testing, regression, forecasting, data modeling

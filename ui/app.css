@@ -1,0 +1,115 @@
+/* ── 共享设计 token 与基础组件 ──────────────────────────────────
+   两个页面（岗位浏览、个人档案）共用。
+   之前 token 只写在 index.html 里，加第二个页面就得复制一份，
+   改一次配色要改两处 —— 抽出来避免走样。 */
+
+:root{
+  --bg:#faf8f5; --card:#fff; --soft:#f3efe8; --softer:#efeae2;
+  --ink:#1c1a17; --ink-1:#262320; --ink-2:#3d3831; --ink-3:#4a453e;
+  --mute:#6b655d; --mute-2:#8b857c; --mute-3:#a8a29b;
+  --line:#e7e2da; --line-2:#ddd7cd; --line-3:#cfc7ba;
+  --accent:#9a3f16; --accent-dark:#6f2c0d;
+  --blue-bg:#eef2f7; --blue:#3c5573;
+  --green-bg:#f0f5ef; --green:#3c6b45;
+  --gold-bg:#f7f1e2; --gold:#7a5f16;
+  --red-bg:#fbeeec; --red:#a3392f;
+  --mono:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#17150f; --card:#201d17; --soft:#2a2721; --softer:#2f2b24;
+    --ink:#f4f0e8; --ink-1:#f0ece3; --ink-2:#ddd6c9; --ink-3:#c8c0b2;
+    --mute:#a49d90; --mute-2:#8b857c; --mute-3:#736d63;
+    --line:#332f27; --line-2:#3e3931; --line-3:#4b453b;
+    --accent:#e08a5f; --accent-dark:#f0a67f;
+    --blue-bg:#1d2733; --blue:#9bb5d6;
+    --green-bg:#1a2a1d; --green:#8bc095;
+    --gold-bg:#2c2413; --gold:#d6b869;
+    --red-bg:#33201d; --red:#e0817a;
+  }
+}
+
+*{box-sizing:border-box}
+/* hidden 属性的默认样式是 display:none，但它来自 UA 样式表，
+   优先级低于任何一条作者规则 —— .banner{display:flex} 会直接把它压掉，
+   于是 el.hidden = true 看起来「没生效」。这条兜住所有用 hidden 控制显隐的元素。 */
+[hidden]{display:none!important}
+body{
+  margin:0; background:var(--bg); color:var(--ink-1);
+  font-family:'Inter Tight',-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+input,select,button,textarea{font-family:inherit}
+input::placeholder,textarea::placeholder{color:var(--mute-3)}
+button{cursor:pointer}
+a{color:var(--accent); text-decoration:none}
+a:hover{color:var(--accent-dark); text-decoration:underline}
+code{font-family:var(--mono); font-size:12.5px; background:var(--soft); padding:2px 6px; border-radius:5px}
+
+/* ── header ── */
+header{
+  position:sticky; top:0; z-index:20;
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);
+}
+.hin{max-width:1400px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; gap:24px}
+.brand{font-size:19px; font-weight:700; letter-spacing:-.02em; white-space:nowrap; color:var(--ink-1); text-decoration:none}
+.brand:hover{text-decoration:none; color:var(--ink-1)}
+.brand span{color:var(--accent)}
+.nav{display:flex; gap:4px}
+.nav a{
+  padding:6px 12px; border-radius:8px; font-size:14px; font-weight:500;
+  color:var(--mute); text-decoration:none;
+}
+.nav a:hover{background:var(--soft); color:var(--ink-2); text-decoration:none}
+.nav a.on{background:var(--soft); color:var(--accent); font-weight:600}
+
+/* ── 通用控件 ── */
+.btn{
+  padding:8px 15px; font-size:13px; font-weight:500; border:1px solid var(--line-2);
+  border-radius:8px; background:var(--card); color:var(--ink-3); white-space:nowrap;
+}
+.btn:hover{border-color:var(--accent); color:var(--accent)}
+.btn:disabled{opacity:.5; cursor:default}
+.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
+.btn.primary:hover{background:var(--accent-dark); border-color:var(--accent-dark); color:#fff}
+.btn.ghost{border-color:transparent; background:none; color:var(--mute-2)}
+.btn.ghost:hover{background:var(--soft); color:var(--ink-3); border-color:transparent}
+
+.field{display:flex; flex-direction:column; gap:6px; min-width:0}
+.field > label{font-size:12.5px; font-weight:500; color:var(--mute)}
+.field .hint{font-size:12px; color:var(--mute-3); line-height:1.45}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=number],
+input[type=date],input[type=month],input[type=search],select,textarea{
+  padding:9px 12px; font-size:14px; border:1px solid var(--line-2);
+  border-radius:8px; background:var(--card); color:var(--ink-1); outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical; line-height:1.55; min-height:70px}
+/* 宽度只在表单栅格（.field）里撑满。
+   这条以前写在上面的元素选择器上，于是岗位页的排序下拉框 —— 它压根不在表单里 ——
+   也被撑成了整行宽，把旁边的岗位计数挤到换行。共用样式最容易出的就是这种事：
+   为 A 页面写的规则悄悄改了 B 页面。 */
+.field > input, .field > select, .field > textarea{width:100%}
+.chk{display:flex; align-items:center; gap:9px; font-size:14px; color:var(--ink-3); cursor:pointer}
+.chk input{width:15px; height:15px; accent-color:var(--accent); flex:0 0 auto}
+
+.pill{
+  padding:7px 13px; font-size:13px; border-radius:999px; border:1px solid var(--line-2);
+  background:var(--card); color:var(--ink-3);
+}
+.pill:hover{border-color:var(--accent); color:var(--accent)}
+.pill.on{border-color:var(--accent); background:var(--accent); color:#fff}
+.pills{display:flex; flex-wrap:wrap; gap:7px}
+
+.tag{padding:4px 10px; border-radius:6px; font-size:12px; font-weight:500}
+.t-fam{background:var(--blue-bg); color:var(--blue)}
+.t-lvl{background:var(--soft); color:var(--mute)}
+.t-rem{background:var(--green-bg); color:var(--green)}
+.t-pay{background:var(--gold-bg); color:var(--gold)}
+.t-warn{background:var(--red-bg); color:var(--red)}
+
+.mono{font-family:var(--mono)}
+.rule{height:1px; background:var(--line)}
+.stale{color:var(--accent)!important; font-weight:600}

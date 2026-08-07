@@ -17,6 +17,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { ADAPTERS, sleep } from './ats.mjs';
 import { normalizeLocation, matchFamilies, detectSeniority, matchesUserPrefs, dedupeKey, stableId } from './normalize.mjs';
+import { detectSignals } from './score.mjs';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const P = {
@@ -352,16 +353,27 @@ async function main() {
   const kept = KEEP_GHOSTS ? eligible : eligible.filter((j) => !j.isGhostSuspect);
   const ghostsDropped = eligible.length - kept.length;
 
-  const slim = kept.map((j) => ({
-    id: j.id, ats: j.ats, company: j.company, title: j.title,
-    url: j.url, department: j.department, employmentType: j.employmentType,
-    location: j.location, families: j.families, seniority: j.seniority,
-    compensationRaw: j.compensationRaw,
-    postedAt: j.postedAt, firstSeenAt: j.firstSeenAt, openDays: j.openDays,
-    isGhostSuspect: j.isGhostSuspect, contentChangedAt: j.contentChangedAt,
-    // 完整 JD 不入库 —— 打分用摘要足够，要全文点 url
-    snippet: makeSnippet(j.descriptionText, SNIPPET_LEN),
-  }));
+  // 用工限制信号（不给 sponsorship / 只招公民 / 要安全许可）。
+  // 【必须在这里算】：这些话通常写在 JD 最后面，400 字摘要里根本看不到，
+  // 而完整 JD 只在这一刻存在 —— 索引里不存全文，读取时就再也没机会算了。
+  // 检测不到就不写这个字段：沉默是「没提」而不是「不限制」，
+  // 而且一万多条里绝大多数都没提，省下的体积很可观。
+  let signalCount = 0;
+  const slim = kept.map((j) => {
+    const signals = detectSignals(j.descriptionText);
+    if (signals) signalCount++;
+    return {
+      id: j.id, ats: j.ats, company: j.company, title: j.title,
+      url: j.url, department: j.department, employmentType: j.employmentType,
+      location: j.location, families: j.families, seniority: j.seniority,
+      compensationRaw: j.compensationRaw,
+      postedAt: j.postedAt, firstSeenAt: j.firstSeenAt, openDays: j.openDays,
+      isGhostSuspect: j.isGhostSuspect, contentChangedAt: j.contentChangedAt,
+      // 完整 JD 不入库 —— 打分用摘要足够，要全文点 url
+      snippet: makeSnippet(j.descriptionText, SNIPPET_LEN),
+      ...(signals ? { signals } : {}),
+    };
+  });
 
   await fs.writeFile(P.jobs, JSON.stringify({
     generatedAt: now, total: enriched.length, count: slim.length,
@@ -429,6 +441,7 @@ async function main() {
   console.log(`\n完成：抓到 ${enriched.length} 个岗位 · 入库 ${slim.length} 个`
     + (ghostsDropped ? `（剔除幽灵 ${ghostsDropped} 个）` : '')
     + ` · 新增 ${newCount} · 下架 ${closedCount} · 24h 内命中 ${matched.length}`);
+  console.log(`用工限制信号：${signalCount} 个岗位在 JD 里写明了 sponsorship / 公民 / 安全许可要求`);
   console.log(`文件：jobs.json ${mb(jobsSize)}MB · state.json ${mb(stateSize)}MB${purged ? `（清理了 ${purged} 条超期记录）` : ''}`);
   if (jobsSize > 45 * 1048576 || stateSize > 45 * 1048576) {
     console.log(`\n⚠️  文件接近 GitHub 的 50MB 警告线（100MB 硬上限）。`);
